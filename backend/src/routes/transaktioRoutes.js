@@ -1,4 +1,4 @@
-//PIN-tarkistus tällä
+//nostot, talletukset, päivittäinen nostoraja yms
 //debug testi kooodi
 import express from 'express';
 const router = express.Router();
