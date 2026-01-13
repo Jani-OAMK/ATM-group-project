@@ -1,4 +1,21 @@
-backend/node_modules/
-bank-automat/build/
-bank-automat/*.user
-.qtcreator/
+#envit
+.env
+*.env
+
+#node_modules
+node_modules/
+**/node_modules/
+
+#logit
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+#Docker paikallise
+mysql_data/
+nginx_cache/
+
+#maholliset OS tiedostot
+.DS_Store
+Thumbs.db

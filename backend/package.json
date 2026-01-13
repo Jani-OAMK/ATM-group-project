@@ -1,14 +1,16 @@
 {
-  "name": "backend",
-  "version": "0.0.0",
-  "private": true,
+  "name": "atm-api",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "src/server.js",
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node src/server.js"
   },
   "dependencies": {
-    "cookie-parser": "~1.4.4",
-    "debug": "~2.6.9",
-    "express": "~4.16.1",
-    "morgan": "~1.9.1"
+    "express": "^4.19.2",
+    "mysql2": "^3.9.7",
+    "dotenv": "^16.4.5",
+    "helmet": "^7.0.0",
+    "morgan": "^1.10.0"
   }
 }
