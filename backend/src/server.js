@@ -1,4 +1,5 @@
 
+// backend/src/server.js
 import express from 'express';
 import helmet from 'helmet';
 import morgan from 'morgan';
@@ -30,3 +31,5 @@ app.use('/asiakas', asiakasRoutes);
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`API listening on ${port}`));
 
+const host = '0.0.0.0';
+app.listen(port, host, () => console.log(`API listening on ${host}:${port}`));
