@@ -8,7 +8,6 @@ import asiakasRoutes from './routes/asiakasRoutes.js';
 import authRoutes from './routes/authRoutes.js';
 import authenticateToken from './middleware/authenticateToken.js';
 
-
 dotenv.config();
 
 const app = express();
@@ -28,7 +27,6 @@ app.use('/asiakas', asiakasRoutes);
 
 
 
-
-
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`API listening on ${port}`));
+

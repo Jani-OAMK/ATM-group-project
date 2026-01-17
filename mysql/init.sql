@@ -136,7 +136,7 @@ VALUES
 
 -- Vaihda alla oleva bcrypt-hash oikeaksi (PIN "1234" esimerkkinä)
 INSERT INTO Kortti(kortti_numero, asiakas_id, pin_bcrypt)
-VALUES ('5555-6666-7777-8888', 1, '$2a$10$replaceWithRealBcryptHashOf1234');
+VALUES ('5555-6666-7777-8888', 1, '$2a$10$5AJUFbHxlcwQ.cH/YoU2gOUiM1MfhhW7FRj88sLAXnThd3VYKH9B.');
 
 INSERT INTO KorttiTili(kortti_id, tili_id, rooli)
 VALUES
