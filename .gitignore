@@ -19,3 +19,4 @@ nginx_cache/
 #maholliset OS tiedostot
 .DS_Store
 Thumbs.db
+dev-envs/
