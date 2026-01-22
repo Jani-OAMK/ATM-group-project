@@ -1,29 +1,30 @@
-const db = require('../db');
-
-
+import { getPool } from '../db.js';
 
 const Tili = {
 
-  // Debitin käyttösaldo
-  getDebitSaldo: function(tili_id, callback) {
-    return query ('SELECT saldo_eur FROM tili WHERE tili_id = ? AND tila = 'ACTIVE' ',
-    [tili_id], callback);
-  },
+    // Debit-tilin saldo
+    getDebitSaldo: async function(tili_id, callback) {
+        try{
+            const pool = await getPool();
+            const sql = "SELECT saldo_eur FROM tili WHERE tili_id = ? AND tila = 'ACTIVE' ";
+            const [rows] = await pool.query(sql, [tili_id]);
+            callback(null, rows);
+        } catch (err){
+            callback(err);
+        }
+    },
 
-  // Creditin käyttösaldo
-  getCreditSaldo: function(tili_id, callback) {
-    return query ('SELECT (credit_limit + saldo_eur) FROM tili WHERE tili_id = ?', [tili_id], callback);
-  },
+    // Credit-tilin kaytettavissa-saldo
+    getCreditSaldo: async function(tili_id, callback) { 
+        try { 
+            const pool = await getPool();
+            const sql = "SELECT (credit_limit + saldo_eur) FROM tili WHERE tili_id = ?";
+            const [rows] = await pool.query(sql, [tili_id]); 
+            callback(null, rows); 
+        } catch (err){ 
+            callback(err); 
+        } 
+    }
+};
 
-  //Nostorajan tarkistusta ei voi suorittaa, tietokannasta puuttuu nostorajan asetus-moduuli
-
-  // Mikäli ylläolevan mukainen muutos tehdään, voisi tähän kohtaan tehdä paivittainenraja.nostettu_eur- updaten
-
-  //Saldon paivitys, todennäköisesti turha; transaktiotapahtumassa helpompi päivittää samalla funktiolla kaikki.
-  /*updateSaldo: function(tili_id, callback) {
-    const query = 'UPDATE tili SET saldo_eur = saldo_eur - ? WHERE tili_id = ?';
-    db.query(query, [siirrettavaSumma, tili_id], callback);
-  }*/
-}
-
-module.exports = Tili;
+export default Tili;

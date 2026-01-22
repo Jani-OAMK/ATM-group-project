@@ -7,7 +7,9 @@ import dotenv from 'dotenv';
 
 import asiakasRoutes from './routes/asiakasRoutes.js';
 import authRoutes from './routes/authRoutes.js';
-import authenticateToken from './middleware/authenticateToken.js';
+import tiliRoutes from './routes/tiliRoutes.js';
+import transaktioRoutes from './routes/transaktioRoutes.js';
+//import authenticateToken from './middleware/authenticateToken.js';
 
 dotenv.config();
 
@@ -22,14 +24,16 @@ app.use('/auth', authRoutes);
 app.get('/health', (req, res) => res.json({ ok: true }));
 
 
-app.use(authenticateToken);
+//app.use(authenticateToken);
 app.use('/asiakas', asiakasRoutes);
+app.use('/tili', tiliRoutes);
+app.use('/transaktio', transaktioRoutes);
+
 
 
 
 
 const port = process.env.PORT || 3000;
-app.listen(port, () => console.log(`API listening on ${port}`));
 
 const host = '0.0.0.0';
 app.listen(port, host, () => console.log(`API listening on ${host}:${port}`));
