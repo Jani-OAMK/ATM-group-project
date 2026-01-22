@@ -136,7 +136,7 @@ VALUES
 
 -- Vaihda alla oleva bcrypt-hash oikeaksi (PIN "1234" esimerkkinä)
 INSERT INTO Kortti(kortti_numero, asiakas_id, pin_bcrypt)
-VALUES ('5555-6666-7777-8888', 1, '$2a$10$replaceWithRealBcryptHashOf1234');
+VALUES ('5555-6666-7777-8888', 1, '$2a$10$5AJUFbHxlcwQ.cH/YoU2gOUiM1MfhhW7FRj88sLAXnThd3VYKH9B.');
 
 INSERT INTO KorttiTili(kortti_id, tili_id, rooli)
 VALUES
@@ -153,3 +153,238 @@ INSERT INTO Tilitapahtuma(tili_id, kortti_id, laji, summa_eur, valuutta, saldo_h
 VALUES
 (1, 1, 'DEPOSIT',    100.00, 'EUR', 600.00),
 (1, 1, 'WITHDRAWAL',  50.00, 'EUR', 550.00);
+
+-- -------------------------
+-- Asiakkaat
+-- -------------------------
+INSERT INTO Asiakas(etunimi, sukunimi, osoite, puhelinnumero) VALUES
+('Aku',   'Ankka',  'Ankkalinna, Rämeenkatu 1',      '+358404200001'),
+('Roope', 'Ankka',  'Ankkalinna, Rahalaiturintie 1', '+358404200002'),
+('Iines', 'Ankka',  'Ankkalinna, Joutsentie 3',      '+358404200003'),
+('Tupu',  'Ankka',  'Ankkalinna, Kolmostie 10',      '+358404200004'),
+('Hupu',  'Ankka',  'Ankkalinna, Kolmostie 10',      '+358404200005'),
+('Lupu',  'Ankka',  'Ankkalinna, Kolmostie 10',      '+358404200006'),
+('Pelle', 'Peloton','Ankkalinna, Keksijänkuja 2',    '+358404200007'),
+('Hannu', 'Hanhi',  'Ankkalinna, Onnentie 7',        '+358404200008');
+
+-- -------------------------
+-- Tilit (DEBIT ja CREDIT)
+-- -------------------------
+-- Aku: debit + credit
+INSERT INTO Tili(tilinumero, omistaja_id, saldo_eur, credit_limit, valuutta)
+SELECT 'FI00 5555 1111 0000 01', a.asiakas_id, 350.00,   0.00, 'EUR'
+FROM Asiakas a WHERE a.puhelinnumero = '+358404200001';
+INSERT INTO Tili(tilinumero, omistaja_id, saldo_eur, credit_limit, valuutta)
+SELECT 'FI00 5555 1111 0000 02', a.asiakas_id,   0.00, 1500.00, 'EUR'
+FROM Asiakas a WHERE a.puhelinnumero = '+358404200001';
+
+-- Roope: debit (isompi saldo)
+INSERT INTO Tili(tilinumero, omistaja_id, saldo_eur, credit_limit, valuutta)
+SELECT 'FI00 7777 2222 0000 01', a.asiakas_id, 1000000.00, 0.00, 'EUR'
+FROM Asiakas a WHERE a.puhelinnumero = '+358404200002';
+
+-- Iines: debit
+INSERT INTO Tili(tilinumero, omistaja_id, saldo_eur, credit_limit, valuutta)
+SELECT 'FI00 6666 3333 0000 01', a.asiakas_id, 800.00, 0.00, 'EUR'
+FROM Asiakas a WHERE a.puhelinnumero = '+358404200003';
+
+-- Pelle: debit
+INSERT INTO Tili(tilinumero, omistaja_id, saldo_eur, credit_limit, valuutta)
+SELECT 'FI00 8888 4444 0000 01', a.asiakas_id, 120.00, 0.00, 'EUR'
+FROM Asiakas a WHERE a.puhelinnumero = '+358404200007';
+
+-- Hannu: debit + credit
+INSERT INTO Tili(tilinumero, omistaja_id, saldo_eur, credit_limit, valuutta)
+SELECT 'FI00 9999 5555 0000 01', a.asiakas_id, 60.00,  0.00, 'EUR'
+FROM Asiakas a WHERE a.puhelinnumero = '+358404200008';
+INSERT INTO Tili(tilinumero, omistaja_id, saldo_eur, credit_limit, valuutta)
+SELECT 'FI00 9999 5555 0000 02', a.asiakas_id,  0.00,  5000.00, 'EUR'
+FROM Asiakas a WHERE a.puhelinnumero = '+358404200008';
+
+-- -------------------------
+-- Kortit (yksi kortti / henkilö; Aku & Hannu linkitetään debit+creditiin)
+-- HUOM: korvaa bcrypt-hashit oikeilla arvoilla!
+-- -------------------------
+-- Aku (PIN 1234 → korvaa oikealla bcryptillä)
+INSERT INTO Kortti(kortti_numero, asiakas_id, pin_bcrypt)
+SELECT '4000-1234-5678-0001', a.asiakas_id, '$2a$10$replaceWithRealBcryptHashOf1234'
+FROM Asiakas a WHERE a.puhelinnumero = '+358404200001';
+
+-- Roope (PIN 1111)
+INSERT INTO Kortti(kortti_numero, asiakas_id, pin_bcrypt)
+SELECT '4000-1111-1111-0001', a.asiakas_id, '$2a$10$replaceWithRealBcryptHashOf1111'
+FROM Asiakas a WHERE a.puhelinnumero = '+358404200002';
+
+-- Iines (PIN 2468)
+INSERT INTO Kortti(kortti_numero, asiakas_id, pin_bcrypt)
+SELECT '4000-2468-1357-0001', a.asiakas_id, '$2a$10$replaceWithRealBcryptHashOf2468'
+FROM Asiakas a WHERE a.puhelinnumero = '+358404200003';
+
+-- Pelle (PIN 0000)
+INSERT INTO Kortti(kortti_numero, asiakas_id, pin_bcrypt)
+SELECT '4000-0000-0000-0001', a.asiakas_id, '$2a$10$replaceWithRealBcryptHashOf0000'
+FROM Asiakas a WHERE a.puhelinnumero = '+358404200007';
+
+-- Hannu (PIN 7777)
+INSERT INTO Kortti(kortti_numero, asiakas_id, pin_bcrypt)
+SELECT '4000-7777-5555-0001', a.asiakas_id, '$2a$10$replaceWithRealBcryptHashOf7777'
+FROM Asiakas a WHERE a.puhelinnumero = '+358404200008';
+
+-- -------------------------
+-- KorttiTili (DEBIT/CREDIT -roolit)
+-- -------------------------
+-- Aku: linkitä molempiin tileihin
+INSERT INTO KorttiTili(kortti_id, tili_id, rooli)
+SELECT k.kortti_id, t.tili_id, 'DEBIT'
+FROM Kortti k
+JOIN Asiakas a ON a.asiakas_id = k.asiakas_id
+JOIN Tili t ON t.omistaja_id = a.asiakas_id AND t.tilinumero = 'FI00 5555 1111 0000 01'
+WHERE k.kortti_numero = '4000-1234-5678-0001';
+
+INSERT INTO KorttiTili(kortti_id, tili_id, rooli)
+SELECT k.kortti_id, t.tili_id, 'CREDIT'
+FROM Kortti k
+JOIN Asiakas a ON a.asiakas_id = k.asiakas_id
+JOIN Tili t ON t.omistaja_id = a.asiakas_id AND t.tilinumero = 'FI00 5555 1111 0000 02'
+WHERE k.kortti_numero = '4000-1234-5678-0001';
+
+-- Roope: vain debit-tili
+INSERT INTO KorttiTili(kortti_id, tili_id, rooli)
+SELECT k.kortti_id, t.tili_id, 'DEBIT'
+FROM Kortti k
+JOIN Asiakas a ON a.asiakas_id = k.asiakas_id
+JOIN Tili t ON t.omistaja_id = a.asiakas_id AND t.tilinumero = 'FI00 7777 2222 0000 01'
+WHERE k.kortti_numero = '4000-1111-1111-0001';
+
+-- Iines: vain debit-tili
+INSERT INTO KorttiTili(kortti_id, tili_id, rooli)
+SELECT k.kortti_id, t.tili_id, 'DEBIT'
+FROM Kortti k
+JOIN Asiakas a ON a.asiakas_id = k.asiakas_id
+JOIN Tili t ON t.omistaja_id = a.asiakas_id AND t.tilinumero = 'FI00 6666 3333 0000 01'
+WHERE k.kortti_numero = '4000-2468-1357-0001';
+
+-- Pelle: vain debit-tili
+INSERT INTO KorttiTili(kortti_id, tili_id, rooli)
+SELECT k.kortti_id, t.tili_id, 'DEBIT'
+FROM Kortti k
+JOIN Asiakas a ON a.asiakas_id = k.asiakas_id
+JOIN Tili t ON t.omistaja_id = a.asiakas_id AND t.tilinumero = 'FI00 8888 4444 0000 01'
+WHERE k.kortti_numero = '4000-0000-0000-0001';
+
+-- Hannu: debit + credit
+INSERT INTO KorttiTili(kortti_id, tili_id, rooli)
+SELECT k.kortti_id, t.tili_id, 'DEBIT'
+FROM Kortti k
+JOIN Asiakas a ON a.asiakas_id = k.asiakas_id
+JOIN Tili t ON t.omistaja_id = a.asiakas_id AND t.tilinumero = 'FI00 9999 5555 0000 01'
+WHERE k.kortti_numero = '4000-7777-5555-0001';
+
+INSERT INTO KorttiTili(kortti_id, tili_id, rooli)
+SELECT k.kortti_id, t.tili_id, 'CREDIT'
+FROM Kortti k
+JOIN Asiakas a ON a.asiakas_id = k.asiakas_id
+JOIN Tili t ON t.omistaja_id = a.asiakas_id AND t.tilinumero = 'FI00 9999 5555 0000 02'
+WHERE k.kortti_numero = '4000-7777-5555-0001';
+
+-- -------------------------
+-- PIN-poolit (alustetaan 0-yritystä)
+-- -------------------------
+INSERT INTO PinPool(kortti_id, virhelaskuri)
+SELECT k.kortti_id, 0
+FROM Kortti k
+WHERE k.kortti_numero IN (
+  '4000-1234-5678-0001','4000-1111-1111-0001','4000-2468-1357-0001',
+  '4000-0000-0000-0001','4000-7777-5555-0001'
+)
+AND NOT EXISTS (SELECT 1 FROM PinPool p WHERE p.kortti_id = k.kortti_id);
+
+-- -------------------------
+-- Päivittäiset rajat (nollasta alkaen tälle päivälle)
+-- -------------------------
+-- Aku debit + credit
+INSERT INTO PaivittainenRaja(tili_id, paiva, nostettu_eur)
+SELECT t.tili_id, CURRENT_DATE(), 0.00
+FROM Tili t WHERE t.tilinumero IN ('FI00 5555 1111 0000 01','FI00 5555 1111 0000 02')
+ON DUPLICATE KEY UPDATE nostettu_eur = VALUES(nostettu_eur);
+
+-- Roope debit
+INSERT INTO PaivittainenRaja(tili_id, paiva, nostettu_eur)
+SELECT t.tili_id, CURRENT_DATE(), 0.00
+FROM Tili t WHERE t.tilinumero = 'FI00 7777 2222 0000 01'
+ON DUPLICATE KEY UPDATE nostettu_eur = VALUES(nostettu_eur);
+
+-- Iines debit
+INSERT INTO PaivittainenRaja(tili_id, paiva, nostettu_eur)
+SELECT t.tili_id, CURRENT_DATE(), 0.00
+FROM Tili t WHERE t.tilinumero = 'FI00 6666 3333 0000 01'
+ON DUPLICATE KEY UPDATE nostettu_eur = VALUES(nostettu_eur);
+
+-- Pelle debit
+INSERT INTO PaivittainenRaja(tili_id, paiva, nostettu_eur)
+SELECT t.tili_id, CURRENT_DATE(), 0.00
+FROM Tili t WHERE t.tilinumero = 'FI00 8888 4444 0000 01'
+ON DUPLICATE KEY UPDATE nostettu_eur = VALUES(nostettu_eur);
+
+-- Hannu debit + credit
+INSERT INTO PaivittainenRaja(tili_id, paiva, nostettu_eur)
+SELECT t.tili_id, CURRENT_DATE(), 0.00
+FROM Tili t WHERE t.tilinumero IN ('FI00 9999 5555 0000 01','FI00 9999 5555 0000 02')
+ON DUPLICATE KEY UPDATE nostettu_eur = VALUES(nostettu_eur);
+
+-- -------------------------
+-- Tapahtumat (muutama rivi per tilanne)
+-- -------------------------
+-- Aku: 100€ nosto, 50€ talletus debit-tililtä
+INSERT INTO Tilitapahtuma(tili_id, kortti_id, laji, summa_eur, valuutta, saldo_hetkellinen)
+SELECT t.tili_id, k.kortti_id, 'WITHDRAWAL', 100.00, 'EUR', t.saldo_eur - 100.00
+FROM Tili t
+JOIN Asiakas a ON a.asiakas_id = t.omistaja_id
+JOIN Kortti k ON k.asiakas_id = a.asiakas_id
+WHERE t.tilinumero = 'FI00 5555 1111 0000 01' AND k.kortti_numero = '4000-1234-5678-0001';
+
+INSERT INTO Tilitapahtuma(tili_id, kortti_id, laji, summa_eur, valuutta, saldo_hetkellinen)
+SELECT t.tili_id, k.kortti_id, 'DEPOSIT', 50.00, 'EUR', t.saldo_eur - 50.00 + 150.00  -- saldo_hetkellinen on esimerkinomainen
+FROM Tili t
+JOIN Asiakas a ON a.asiakas_id = t.omistaja_id
+JOIN Kortti k ON k.asiakas_id = a.asiakas_id
+WHERE t.tilinumero = 'FI00 5555 1111 0000 01' AND k.kortti_numero = '4000-1234-5678-0001';
+
+-- Roope: 1000€ talletus
+INSERT INTO Tilitapahtuma(tili_id, kortti_id, laji, summa_eur, valuutta, saldo_hetkellinen)
+SELECT t.tili_id, k.kortti_id, 'DEPOSIT', 1000.00, 'EUR', t.saldo_eur + 1000.00
+FROM Tili t
+JOIN Asiakas a ON a.asiakas_id = t.omistaja_id
+JOIN Kortti k ON k.asiakas_id = a.asiakas_id
+WHERE t.tilinumero = 'FI00 7777 2222 0000 01' AND k.kortti_numero = '4000-1111-1111-0001';
+
+-- Iines: 40€ nosto
+INSERT INTO Tilitapahtuma(tili_id, kortti_id, laji, summa_eur, valuutta, saldo_hetkellinen)
+SELECT t.tili_id, k.kortti_id, 'WITHDRAWAL', 40.00, 'EUR', t.saldo_eur - 40.00
+FROM Tili t
+JOIN Asiakas a ON a.asiakas_id = t.omistaja_id
+JOIN Kortti k ON k.asiakas_id = a.asiakas_id
+WHERE t.tilinumero = 'FI00 6666 3333 0000 01' AND k.kortti_numero = '4000-2468-1357-0001';
+
+-- Pelle: 20€ nosto
+INSERT INTO Tilitapahtuma(tili_id, kortti_id, laji, summa_eur, valuutta, saldo_hetkellinen)
+SELECT t.tili_id, k.kortti_id, 'WITHDRAWAL', 20.00, 'EUR', t.saldo_eur - 20.00
+FROM Tili t
+JOIN Asiakas a ON a.asiakas_id = t.omistaja_id
+JOIN Kortti k ON k.asiakas_id = a.asiakas_id
+WHERE t.tilinumero = 'FI00 8888 4444 0000 01' AND k.kortti_numero = '4000-0000-0000-0001';
+
+-- Hannu: debit 10€ nosto, credit 200€ nosto
+INSERT INTO Tilitapahtuma(tili_id, kortti_id, laji, summa_eur, valuutta, saldo_hetkellinen)
+SELECT t.tili_id, k.kortti_id, 'WITHDRAWAL', 10.00, 'EUR', t.saldo_eur - 10.00
+FROM Tili t
+JOIN Asiakas a ON a.asiakas_id = t.omistaja_id
+JOIN Kortti k ON k.asiakas_id = a.asiakas_id
+WHERE t.tilinumero = 'FI00 9999 5555 0000 01' AND k.kortti_numero = '4000-7777-5555-0001';
+
+INSERT INTO Tilitapahtuma(tili_id, kortti_id, laji, summa_eur, valuutta, saldo_hetkellinen)
+SELECT t.tili_id, k.kortti_id, 'WITHDRAWAL', 200.00, 'EUR', t.saldo_eur - 200.00
+FROM Tili t
+JOIN Asiakas a ON a.asiakas_id = t.omistaja_id
+JOIN Kortti k ON k.asiakas_id = a.asiakas_id
+WHERE t.tilinumero = 'FI00 9999 5555 0000 02' AND k.kortti_numero = '4000-7777-5555-0001';

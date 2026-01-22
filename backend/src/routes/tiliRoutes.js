@@ -1,7 +1,13 @@
-//tänne tilijututc
-const express = require('express');
+
+//tänne tilijutut
+//debug testi kooodi
+import express from 'express';
 const router = express.Router();
-const borrower = require('../models/tili_models');
+
+// Add routes here
+
+export default router;
+
 
 router.get('/:tili_id/debit', function(request, response){
     Tili.getDebitSaldo(request.params.tili_id, function(err,dbResult){
