@@ -1,3 +1,4 @@
+
 # docker-compose.yml (base)
 
 services:
@@ -18,7 +19,7 @@ services:
       mysql:
         condition: service_healthy
     healthcheck:
-      test: ["CMD-SHELL", "node -e \"fetch('http://localhost:3000/health').then(r=>r.ok?process.exit(0):process.exit(1)).catch(()=>process.exit(1))\""]
+      test: ["CMD-SHELL", "node -e \"fetch('http://localhost:3000/health').then(r=&gt;r.ok?process.exit(0):process.exit(1)).catch(()=&gt;process.exit(1))\""]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -56,12 +57,18 @@ services:
     image: nginx:1.24-alpine
     depends_on:
       - api
+
+    # Julkaise portit hostille (tarvitaan Let’s Encryptin HTTP-01 validointiin + ulkoiseen käyttöön)
+    ports:
+      - "80:80"
+      - "443:443"
+
     volumes:
       - ./nginx/00_globals.conf:/etc/nginx/conf.d/00_globals.conf:ro
       - ./nginx/api.conf:/etc/nginx/conf.d/api.conf:ro
-      - ./nginx/_default_off.conf:/etc/nginx/conf.d/default.conf:ro
-      # Kehityksessä host-cache ei yleensä ole tarpeen:
-      # - nginx_cache:/var/cache/nginx
+#      - ./nginx/_default_off.conf:/etc/nginx/conf.d/default.conf:ro
+      - /var/www/certbot:/var/www/certbot:ro
+      - /etc/letsencrypt:/etc/letsencrypt:ro
     healthcheck:
       test: ["CMD-SHELL", "wget -qO- http://localhost/health || exit 1"]
       interval: 10s
