@@ -43,7 +43,7 @@ const kortti = {
     }
   },
 
-  // Hae kortin saldo
+  // Hae kortin saldot
   getBalance: async function(cardId, callback) {
     try {
       const pool = await getPool();
