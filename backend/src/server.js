@@ -56,6 +56,9 @@ app.use((err, req, res, next) => {
 app.use(authenticateToken);
 app.use('/kortti', korttiRoutes);
 app.use('/asiakas', asiakasRoutes);
+app.use('/tili', tiliRoutes);
+app.use('/transaktio', transaktioRoutes);
+
 
 const port = process.env.PORT || 3000;
 const host = process.env.HOST || '0.0.0.0';
