@@ -14,6 +14,7 @@ import transaktioRoutes from './routes/transaktioRoutes.js';
 import authenticateToken from './middleware/authenticateToken.js';
 
 dotenv.config();
+
 const app = express();
 
 app.use(helmet());
@@ -50,6 +51,11 @@ app.use((err, req, res, next) => {
     error: err.message || 'Internal Server Error',
   });
 });
+
+
+app.use(authenticateToken);
+app.use('/kortti', korttiRoutes);
+app.use('/asiakas', asiakasRoutes);
 
 const port = process.env.PORT || 3000;
 const host = process.env.HOST || '0.0.0.0';
