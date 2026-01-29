@@ -115,7 +115,6 @@ const Transaktio = {
         }
     },
 
-
     //Debit-puolella tämä ohjataan Talleta rahaa-vaihtoehtoon, credit-puolella Lyhennä luottoa!
     postTalleta: async function(tili_id, kortti_id, summa_eur, callback) {
         if (summa_eur <= 0) {
