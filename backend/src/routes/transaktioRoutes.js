@@ -27,7 +27,7 @@ router.get("/kayttosaldo/:tili_id", (req, res) => {
 
 
 
-/*// postNosta
+// postNosta
 router.post("/nosta", (req, res) => {
     Transaktio.postNosta(req.body.tili_id,req.body.kortti_id, req.body.summa_eur,(err, result) => {
         if (err) {
@@ -36,16 +36,7 @@ router.post("/nosta", (req, res) => {
             res.json({message:"Nostotapahtuma onnistui", result });
         }
     });
-});*/
-
-//debug: 
-router.post("/nosta", (req, res) => { 
-    console.log("BODY:", req.body); 
-    Transaktio.postNosta(req.body.tili_id, req.body.kortti_id, req.body.summa_eur, (err, result) => 
-        { console.log("ERR:", err); console.log("RESULT:", result); if (err) { return res.json({ error: err.message || err }); } res.json({ message: "Nostotapahtuma onnistui", result }); 
-}); 
 });
-
 
 // postTalleta
 router.post("/talleta", (req, res) => {
