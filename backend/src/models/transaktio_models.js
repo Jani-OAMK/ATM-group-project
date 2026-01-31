@@ -6,7 +6,7 @@ const Transaktio = {
     getTilitapahtumat: async function(tili_id, callback) {
         try { 
             const pool = await getPool(); 
-            const sql = ` SELECT tapahtuma_id, laji, summa_eur, tapahtuma_aika FROM tilitapahtuma WHERE tili_id = ? ORDER BY tapahtuma_aika DESC LIMIT 10 `; 
+            const sql = "SELECT tapahtuma_id, laji, summa_eur, tapahtuma_aika FROM tilitapahtuma WHERE tili_id = ? ORDER BY tapahtuma_aika DESC LIMIT 10"; 
             const [rows] = await pool.query(sql, [tili_id]); 
             callback(null, rows); 
         } 
@@ -15,99 +15,150 @@ const Transaktio = {
         } 
     },
 
-
-    //Apufunktio pääfunktioihin;tarkistetaan kumppi kortti ja lasketaan kayttosaldo.
-    getKayttosaldo: async function(tili_id, callback) {
-         try { 
+    // 
+    getKayttosaldo: async function(tili_id, kortti_id, callback) {
+        try {
+            // Mika tili kyseessa? 
             const pool = await getPool();
-            const sql = " SELECT saldo_eur, credit_limit FROM tili WHERE tili_id = ? ";
-            const [rows] = await pool.query(sql, [tili_id]);
-            
-            if (rows.length === 0) {
-                 return callback(new Error("Tiliä ei löytynyt")); 
+            const [tiliRows] = await pool.query("SELECT saldo_eur, credit_limit FROM tili WHERE tili_id = ?",[tili_id]);
+
+            if (tiliRows.length === 0) {
+                return callback(new Error("Tiliä ei löytynyt"));
+            }
+
+            const { saldo_eur, credit_limit } = tiliRows[0];
+
+            // Hae rooli juuri tälle kortti–tili -yhdistelmalle
+            const [rooliRows] = await pool.query("SELECT rooli FROM korttitili WHERE kortti_id = ? AND tili_id = ?",[kortti_id, tili_id]);
+
+            if (rooliRows.length === 0) {
+                return callback(new Error("Korttia ei ole liitetty tähän tiliin"));
+            }
+
+            const rooli = rooliRows[0].rooli;
+
+            let kayttosaldo = 0;
+
+            if (rooli === "DEBIT") {
+                kayttosaldo = saldo_eur;
             } 
-            const tili = rows[0];
-
-            let tilityyppi;
-            if (tili.credit_limit > 0) {
-            tilityyppi = "CREDIT";
-            } else {
-            tilityyppi = "DEBIT";
+            else {  // CREDIT
+                kayttosaldo = saldo_eur + credit_limit;
+                if (kayttosaldo < 0) kayttosaldo = 0;
             }
 
-            let kayttosaldo = 0; 
-            if (tilityyppi === "DEBIT") {
-                kayttosaldo = tili.saldo_eur;
-            } else if(tilityyppi === "CREDIT"){
-                kayttosaldo = tili.saldo_eur + tili.credit_limit;
-            } else {
-                return callback(new Error("Tilityyppiä ei löytynyt"));
-            }
-            callback(null, { kayttosaldo, tilityyppi, saldo_eur: tili.saldo_eur         
-            }); 
-        } 
-        catch (err) { 
+            callback(null, {rooli, saldo_eur, credit_limit, kayttosaldo});
+        } catch (err) {
             callback(err);
         }
     },
 
     //Apufunktio: Lisää tilitapahtuma
-    addTilitapahtuma: async function(tili_id, kortti_id, laji, summa_eur, callback) {
+    addTilitapahtuma: async function(connection, tili_id, kortti_id, laji, summa_eur) {
+            const sql = "INSERT INTO tilitapahtuma (tili_id, kortti_id, laji, summa_eur) VALUES (?, ?, ?, ?) "; 
+            const [result] = await connection.query(sql, [ tili_id, kortti_id, laji, summa_eur ]); return result;
+    },
+    postNosta: async function(tili_id, kortti_id, summa_eur, callback) {
+        if (summa_eur <= 0) {
+            return callback(new Error("Summan täytyy olla positiivinen luku"));
+        }
+        let connection;
         try {
-            const pool = await getPool(); 
-            const sql = ` INSERT INTO tilitapahtuma (tili_id, kortti_id, laji, summa_eur) VALUES (?, ?, ?, ?) `; 
-            const [result] = await pool.query(sql, [ tili_id, kortti_id, laji, summa_eur ]); callback(null, result);
-        } 
-        catch (err) { 
-            callback(err); 
-        } 
+            const pool = await getPool();
+            connection = await pool.getConnection();
+
+            await connection.beginTransaction();
+
+            const saldoTiedot = await new Promise((resolve, reject) => {
+                this.getKayttosaldo(tili_id, kortti_id, (err, data) => {
+                    if (err) reject(err);
+                    else resolve(data);
+                });
+            });
+
+            const { rooli, saldo_eur, credit_limit } = saldoTiedot;
+            const saldo = Number(saldo_eur);
+
+            //  Nostorajoitukset
+            if (rooli === "CREDIT") {
+                if (saldo - summa_eur < -credit_limit) {
+                    return callback("Luottoraja ylittyy");
+                }
+            } else { // DEBIT
+                if (summa_eur > saldo) {
+                    return callback("Ei riittävästi saldoa");
+                }
+            }
+
+            // Päivitetään saldo
+            const [updateResult] = await connection.query(
+                "UPDATE tili SET saldo_eur = saldo_eur - ? WHERE tili_id = ?",
+                [summa_eur, tili_id]
+            );
+
+            if (updateResult.affectedRows !== 1) {
+                return callback("Saldon päivitys tietokantaan epäonnistui");
+            }
+
+            await this.addTilitapahtuma(connection, tili_id, kortti_id, "WITHDRAWAL", summa_eur);
+
+            await connection.commit();
+
+            const newSaldo = saldo - summa_eur;
+            callback(null, { success: true, newSaldo });
+
+        } catch (err) {
+            if (connection) await connection.rollback();
+            callback(err);
+        } finally {
+            if (connection) connection.release();
+        }
     },
 
-    postNosta: async function(tili_id, kortti_id, summa_eur, callback) { 
-        try { 
-            // 1. Haetaan käyttösaldo
-            this.getKayttosaldo(tili_id, async (err, data) => { 
-                if (err) {
-                    return callback(err);
-                }
-                const { kayttosaldo } = data;
-                
-                if (kayttosaldo < summa_eur) {
-                    return callback(new Error("Ei riittävästi käyttösaldoa"));
-                } else {
-                    // 2. Päivitä saldo 
-                    const pool = await getPool(); 
-                    const sql = ` UPDATE tili SET saldo_eur = saldo_eur - ? WHERE tili_id = ? `; 
-                    const [result] = await pool.query(sql, [summa_eur, tili_id]); 
-                    if (result.affectedRows === 0) { 
-                        return callback(new Error("Saldoa ei voitu päivittää")); 
-                    } else {
-                    // 3. Lisää tilitapahtuma 
-                    return this.addTilitapahtuma( tili_id, kortti_id, "WITHDRAWAL", summa_eur, callback ); 
-                    }
-                }
-            }); 
-        } 
-        catch (err) { 
-            callback(err); 
-        } 
-    },
-    // Talletustoiminto; lisätään haluttu saldo, ja tehdään tilitapahtumarivi.
-    postTalleta: async function(tili_id, kortti_id, summa_eur, callback) { 
-        try { 
-            const pool = await getPool(); 
-            const sql = ` UPDATE tili SET saldo_eur = saldo_eur + ? WHERE tili_id = ? `; 
-            const [result] = await pool.query(sql, [summa_eur, tili_id]); 
-            if (result.affectedRows === 0) {
-                return callback(new Error("Saldoa ei voitu päivittää"));
-            } 
-            this.addTilitapahtuma( tili_id, kortti_id, "DEPOSIT", summa_eur, callback ); 
-        } 
-        catch (err) { 
-            callback(err); 
-        } 
+    //Debit-puolella tämä ohjataan Talleta rahaa-vaihtoehtoon, credit-puolella Lyhennä luottoa!
+    postTalleta: async function(tili_id, kortti_id, summa_eur, callback) {
+        if (summa_eur <= 0) {
+            return callback(new Error("Summan täytyy olla positiivinen luku"));
+        }
+        let connection;
+        try {
+            const pool = await getPool();
+            connection = await pool.getConnection();
+            
+            await connection.beginTransaction();
+
+            const saldoTiedot = await new Promise((resolve, reject) => {
+                this.getKayttosaldo(tili_id, kortti_id, (err, data) => {
+                    if (err) reject(err);
+                    else resolve(data);
+                });
+            });
+
+            const { rooli, saldo_eur, credit_limit, kayttosaldo } = saldoTiedot;
+            const saldo = Number(saldo_eur);                               // Muunnetaan string numeroksi jotta callback ynnää ne oikein.
+
+            // Päivitetään saldo
+            const [updateResult] = await connection.query("UPDATE tili SET saldo_eur = saldo_eur + ? WHERE tili_id = ?", [summa_eur, tili_id]);
+
+            if (updateResult.affectedRows !== 1) {
+                return callback("Saldon päivitys tietokantaan epäonnistui");
+            }
+
+            await this.addTilitapahtuma(connection, tili_id, kortti_id, "DEPOSIT", summa_eur);
+            await connection.commit();
+
+            const newSaldo = summa_eur + saldo;
+
+            callback(null, {success: true, newSaldo});
+
+        } catch (err) {
+            await connection.rollback();
+            callback(err);
+        } finally {
+            if (connection) connection.release();
+        }
     }
-};
+}
 
 
 export default Transaktio;
