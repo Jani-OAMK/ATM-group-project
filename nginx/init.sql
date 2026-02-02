@@ -207,27 +207,27 @@ FROM Asiakas a WHERE a.puhelinnumero = '+358404200008';
 -- -------------------------
 -- Aku (PIN 1234 → korvaa oikealla bcryptillä)
 INSERT INTO Kortti(kortti_numero, asiakas_id, pin_bcrypt)
-SELECT '4000-1234-5678-0001', a.asiakas_id, '$2a$10$replaceWithRealBcryptHashOf1234'
+SELECT '4000-1234-5678-0001', a.asiakas_id, '$2a$10$wci/dfpCNirwuoWybry.oOEltlwdZic/eSpyBX73HbTHugTMs8f12'
 FROM Asiakas a WHERE a.puhelinnumero = '+358404200001';
 
 -- Roope (PIN 1111)
 INSERT INTO Kortti(kortti_numero, asiakas_id, pin_bcrypt)
-SELECT '4000-1111-1111-0001', a.asiakas_id, '$2a$10$replaceWithRealBcryptHashOf1111'
+SELECT '4000-1111-1111-0001', a.asiakas_id, '$2a$10$VdcXNG3ejDiNVJLgjQh6culS5s3Z.EV50fjDpNj2difK37uwjDa3O'
 FROM Asiakas a WHERE a.puhelinnumero = '+358404200002';
 
 -- Iines (PIN 2468)
 INSERT INTO Kortti(kortti_numero, asiakas_id, pin_bcrypt)
-SELECT '4000-2468-1357-0001', a.asiakas_id, '$2a$10$replaceWithRealBcryptHashOf2468'
+SELECT '4000-2468-1357-0001', a.asiakas_id, '$2a$10$epiFrZba.dIdq0GzQyFXB./95T7mbyz1xBHVpQgqs31.hR9KvaRXi'
 FROM Asiakas a WHERE a.puhelinnumero = '+358404200003';
 
 -- Pelle (PIN 0000)
 INSERT INTO Kortti(kortti_numero, asiakas_id, pin_bcrypt)
-SELECT '4000-0000-0000-0001', a.asiakas_id, '$2a$10$replaceWithRealBcryptHashOf0000'
+SELECT '4000-0000-0000-0001', a.asiakas_id, '$2a$10$0xyVmm1TKx8RJLkdhiQ9QOJSKeU5cRPH8TX2FxUsc/CUtpYyvQdd2'
 FROM Asiakas a WHERE a.puhelinnumero = '+358404200007';
 
 -- Hannu (PIN 7777)
 INSERT INTO Kortti(kortti_numero, asiakas_id, pin_bcrypt)
-SELECT '4000-7777-5555-0001', a.asiakas_id, '$2a$10$replaceWithRealBcryptHashOf7777'
+SELECT '4000-7777-5555-0001', a.asiakas_id, '$2a$10$o9ljtVitmV8N5LH57U6zbuvnJLN4JgaLE37foKxxc/2jbrjt8H2L2'
 FROM Asiakas a WHERE a.puhelinnumero = '+358404200008';
 
 -- -------------------------
