@@ -1,5 +1,6 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
+#include <QByteArray>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QNetworkRequest>
@@ -25,8 +26,9 @@ public:
 
 private:
     Ui::MainWindow *ui;
-    QNetworkAccessManager *manager;
-    QNetworkReply *reply;
+    QNetworkAccessManager *manager = nullptr;
+    QNetworkReply *reply = nullptr;
+    QByteArray webToken;
 
 private slots:
     void btnLoginSlot();

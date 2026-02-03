@@ -4,5 +4,5 @@ Enviroment::Enviroment() {}
 
 QString Enviroment::base_url()
 {
-    return "http://localhost:3000/";
+    return "https://ankkalinnanpankki.rocks/api/auth/";
 }
