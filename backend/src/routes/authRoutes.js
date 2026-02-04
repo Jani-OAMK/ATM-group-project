@@ -99,16 +99,50 @@ router.post('/verify-pin', function (request, response) {
                 } 
                 // oikea PIN
                 else {
-
                     auth.resetPinError(kortti.kortti_id, function () {
+                        auth.getKorttiRoolit(kortti.kortti_id, function (err, rooliResult) {
+                            if (err) {
+                                return response.json(err);
+                            }
 
-                        const token = generateAccessToken(kortti.kortti_id);
+                            // DEBUG: Tulostetaan mitä tuli
+                            console.log('kortti_id:', kortti.kortti_id);
+                            console.log('rooliResult:', JSON.stringify(rooliResult));
 
-                        response.json({
-                            success: true,
-                            message: 'PIN oikein',
-                            kortti_id: kortti.kortti_id,
-                            token: token
+                            // Tarkista että korttiin on liitetty tilejä
+                            if (!rooliResult || rooliResult.length === 0) {
+                                return response.json({
+                                    success: false,
+                                    message: 'Kortille ei ole liitetty tilejä'
+                                });
+                            }
+
+                            const roles = rooliResult.map(r => r.rooli);
+
+                            let cardType;
+                            if (roles.includes('DEBIT') && roles.includes('CREDIT')) {
+                                cardType = 'COMBO';
+                            } else if (roles.includes('DEBIT')) {
+                                cardType = 'DEBIT';
+                            } else if (roles.includes('CREDIT')) {
+                                cardType = 'CREDIT';
+                            } else {
+                                // Jos roolit eivät ole DEBIT tai CREDIT, palautetaan virhe
+                                return response.json({
+                                    success: false,
+                                    message: 'Kortin rooli ei ole tuettu. Odotetut roolit: DEBIT tai CREDIT'
+                                });
+                            }
+
+                            const token = generateAccessToken(kortti.kortti_id);
+
+                            response.json({
+                                success: true,
+                                message: 'PIN oikein',
+                                kortti_id: kortti.kortti_id,
+                                token: token,
+                                cardType: cardType
+                            });
                         });
                     });
                 }
@@ -118,7 +152,7 @@ router.post('/verify-pin', function (request, response) {
 });
 
 function generateAccessToken(kortti_id) {
-  return jwt.sign({ kortti_id }, process.env.MY_TOKEN, { expiresIn: '1800s' });
+    return jwt.sign({ kortti_id }, process.env.MY_TOKEN, { expiresIn: '1800s' });
 }
 
 
