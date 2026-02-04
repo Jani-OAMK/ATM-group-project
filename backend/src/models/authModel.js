@@ -94,7 +94,21 @@ const auth = {
     } catch (err) {
       callback(err);
     }
-  }
+  },  
+  
+  getKorttiRoolit: async function (kortti_id, callback) {
+    try {
+        const pool = await getPool();
+        const [rows] = await pool.query(
+            'SELECT rooli FROM korttitili WHERE kortti_id = ?',
+            [kortti_id]
+        );
+        callback(null, rows);
+    } catch (err) {
+        callback(err);
+    }
+}
+
 };
 
 export default auth;
