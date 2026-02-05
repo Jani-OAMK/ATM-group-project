@@ -73,6 +73,21 @@ void MainWindow::loginAction()
         qDebug() << "Token jemmassa" << webToken.size();
         auto *w = new KortinValintaWindow();
         w->setAttribute(Qt::WA_DeleteOnClose);
+
+        connect(w, &KortinValintaWindow::debitValittu, this, [this]() {
+            qDebug() << "MainWindow: Debit valittu";
+            // TÄHÄN myöhemmin debit-näkymä
+        });
+
+        connect(w, &KortinValintaWindow::creditValittu, this, [this]() {
+            qDebug() << "MainWindow: Credit valittu";
+            // TÄHÄN myöhemmin credit-näkymä
+        });
+
+        connect(w, &KortinValintaWindow::logoutValittu, this, [this]() {
+            resetLogin();
+            this->show(); // palaa login-ikkunaan
+        });
         w->show();
 
         this->hide();
@@ -83,6 +98,13 @@ void MainWindow::loginAction()
     reply = nullptr;
     return;
 
+}
+
+void MainWindow::resetLogin()
+{
+    ui->textUsername->clear();
+    ui->textUserpassword->clear();
+    ui->textUsername->setFocus();
 }
 
 
