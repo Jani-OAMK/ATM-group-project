@@ -5,14 +5,14 @@ const auth = {
 
   getKorttiByNumero: async function(kortti_numero, callback) {
     try {
-      const pool = await getPool();
+      const pool = getPool();
       const [rows] = await pool.query(
         "SELECT * FROM Kortti WHERE kortti_numero = ?",
         [kortti_numero]
       );
-      callback(null, rows);
+      return callback(null, rows);
     } catch (err) {
-      callback(err);
+      return callback(err);
     }
   },
 
@@ -21,26 +21,26 @@ const auth = {
       if (err) {
         return callback(err);
       }
-      callback(null, isMatch);
+      return callback(null, isMatch);
     });
   },
 
   getPinYrityys: async function(kortti_id, callback) {
     try {
-      const pool = await getPool();
+      const pool = getPool();
       const [rows] = await pool.query(
         "SELECT * FROM PinPool WHERE kortti_id = ?",
         [kortti_id]
       );
-      callback(null, rows);
+      return callback(null, rows);
     } catch (err) {
-      callback(err);
+      return callback(err);
     }
   },
 
   incrementPinError: async function(kortti_id, callback) {
     try {
-      const pool = await getPool();
+      const pool = getPool();
       const [result] = await pool.query(
         `UPDATE PinPool 
          SET virhelaskuri = virhelaskuri + 1,
@@ -48,15 +48,15 @@ const auth = {
          WHERE kortti_id = ?`,
         [kortti_id]
       );
-      callback(null, result);
+      return callback(null, result);
     } catch (err) {
-      callback(err);
+      return callback(err);
     }
   },
 
   resetPinError: async function(kortti_id, callback) {
     try {
-      const pool = await getPool();
+      const pool = getPool();
       const [result] = await pool.query(
         `UPDATE PinPool
          SET virhelaskuri = 0,
@@ -64,52 +64,51 @@ const auth = {
          WHERE kortti_id = ?`,
         [kortti_id]
       );
-      callback(null, result);
+      return callback(null, result);
     } catch (err) {
-      callback(err);
+      return callback(err);
     }
   },
 
   lockPinYrityys: async function(kortti_id, callback) {
     try {
-      const pool = await getPool();
+      const pool = getPool();
       const [result] = await pool.query(
         "UPDATE PinPool SET lukossa_asti = DATE_ADD(NOW(), INTERVAL 10 MINUTE) WHERE kortti_id = ?",
         [kortti_id]
       );
-      callback(null, result);
+      return callback(null, result);
     } catch (err) {
-      callback(err);
+      return callback(err);
     }
   },
 
   lockCard: async function(kortti_id, callback) {
     try {
-      const pool = await getPool();
+      const pool = getPool();
       const [result] = await pool.query(
         "UPDATE Kortti SET tila = 'LOCKED' WHERE kortti_id = ?",
         [kortti_id]
       );
-      callback(null, result);
+      return callback(null, result);
     } catch (err) {
-      callback(err);
+      return callback(err);
     }
-  },  
-  
+  },
+
   getKorttiRoolit: async function (kortti_id, callback) {
     try {
-        const pool = await getPool();
+        const pool = getPool();
         const [rows] = await pool.query(
             'SELECT rooli FROM KorttiTili WHERE kortti_id = ?',
             [kortti_id]
         );
-        callback(null, rows);
+      return callback(null, rows);
     } catch (err) {
-        callback(err);
+      return callback(err);
     }
-}
+  },
 
 };
 
 export default auth;
-

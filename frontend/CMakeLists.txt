@@ -27,6 +27,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         kortinvalintawindow.h kortinvalintawindow.cpp kortinvalintawindow.ui
         debitwindow.h debitwindow.cpp debitwindow.ui
         creditwindow.h creditwindow.cpp creditwindow.ui
+        taustakuvalogin.qrc
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET bank-automat APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
