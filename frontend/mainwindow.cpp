@@ -3,12 +3,14 @@
 #include "kortinvalintawindow.h"
 #include <QUrl>
 #include <QDebug>
+#include <QPixmap>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
 
     connect(ui->BtnLogin, &QPushButton::clicked,
             this, &MainWindow::btnLoginSlot);
