@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>KortinValintaWindow</class>
- <widget class="QMainWindow" name="KortinValintaWindow">
+ <class>DebitWindow</class>
+ <widget class="QMainWindow" name="DebitWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -14,7 +14,7 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="btnNosto">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -24,10 +24,10 @@
      </rect>
     </property>
     <property name="text">
-     <string/>
+     <string>Nosto</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_2">
+   <widget class="QPushButton" name="btnTilitapahtumat">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -37,13 +37,52 @@
      </rect>
     </property>
     <property name="text">
-     <string/>
+     <string>Tilitapahtumat</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_3">
+   <widget class="QPushButton" name="pushButton_11">
     <property name="geometry">
      <rect>
       <x>10</x>
+      <y>450</y>
+      <width>131</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_12">
+    <property name="geometry">
+     <rect>
+      <x>650</x>
+      <y>250</y>
+      <width>131</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_13">
+    <property name="geometry">
+     <rect>
+      <x>650</x>
+      <y>350</y>
+      <width>131</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_14">
+    <property name="geometry">
+     <rect>
+      <x>650</x>
       <y>450</y>
       <width>131</width>
       <height>61</height>
@@ -66,52 +105,13 @@
      <string>Kirjaudu ulos</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="btnDebit">
-    <property name="geometry">
-     <rect>
-      <x>650</x>
-      <y>250</y>
-      <width>131</width>
-      <height>61</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Debit</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="btnCredit">
-    <property name="geometry">
-     <rect>
-      <x>650</x>
-      <y>350</y>
-      <width>131</width>
-      <height>61</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Credit</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_8">
-    <property name="geometry">
-     <rect>
-      <x>650</x>
-      <y>450</y>
-      <width>131</width>
-      <height>61</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>30</y>
-      <width>251</width>
-      <height>61</height>
+      <x>40</x>
+      <y>50</y>
+      <width>101</width>
+      <height>51</height>
      </rect>
     </property>
     <property name="font">
@@ -120,25 +120,7 @@
      </font>
     </property>
     <property name="text">
-     <string>Yhdistelmäkortti</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_2">
-    <property name="geometry">
-     <rect>
-      <x>330</x>
-      <y>250</y>
-      <width>251</width>
-      <height>91</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>22</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Valitse tili</string>
+     <string>Debit</string>
     </property>
    </widget>
   </widget>
