@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
-
+#include "kortinvalintawindow.h"
 #include <QUrl>
 #include <QDebug>
 
@@ -35,9 +35,7 @@ void MainWindow::btnLoginSlot()
     const QJsonDocument jsonDoc(jObject);
 
     reply = manager->post(request, jsonDoc.toJson());
-
-    connect(reply, &QNetworkReply::finished,
-            this, &MainWindow::loginAction);
+    connect(reply, &QNetworkReply::finished, this, &MainWindow::loginAction);
 }
 
 void MainWindow::loginAction()
@@ -57,7 +55,7 @@ void MainWindow::loginAction()
     const QJsonDocument doc = QJsonDocument::fromJson(responseData, &parseError);
     if (parseError.error != QJsonParseError::NoError || !doc.isObject()) {
         //debug pitää poistaa myöhemmin
-        qDebug() << "verify-pin response not JSON object:" << parseError.errorString();
+        qDebug() << "verify-pin response   " << parseError.errorString();
         qDebug() << "server response:" << responseData;
         reply->deleteLater();
         reply = nullptr;
@@ -73,8 +71,18 @@ void MainWindow::loginAction()
     } else {
         webToken = tokenString.toUtf8();
         qDebug() << "Token jemmassa" << webToken.size();
+        auto *w = new KortinValintaWindow();
+        w->setAttribute(Qt::WA_DeleteOnClose);
+        w->show();
+
+        this->hide();
+
     }
 
     reply->deleteLater();
     reply = nullptr;
+    return;
+
 }
+
+

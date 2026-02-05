@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1082</width>
-    <height>841</height>
+    <width>989</width>
+    <height>630</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,7 +17,7 @@
    <widget class="QLabel" name="labelSalasana">
     <property name="geometry">
      <rect>
-      <x>40</x>
+      <x>180</x>
       <y>340</y>
       <width>143</width>
       <height>38</height>
@@ -35,7 +35,7 @@
    <widget class="QLineEdit" name="textUsername">
     <property name="geometry">
      <rect>
-      <x>230</x>
+      <x>370</x>
       <y>260</y>
       <width>291</width>
       <height>41</height>
@@ -45,7 +45,7 @@
    <widget class="QLineEdit" name="textUserpassword">
     <property name="geometry">
      <rect>
-      <x>230</x>
+      <x>370</x>
       <y>340</y>
       <width>291</width>
       <height>41</height>
@@ -55,7 +55,7 @@
    <widget class="QPushButton" name="BtnLogin">
     <property name="geometry">
      <rect>
-      <x>280</x>
+      <x>420</x>
       <y>440</y>
       <width>191</width>
       <height>71</height>
@@ -68,8 +68,8 @@
    <widget class="QLabel" name="label_3">
     <property name="geometry">
      <rect>
-      <x>40</x>
-      <y>130</y>
+      <x>350</x>
+      <y>140</y>
       <width>351</width>
       <height>51</height>
      </rect>
@@ -86,7 +86,7 @@
    <widget class="QLabel" name="labelTunnus">
     <property name="geometry">
      <rect>
-      <x>40</x>
+      <x>180</x>
       <y>260</y>
       <width>114</width>
       <height>38</height>
@@ -107,7 +107,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1082</width>
+     <width>989</width>
      <height>21</height>
     </rect>
    </property>
