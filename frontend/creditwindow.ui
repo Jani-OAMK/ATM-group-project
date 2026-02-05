@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>KortinValintaWindow</class>
- <widget class="QMainWindow" name="KortinValintaWindow">
+ <class>CreditWindow</class>
+ <widget class="QMainWindow" name="CreditWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -14,7 +14,7 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="btnNosto">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -24,10 +24,10 @@
      </rect>
     </property>
     <property name="text">
-     <string/>
+     <string>Nosto</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_2">
+   <widget class="QPushButton" name="btnTilitapahtumat">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -37,7 +37,7 @@
      </rect>
     </property>
     <property name="text">
-     <string/>
+     <string>Tilitapahtumat</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_3">
@@ -53,50 +53,11 @@
      <string/>
     </property>
    </widget>
-   <widget class="QPushButton" name="btnKirjauduUlos">
+   <widget class="QPushButton" name="pushButton_4">
     <property name="geometry">
      <rect>
-      <x>650</x>
-      <y>50</y>
-      <width>131</width>
-      <height>61</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Kirjaudu ulos</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="btnDebit">
-    <property name="geometry">
-     <rect>
-      <x>650</x>
-      <y>250</y>
-      <width>131</width>
-      <height>61</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Debit</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="btnCredit">
-    <property name="geometry">
-     <rect>
-      <x>650</x>
-      <y>350</y>
-      <width>131</width>
-      <height>61</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Credit</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_8">
-    <property name="geometry">
-     <rect>
-      <x>650</x>
-      <y>450</y>
+      <x>660</x>
+      <y>260</y>
       <width>131</width>
       <height>61</height>
      </rect>
@@ -105,31 +66,52 @@
      <string/>
     </property>
    </widget>
-   <widget class="QLabel" name="label">
+   <widget class="QPushButton" name="pushButton_5">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>30</y>
-      <width>251</width>
+      <x>660</x>
+      <y>360</y>
+      <width>131</width>
       <height>61</height>
      </rect>
     </property>
-    <property name="font">
-     <font>
-      <pointsize>22</pointsize>
-     </font>
-    </property>
     <property name="text">
-     <string>Yhdistelmäkortti</string>
+     <string/>
     </property>
    </widget>
-   <widget class="QLabel" name="label_2">
+   <widget class="QPushButton" name="pushButton_6">
     <property name="geometry">
      <rect>
-      <x>330</x>
-      <y>250</y>
-      <width>251</width>
-      <height>91</height>
+      <x>660</x>
+      <y>460</y>
+      <width>131</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btnKirjauduUlos">
+    <property name="geometry">
+     <rect>
+      <x>660</x>
+      <y>40</y>
+      <width>131</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Kirjaudu ulos</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>50</y>
+      <width>151</width>
+      <height>41</height>
      </rect>
     </property>
     <property name="font">
@@ -138,7 +120,7 @@
      </font>
     </property>
     <property name="text">
-     <string>Valitse tili</string>
+     <string>Credit</string>
     </property>
    </widget>
   </widget>

@@ -18,12 +18,14 @@ void KortinValintaWindow::on_btnDebit_clicked()
 {
     qDebug() << "Debit valittu";
     emit debitValittu();
+    close();
 }
 
 void KortinValintaWindow::on_btnCredit_clicked()
 {
     qDebug() << "Credit valittu";
     emit creditValittu();
+    close();
 }
 
 void KortinValintaWindow::on_btnKirjauduUlos_clicked()

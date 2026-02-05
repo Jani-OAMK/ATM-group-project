@@ -1,8 +1,10 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
+#include "debitwindow.h"
 #include "kortinvalintawindow.h"
 #include <QUrl>
 #include <QDebug>
+#include "creditwindow.h"
 #include <QPixmap>
 
 MainWindow::MainWindow(QWidget *parent)
@@ -78,13 +80,33 @@ void MainWindow::loginAction()
 
         connect(w, &KortinValintaWindow::debitValittu, this, [this]() {
             qDebug() << "MainWindow: Debit valittu";
-            // TÄHÄN myöhemmin debit-näkymä
+
+            auto *d = new DebitWindow();
+            d->setAttribute(Qt::WA_DeleteOnClose);
+
+            connect(d, &DebitWindow::logoutValittu, this, [this]() {
+                resetLogin();
+                this->show();   // palaa login-ikkunaan
+            });
+
+            d->show();
         });
+
 
         connect(w, &KortinValintaWindow::creditValittu, this, [this]() {
             qDebug() << "MainWindow: Credit valittu";
-            // TÄHÄN myöhemmin credit-näkymä
+
+            auto *c = new CreditWindow();
+            c->setAttribute(Qt::WA_DeleteOnClose);
+
+            connect(c, &CreditWindow::logoutValittu, this, [this]() {
+            resetLogin();
+            this->show();
         });
+
+        c->show();
+    });
+
 
         connect(w, &KortinValintaWindow::logoutValittu, this, [this]() {
             resetLogin();

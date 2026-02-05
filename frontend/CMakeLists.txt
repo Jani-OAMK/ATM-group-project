@@ -25,6 +25,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         ${PROJECT_SOURCES}
         enviroment.h enviroment.cpp
         kortinvalintawindow.h kortinvalintawindow.cpp kortinvalintawindow.ui
+        debitwindow.h debitwindow.cpp debitwindow.ui
+        creditwindow.h creditwindow.cpp creditwindow.ui
         taustakuvalogin.qrc
     )
 # Define target properties for Android with Qt 6 as:
