@@ -24,6 +24,9 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+public slots:
+    void resetLogin();
+
 private:
     Ui::MainWindow *ui;
     QNetworkAccessManager *manager = nullptr;

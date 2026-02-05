@@ -1,5 +1,6 @@
 #include "kortinvalintawindow.h"
 #include "ui_kortinvalintawindow.h"
+#include <QDebug>
 
 KortinValintaWindow::KortinValintaWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -16,17 +17,18 @@ KortinValintaWindow::~KortinValintaWindow()
 void KortinValintaWindow::on_btnDebit_clicked()
 {
     qDebug() << "Debit valittu";
+    emit debitValittu();
 }
-
 
 void KortinValintaWindow::on_btnCredit_clicked()
 {
     qDebug() << "Credit valittu";
+    emit creditValittu();
 }
-
 
 void KortinValintaWindow::on_btnKirjauduUlos_clicked()
 {
-    close(); // tai paluu login-ikkunaan
+    qDebug() << "Kirjaudu ulos";
+    emit logoutValittu();
+    close();
 }
-
