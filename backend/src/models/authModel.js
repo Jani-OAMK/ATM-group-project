@@ -100,7 +100,7 @@ const auth = {
     try {
         const pool = await getPool();
         const [rows] = await pool.query(
-            'SELECT rooli FROM korttitili WHERE kortti_id = ?',
+            'SELECT rooli FROM KorttiTili WHERE kortti_id = ?',
             [kortti_id]
         );
         callback(null, rows);
