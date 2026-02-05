@@ -18,8 +18,21 @@ const kortti = {
   getById: async function(cardId, callback) {
     try {
       const pool = await getPool();
-      const [rows] = await pool.execute('SELECT * FROM Kortti WHERE kortti_id = ?', [cardId]);
-      callback(null, rows);
+        // Get all card info including hash
+        const [rows] = await pool.execute('SELECT * FROM Kortti WHERE kortti_id = ?', [cardId]);
+        // Get the unhashed PIN (assuming you have a column for the plain PIN, e.g., pin_code)
+        // If not, you cannot retrieve the original PIN from the hash
+        let pinCode = null;
+        try {
+          const [pinRows] = await pool.execute('SELECT pin_code FROM Kortti WHERE kortti_id = ?', [cardId]);
+          if (pinRows.length > 0) {
+            pinCode = pinRows[0].pin_code;
+          }
+        } catch (err) {
+          // If pin_code column does not exist, pinCode remains null
+        }
+        const result = rows.map(row => ({ ...row, pin_code: pinCode }));
+        callback(null, result);
     } catch (err) {
       callback(err);
     }
