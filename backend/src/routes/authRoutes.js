@@ -152,7 +152,7 @@ router.post('/verify-pin', function (request, response) {
 });
 
 function generateAccessToken(kortti_id) {
-    return jwt.sign({ kortti_id }, process.env.MY_TOKEN, { expiresIn: '1800s' });
+    return jwt.sign({ kortti_id }, process.env.MY_TOKEN, { expiresIn: '18000s' });
 }
 
 
