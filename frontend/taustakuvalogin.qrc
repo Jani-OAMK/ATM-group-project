@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>images/loginui.png</file>
+    </qresource>
+</RCC>

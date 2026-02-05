@@ -6,18 +6,42 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1082</width>
-    <height>841</height>
+    <width>1055</width>
+    <height>744</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>1055</width>
+    <height>744</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>1055</width>
+    <height>744</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
   <widget class="QWidget" name="centralwidget">
+   <property name="styleSheet">
+    <string notr="true">QWidget#centralwidget {
+    border-image: url(:/images/loginui.png) 0 0 0 0 stretch stretch;
+}
+
+QLineEdit {
+    background-color: white;
+}</string>
+   </property>
    <widget class="QLabel" name="labelSalasana">
     <property name="geometry">
      <rect>
-      <x>40</x>
+      <x>180</x>
       <y>340</y>
       <width>143</width>
       <height>38</height>
@@ -28,6 +52,11 @@
       <pointsize>22</pointsize>
      </font>
     </property>
+    <property name="styleSheet">
+     <string notr="true">QLabel {
+    color: black;
+}</string>
+    </property>
     <property name="text">
      <string>SALASANA</string>
     </property>
@@ -35,58 +64,53 @@
    <widget class="QLineEdit" name="textUsername">
     <property name="geometry">
      <rect>
-      <x>230</x>
+      <x>370</x>
       <y>260</y>
       <width>291</width>
       <height>41</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">QLabel {
+    color: black;
+}</string>
+    </property>
    </widget>
    <widget class="QLineEdit" name="textUserpassword">
     <property name="geometry">
      <rect>
-      <x>230</x>
+      <x>370</x>
       <y>340</y>
       <width>291</width>
       <height>41</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">QLabel {
+    color: black;
+}</string>
+    </property>
    </widget>
    <widget class="QPushButton" name="BtnLogin">
     <property name="geometry">
      <rect>
-      <x>280</x>
+      <x>420</x>
       <y>440</y>
       <width>191</width>
       <height>71</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">QLabel { color: gold; }</string>
+    </property>
     <property name="text">
      <string>KIRJADU</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_3">
-    <property name="geometry">
-     <rect>
-      <x>40</x>
-      <y>130</y>
-      <width>351</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>22</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>GROUP 4 ATM SOVELLUS</string>
     </property>
    </widget>
    <widget class="QLabel" name="labelTunnus">
     <property name="geometry">
      <rect>
-      <x>40</x>
+      <x>180</x>
       <y>260</y>
       <width>114</width>
       <height>38</height>
@@ -96,6 +120,11 @@
      <font>
       <pointsize>22</pointsize>
      </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLabel {
+    color: black;
+}</string>
     </property>
     <property name="text">
      <string>TUNNUS</string>
@@ -107,7 +136,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1082</width>
+     <width>1055</width>
      <height>21</height>
     </rect>
    </property>

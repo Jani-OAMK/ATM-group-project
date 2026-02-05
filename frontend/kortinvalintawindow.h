@@ -15,6 +15,13 @@ public:
     explicit KortinValintaWindow(QWidget *parent = nullptr);
     ~KortinValintaWindow();
 
+signals:
+    void debitValittu();
+
+    void creditValittu();
+
+    void logoutValittu();
+
 private slots:
     void on_btnDebit_clicked();
 
