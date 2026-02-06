@@ -6,6 +6,7 @@
 #include <QDebug>
 #include "creditwindow.h"
 #include <QPixmap>
+#include "enviroment.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -13,6 +14,11 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+    connect(ui->textUsername, &QLineEdit::returnPressed,
+            ui->BtnLogin, &QPushButton::click);
+
+    connect(ui->textUserpassword, &QLineEdit::returnPressed,
+            ui->BtnLogin, &QPushButton::click);
 
     connect(ui->BtnLogin, &QPushButton::clicked,
             this, &MainWindow::btnLoginSlot);

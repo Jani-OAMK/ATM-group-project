@@ -141,7 +141,8 @@ router.post('/verify-pin', function (request, response) {
                                 message: 'PIN oikein',
                                 kortti_id: kortti.kortti_id,
                                 token: token,
-                                cardType: cardType
+                                cardType: cardType,
+                                tili_id,
                             });
                         });
                     });

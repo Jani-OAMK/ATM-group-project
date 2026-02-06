@@ -28,6 +28,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         debitwindow.h debitwindow.cpp debitwindow.ui
         creditwindow.h creditwindow.cpp creditwindow.ui
         taustakuvalogin.qrc
+        nostodebit.h nostodebit.cpp nostodebit.ui
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET bank-automat APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
