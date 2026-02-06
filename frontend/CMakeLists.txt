@@ -10,75 +10,73 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets Network)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Network )
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Network)
 
 set(PROJECT_SOURCES
-        main.cpp
-        mainwindow.cpp
-        mainwindow.h
-        mainwindow.ui
+main.cpp
+mainwindow.cpp
+mainwindow.h
+mainwindow.ui
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
-    qt_add_executable(bank-automat
-        MANUAL_FINALIZATION
-        ${PROJECT_SOURCES}
-        enviroment.h enviroment.cpp
-        kortinvalintawindow.h kortinvalintawindow.cpp kortinvalintawindow.ui
-        debitwindow.h debitwindow.cpp debitwindow.ui
-        creditwindow.h creditwindow.cpp creditwindow.ui
-        taustakuvalogin.qrc
-<<<<<<< login-ui-kirjautuminen
-        nostodebit.h nostodebit.cpp nostodebit.ui
-=======
-        tilitapahtumatwindow.h tilitapahtumatwindow.cpp tilitapahtumatwindow.ui
->>>>>>> main
-    )
-# Define target properties for Android with Qt 6 as:
-#    set_property(TARGET bank-automat APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
-#                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
-# For more information, see https://doc.qt.io/qt-6/qt-add-executable.html#target-creation
-else()
-    if(ANDROID)
-        add_library(bank-automat SHARED
-            ${PROJECT_SOURCES}
-        )
-# Define properties for Android with Qt 5 after find_package() calls as:
-#    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
-    else()
-        add_executable(bank-automat
-            ${PROJECT_SOURCES}
-        )
-    endif()
-endif()
+qt_add_executable(bank-automat
+MANUAL_FINALIZATION
+${PROJECT_SOURCES}
 
+    enviroment.h enviroment.cpp
+
+    kortinvalintawindow.h kortinvalintawindow.cpp kortinvalintawindow.ui
+
+    debitwindow.h debitwindow.cpp debitwindow.ui
+
+    creditwindow.h creditwindow.cpp creditwindow.ui
+
+    nostodebit.h nostodebit.cpp nostodebit.ui
+
+    tilitapahtumatwindow.h tilitapahtumatwindow.cpp tilitapahtumatwindow.ui
+
+    taustakuvalogin.qrc
+)
+
+else()
+if(ANDROID)
+add_library(bank-automat SHARED
+${PROJECT_SOURCES}
+)
+else()
+add_executable(bank-automat
+${PROJECT_SOURCES}
+)
+endif()
+endif()
 
 target_link_libraries(bank-automat
-    PRIVATE
-    Qt${QT_VERSION_MAJOR}::Widgets
-    Qt${QT_VERSION_MAJOR}::Network)
+PRIVATE
+Qt${QT_VERSION_MAJOR}::Widgets
+Qt${QT_VERSION_MAJOR}::Network
+)
 
-# Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
-# If you are developing for iOS or macOS you should consider setting an
-# explicit, fixed bundle identifier manually though.
 if(${QT_VERSION} VERSION_LESS 6.1.0)
-  set(BUNDLE_ID_OPTION MACOSX_BUNDLE_GUI_IDENTIFIER com.example.bank-automat)
+set(BUNDLE_ID_OPTION MACOSX_BUNDLE_GUI_IDENTIFIER com.example.bank-automat)
 endif()
+
 set_target_properties(bank-automat PROPERTIES
-    ${BUNDLE_ID_OPTION}
-    MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
-    MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
-    MACOSX_BUNDLE TRUE
-    WIN32_EXECUTABLE TRUE
+${BUNDLE_ID_OPTION}
+MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
+MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
+MACOSX_BUNDLE TRUE
+WIN32_EXECUTABLE TRUE
 )
 
 include(GNUInstallDirs)
+
 install(TARGETS bank-automat
-    BUNDLE DESTINATION .
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+BUNDLE DESTINATION .
+LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
 
 if(QT_VERSION_MAJOR EQUAL 6)
-    qt_finalize_executable(bank-automat)
+qt_finalize_executable(bank-automat)
 endif()
