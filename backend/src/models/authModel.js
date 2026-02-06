@@ -96,19 +96,26 @@ const auth = {
     }
   },
 
-  getKorttiRoolit: async function (kortti_id, callback) {
+
+  getKorttiTilit: async function (kortti_id, callback) {
     try {
         const pool = getPool();
-        const [rows] = await pool.query(
-            'SELECT rooli FROM KorttiTili WHERE kortti_id = ?',
-            [kortti_id]
-        );
-      return callback(null, rows);
+        const [rows] = await pool.query(`
+            SELECT 
+                kt.tili_id,
+                kt.rooli
+            FROM KorttiTili kt
+            JOIN Tili t ON kt.tili_id = t.tili_id
+            WHERE kt.kortti_id = ?
+              AND t.tila = 'ACTIVE'
+            ORDER BY kt.rooli
+        `, [kortti_id]);
+        
+        return callback(null, rows);
     } catch (err) {
-      return callback(err);
+        return callback(err);
     }
   },
-
 };
 
 export default auth;
