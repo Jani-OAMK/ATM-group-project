@@ -2,6 +2,7 @@
 #define CREDITWINDOW_H
 
 #include <QMainWindow>
+#include <QNetworkAccessManager>
 
 namespace Ui {
 class CreditWindow;
@@ -12,7 +13,7 @@ class CreditWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit CreditWindow(QWidget *parent = nullptr);
+    explicit CreditWindow(const QByteArray &token, int tili_id, int kortti_id, QNetworkAccessManager *manager, QWidget *parent = nullptr);
     ~CreditWindow();
 
 signals:
@@ -27,6 +28,10 @@ private slots:
 
 private:
     Ui::CreditWindow *ui;
+    QByteArray token;
+    int tili_id;
+    int kortti_id;
+    QNetworkAccessManager *manager;
 };
 
 #endif // CREDITWINDOW_H

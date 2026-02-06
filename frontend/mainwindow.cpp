@@ -45,11 +45,13 @@ void MainWindow::btnLoginSlot()
 void MainWindow::loginAction()
 {
     const QByteArray responseData = reply->readAll();
+qDebug() << "Full login response JSON:" << responseData;
+
 
     if (reply->error() != QNetworkReply::NoError) {
        //debug pitää poistaa myöhemmin
-        qDebug() << "verify-pin failed:" << reply->errorString();
-        qDebug() << "server response:" << responseData;
+qDebug() << "verify-pin failed:" << reply->errorString();
+qDebug() << "server response:" << responseData;
         reply->deleteLater();
         reply = nullptr;
         return;
@@ -59,8 +61,8 @@ void MainWindow::loginAction()
     const QJsonDocument doc = QJsonDocument::fromJson(responseData, &parseError);
     if (parseError.error != QJsonParseError::NoError || !doc.isObject()) {
         //debug pitää poistaa myöhemmin
-        qDebug() << "verify-pin response   " << parseError.errorString();
-        qDebug() << "server response:" << responseData;
+qDebug() << "verify-pin response   " << parseError.errorString();
+qDebug() << "server response:" << responseData;
         reply->deleteLater();
         reply = nullptr;
         return;
@@ -70,58 +72,121 @@ void MainWindow::loginAction()
 
 
     const QString tokenString = obj.value("token").toString();
-    if (tokenString.isEmpty()) {
-        qDebug() << "verify-pin OK mutta token puuttuu:" << doc;
-    } else {
-        webToken = tokenString.toUtf8();
-        qDebug() << "Token jemmassa" << webToken.size();
-        auto *w = new KortinValintaWindow();
-        w->setAttribute(Qt::WA_DeleteOnClose);
+    const int serverKorttiId  = obj.value("kortti_id").toInt(0);
+    const QString cardType    = obj.value("cardType").toString().toUpper();
+    const QJsonArray tilit    = obj.value("tilit").toArray();
 
-        connect(w, &KortinValintaWindow::debitValittu, this, [this]() {
-            qDebug() << "MainWindow: Debit valittu";
+    if (tokenString.isEmpty() || serverKorttiId <= 0) {
+qDebug() << "verify-pin OK mutta token puuttuu:" << doc;
+        reply->deleteLater();
+        reply = nullptr;
+        return;
+    }
 
-            auto *d = new DebitWindow();
-            d->setAttribute(Qt::WA_DeleteOnClose);
+    webToken = tokenString.toUtf8();
+    kortti_id = serverKorttiId;
 
-            connect(d, &DebitWindow::logoutValittu, this, [this]() {
-                resetLogin();
-                this->show();   // palaa login-ikkunaan
-            });
+qDebug() << "Token jemmassa" << webToken.size();
+qDebug() << "kortti_id:" << kortti_id;
+qDebug() << "cardType:" << cardType;
 
-            d->show();
-        });
+    int debitTiliId  = 0;
+    int creditTiliId = 0;
 
+    for (const QJsonValue &val : tilit) {
+        QJsonObject tiliObj = val.toObject();
+        QString rooli   = tiliObj.value("rooli").toString().toUpper();
+        int     tiliId  = tiliObj.value("tili_id").toInt(0);
 
-        connect(w, &KortinValintaWindow::creditValittu, this, [this]() {
-            qDebug() << "MainWindow: Credit valittu";
+        if (rooli == "DEBIT"  && tiliId > 0) debitTiliId  = tiliId;
+        if (rooli == "CREDIT" && tiliId > 0) creditTiliId = tiliId;
+    }
+qDebug() << "Löydettiin debit tili_id:" << debitTiliId;
+qDebug() << "Löydettiin credit tili_id:" << creditTiliId;
 
-            auto *c = new CreditWindow();
-            c->setAttribute(Qt::WA_DeleteOnClose);
+    bool useSelectionWindow = (cardType == "COMBO") || (debitTiliId > 0 && creditTiliId > 0);
 
-            connect(c, &CreditWindow::logoutValittu, this, [this]() {
+if (!useSelectionWindow) {
+    // Yksinkertainen kortti → suoraan oikeaan ikkunaan
+
+    if (cardType == "DEBIT" && debitTiliId > 0) {
+qDebug() << "DEBIT-kortti → suoraan DebitWindow";
+        auto *d = new DebitWindow(webToken, debitTiliId, kortti_id, manager);
+        d->setAttribute(Qt::WA_DeleteOnClose);
+        connect(d, &DebitWindow::logoutValittu, this, [this]() {
             resetLogin();
             this->show();
         });
-
+        d->show();
+        this->hide();
+    }
+    else if (cardType == "CREDIT" && creditTiliId > 0) {
+qDebug() << "CREDIT-kortti → suoraan CreditWindow";
+        auto *c = new CreditWindow(webToken, creditTiliId, kortti_id, manager);
+        // ↑↑↑ TÄRKEÄÄ: CreditWindow pitää tukea samaa konstruktoria kuin DebitWindow
+        c->setAttribute(Qt::WA_DeleteOnClose);
+        connect(c, &CreditWindow::logoutValittu, this, [this]() {
+            resetLogin();
+            this->show();
+        });
         c->show();
+        this->hide();
+    }
+    else {
+qDebug() << "Ei debit- eikä credit-tiliä → virhe";
+        // Voit lisätä QMessageBox jos haluat
+    }
+}
+else {
+    // COMBO tai molemmat tilit löytyi → näytetään valintaikkuna
+qDebug() << "COMBO tai useita tilejä → näytetään KortinValintaWindow";
+
+    auto *w = new KortinValintaWindow();
+    w->setAttribute(Qt::WA_DeleteOnClose);
+
+    connect(w, &KortinValintaWindow::debitValittu, this, [this, debitTiliId]() {
+qDebug() << "Debit valittu, käytetään tili_id:" << debitTiliId;
+        if (debitTiliId > 0) {
+            auto *d = new DebitWindow(webToken, debitTiliId, kortti_id, manager);
+            d->setAttribute(Qt::WA_DeleteOnClose);
+            connect(d, &DebitWindow::logoutValittu, this, [this]() {
+                resetLogin();
+                this->show();
+            });
+            d->show();
+            this->hide();
+        } else {
+qDebug() << "Virhe: debit-tiliä ei löytynyt vaikka DEBIT valittiin";
+        }
     });
 
+    connect(w, &KortinValintaWindow::creditValittu, this, [this, creditTiliId]() {
+qDebug() << "Credit valittu, käytetään tili_id:" << creditTiliId;
+        if (creditTiliId > 0) {
+            auto *c = new CreditWindow(webToken, creditTiliId, kortti_id, manager);
+            c->setAttribute(Qt::WA_DeleteOnClose);
+            connect(c, &CreditWindow::logoutValittu, this, [this]() {
+                resetLogin();
+                this->show();
+            });
+            c->show();
+            this->hide();
+        } else {
+qDebug() << "Virhe: credit-tiliä ei löytynyt vaikka CREDIT valittiin";
+        }
+    });
 
-        connect(w, &KortinValintaWindow::logoutValittu, this, [this]() {
-            resetLogin();
-            this->show(); // palaa login-ikkunaan
-        });
-        w->show();
+    connect(w, &KortinValintaWindow::logoutValittu, this, [this]() {
+        resetLogin();
+        this->show();
+    });
 
-        this->hide();
+    w->show();
+    this->hide();
+}
 
-    }
-
-    reply->deleteLater();
-    reply = nullptr;
-    return;
-
+reply->deleteLater();
+reply = nullptr;
 }
 
 void MainWindow::resetLogin()
