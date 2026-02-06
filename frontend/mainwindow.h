@@ -31,6 +31,9 @@ private:
     QNetworkAccessManager *manager = nullptr;
     QNetworkReply *reply = nullptr;
     QByteArray webToken;
+    int kortti_id;
+    int debit_tili_id;
+    int credit_tili_id;
 
 private slots:
     void btnLoginSlot();

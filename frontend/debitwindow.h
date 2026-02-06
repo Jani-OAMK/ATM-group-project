@@ -1,7 +1,11 @@
 #ifndef DEBITWINDOW_H
 #define DEBITWINDOW_H
 
+<<<<<<< login-ui-kirjautuminen
 #include "nostodebit.h"
+=======
+#include "tilitapahtumatwindow.h"
+>>>>>>> main
 #include <QMainWindow>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
@@ -19,7 +23,7 @@ class DebitWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit DebitWindow(QWidget *parent = nullptr);
+    explicit DebitWindow(const QByteArray &token, int tili_id, int kortti_id, QNetworkAccessManager *manager, QWidget *parent = nullptr);
     ~DebitWindow();
 
 signals:
@@ -32,10 +36,18 @@ signals:
 
 private:
     Ui::DebitWindow *ui;
+<<<<<<< login-ui-kirjautuminen
     QNetworkAccessManager* manager = nullptr;  //käyttää MainWindowin manageria joka syötetään nostodebit uille
     int tili_id;
     int kortti_id;
     nosto* nostoWindow = nullptr;
+=======
+    QByteArray token;
+    int tili_id;
+    int kortti_id;
+
+    QNetworkAccessManager *manager;
+>>>>>>> main
 };
 
 #endif // DEBITWINDOW_H
