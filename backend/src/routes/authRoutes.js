@@ -100,49 +100,53 @@ router.post('/verify-pin', function (request, response) {
                 // oikea PIN
                 else {
                     auth.resetPinError(kortti.kortti_id, function () {
-                        auth.getKorttiRoolit(kortti.kortti_id, function (err, rooliResult) {
+                        auth.getKorttiTilit(kortti.kortti_id, function (err, tiliRows) {
                             if (err) {
-                                return response.json(err);
+                                console.error('getKorttiTilit virhe:', err);
+                                return response.json({ success: false, message: 'Tietokantavirhe' });
                             }
 
-                            // DEBUG: Tulostetaan mitä tuli
-                            console.log('kortti_id:', kortti.kortti_id);
-                            console.log('rooliResult:', JSON.stringify(rooliResult));
-
-                            // Tarkista että korttiin on liitetty tilejä
-                            if (!rooliResult || rooliResult.length === 0) {
+                            if (!tiliRows || tiliRows.length === 0) {
                                 return response.json({
                                     success: false,
-                                    message: 'Kortille ei ole liitetty tilejä'
+                                    message: 'Kortille ei ole liitetty yhtään aktiivista tiliä'
                                 });
                             }
 
-                            const roles = rooliResult.map(r => r.rooli);
-
-                            let cardType;
+                            // Päätellään cardType roolien perusteella
+                            const roles = tiliRows.map(r => r.rooli);
+                            let cardType = 'UNKNOWN';
                             if (roles.includes('DEBIT') && roles.includes('CREDIT')) {
                                 cardType = 'COMBO';
                             } else if (roles.includes('DEBIT')) {
                                 cardType = 'DEBIT';
                             } else if (roles.includes('CREDIT')) {
                                 cardType = 'CREDIT';
-                            } else {
-                                // Jos roolit eivät ole DEBIT tai CREDIT, palautetaan virhe
-                                return response.json({
-                                    success: false,
-                                    message: 'Kortin rooli ei ole tuettu. Odotetut roolit: DEBIT tai CREDIT'
-                                });
                             }
 
                             const token = generateAccessToken(kortti.kortti_id);
+
+                            // Muodostetaan frontendille sopiva tilit-lista
+                            const tilit = tiliRows.map(row => ({
+                                tili_id: row.tili_id,
+                                rooli: row.rooli,
+                                tilinumero: row.tilinumero,
+                                saldo_eur: row.saldo_eur,
+                                valuutta: row.valuutta
+                                // voit lisätä credit_limit jos otat sen käyttöön myöhemmin
+                            }));
 
                             response.json({
                                 success: true,
                                 message: 'PIN oikein',
                                 kortti_id: kortti.kortti_id,
                                 token: token,
-                                cardType: cardType
+                                cardType: cardType,
+                                tilit: tilit   // ← tämä on päämuutos
                             });
+
+                            // DEBUG-tulostus palvelimelle
+                            console.log(`Kirjautuminen onnistui kortti_id=${kortti.kortti_id}, cardType=${cardType}, tilit:`, tilit);
                         });
                     });
                 }
