@@ -130,10 +130,6 @@ router.post('/verify-pin', function (request, response) {
                             const tilit = tiliRows.map(row => ({
                                 tili_id: row.tili_id,
                                 rooli: row.rooli,
-                                tilinumero: row.tilinumero,
-                                saldo_eur: row.saldo_eur,
-                                valuutta: row.valuutta
-                                // voit lisätä credit_limit jos otat sen käyttöön myöhemmin
                             }));
 
                             response.json({

@@ -103,12 +103,7 @@ const auth = {
         const [rows] = await pool.query(`
             SELECT 
                 kt.tili_id,
-                kt.rooli,
-                t.tilinumero,
-                t.saldo_eur,
-                t.credit_limit,
-                t.valuutta,
-                t.tila
+                kt.rooli
             FROM KorttiTili kt
             JOIN Tili t ON kt.tili_id = t.tili_id
             WHERE kt.kortti_id = ?
