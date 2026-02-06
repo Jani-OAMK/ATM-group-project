@@ -138,7 +138,11 @@ router.post('/verify-pin', function (request, response) {
                                 kortti_id: kortti.kortti_id,
                                 token: token,
                                 cardType: cardType,
+<<<<<<< login-ui-kirjautuminen
+                                tili_id,
+=======
                                 tilit: tilit   // ← tämä on päämuutos
+>>>>>>> main
                             });
 
                             // DEBUG-tulostus palvelimelle
