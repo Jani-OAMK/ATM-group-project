@@ -50,7 +50,7 @@ const Transaktio = {
           if (rooli === "DEBIT") {
               kayttosaldo = Number(saldo_eur);
           } else {
-              kayttosaldo = Number(saldo_eur) + Number(credit_limit);
+              kayttosaldo = Number(credit_limit) - Number(saldo_eur);
               if (kayttosaldo < 0) kayttosaldo = 0;
           }
 
