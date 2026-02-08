@@ -69,7 +69,7 @@ qDebug() << "tili_id:" << tili_id;
 
 void TilitapahtumatWindow::haeSaldo()
 {
-    QString url = Enviroment::base_url() + "tili/" + QString::number(tili_id) + "/debit";
+    QString url = Environment::base_url() + "tili/" + QString::number(tili_id) + "/debit";
 qDebug() << "HAETAAN SALDO → URL:" << url;
 
 
@@ -104,7 +104,7 @@ void TilitapahtumatWindow::saldoSlot()
 
 void TilitapahtumatWindow::haeTilitapahtumat()
 {
-    QString url = Enviroment::base_url() + "tapahtumat/" + QString::number(tili_id);
+    QString url = Environment::base_url() + "tapahtumat/" + QString::number(tili_id);
     qDebug() << "Tapahtuma-URL:" << url;
 
     QNetworkRequest request(url);

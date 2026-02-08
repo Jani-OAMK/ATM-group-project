@@ -5,7 +5,7 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QNetworkReply>
-#include "enviroment.h"
+#include "environment.h"
 #include "mainwindow.h"
 
 nosto::nosto(QWidget *parent, QNetworkAccessManager* manager, int tili_id)
@@ -14,7 +14,7 @@ nosto::nosto(QWidget *parent, QNetworkAccessManager* manager, int tili_id)
     ui->setupUi(this);
 
     if(manager && tili_id != 0) {
-        QString url = "https://ankkalinnanpankki.rocks/api/kayttosaldo/" + QString::number(tili_id);
+        QString url = Environment::base_url() + "tili/" + QString::number(tili_id);
         QNetworkRequest request((QUrl(url)));
         QNetworkReply* reply = manager->get(request);
         connect(reply, &QNetworkReply::finished, this, [this, reply]() {
