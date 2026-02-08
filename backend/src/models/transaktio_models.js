@@ -35,7 +35,7 @@ const Transaktio = {
 
           // Hae rooli juuri tälle kortti–tili -yhdistelmalle
           const [rooliRows] = await pool.query(
-            'SELECT rooli FROM Korttitili WHERE kortti_id = ? AND tili_id = ?',
+            'SELECT rooli FROM KorttiTili WHERE kortti_id = ? AND tili_id = ?',
             [kortti_id, tili_id]);
 
           if (rooliRows.length === 0) {

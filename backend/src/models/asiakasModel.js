@@ -79,7 +79,7 @@ const asiakas = {
     try {
       const pool = getPool();
       const [rows] = await pool.query(
-        "SELECT DISTINCT t.* FROM Tili t JOIN Korttitili kt ON kt.tili_id = t.tili_id JOIN Kortti k ON k.kortti_id = kt.kortti_id WHERE k.asiakas_id = ?",
+        "SELECT DISTINCT t.* FROM Tili t JOIN KorttiTili kt ON kt.tili_id = t.tili_id JOIN Kortti k ON k.kortti_id = kt.kortti_id WHERE k.asiakas_id = ?",
         [asiakas_id]
       );
       return callback(null, rows);

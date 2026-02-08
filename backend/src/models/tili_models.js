@@ -6,7 +6,7 @@ const Tili = {
     getDebitSaldo: async function(tili_id, callback) {
         try{
           const pool = getPool();
-          const sql = "SELECT saldo_eur FROM tili WHERE tili_id = ? AND tila = 'ACTIVE' ";
+          const sql = "SELECT saldo_eur FROM Tili WHERE tili_id = ? AND tila = 'ACTIVE' ";
           const [rows] = await pool.query(sql, [tili_id]);
           return callback(null, rows);
         } catch (err){
@@ -18,7 +18,7 @@ const Tili = {
     getCreditSaldo: async function(tili_id, callback) {
         try {
           const pool = getPool();
-          const sql = "SELECT (credit_limit + saldo_eur) FROM tili WHERE tili_id = ?";
+          const sql = "SELECT (credit_limit + saldo_eur) FROM Tili WHERE tili_id = ?";
           const [rows] = await pool.query(sql, [tili_id]);
           return callback(null, rows);
         } catch (err){
