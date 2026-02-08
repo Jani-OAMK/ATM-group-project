@@ -10,7 +10,7 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QDebug>
-#include "enviroment.h"
+#include "environment.h"
 
 namespace Ui {
 class TilitapahtumatWindow;

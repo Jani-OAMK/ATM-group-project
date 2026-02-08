@@ -6,7 +6,7 @@
 #include <QDebug>
 #include "creditwindow.h"
 #include <QPixmap>
-#include "enviroment.h"
+#include "environment.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -33,7 +33,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::btnLoginSlot()
 {
-    const QString url = Enviroment::base_url() + "verify-pin";
+    const QString url = Environment::base_url() + "auth/verify-pin";
     QNetworkRequest request((QUrl(url)));
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
 
@@ -200,6 +200,8 @@ void MainWindow::resetLogin()
     ui->textUsername->clear();
     ui->textUserpassword->clear();
     ui->textUsername->setFocus();
+    webToken = "";
+    kortti_id =  0;
 }
 
 

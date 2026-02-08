@@ -24,7 +24,7 @@ qt_add_executable(bank-automat
 MANUAL_FINALIZATION
 ${PROJECT_SOURCES}
 
-    enviroment.h enviroment.cpp
+environment.h environment.cpp
 
     kortinvalintawindow.h kortinvalintawindow.cpp kortinvalintawindow.ui
 
