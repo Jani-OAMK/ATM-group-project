@@ -32,8 +32,11 @@ void DebitWindow::on_btnNosto_clicked()
 {
     qDebug() << "DebitWindow: Nosta rahaa painettu";
 
-    auto *anosto = new nosto(nullptr, manager, tili_id);
+    auto *anosto = new nosto(nullptr, manager, tili_id, webToken);
     anosto->setAttribute(Qt::WA_DeleteOnClose);
+    connect(anosto, &QWidget::destroyed, this, [this]() {
+        this->show();
+    });
     this->hide();
     anosto->show();
 }

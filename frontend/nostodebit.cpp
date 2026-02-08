@@ -8,14 +8,18 @@
 #include "environment.h"
 #include "mainwindow.h"
 
-nosto::nosto(QWidget *parent, QNetworkAccessManager* manager, int tili_id)
-    : QWidget(parent), ui(new Ui::nosto), manager(manager), tili_id(tili_id)
+nosto::nosto(QWidget *parent, QNetworkAccessManager* manager, int tili_id, QByteArray webToken)
+    : QWidget(parent), ui(new Ui::nosto), manager(manager), tili_id(tili_id), webToken(webToken)
 {
     ui->setupUi(this);
 
     if(manager && tili_id != 0) {
         QString url = Environment::base_url() + "tili/" + QString::number(tili_id);
         QNetworkRequest request((QUrl(url)));
+
+        request.setRawHeader("Authorization", "Bearer " + webToken);
+        qDebug() << "tarkistetaan saldoa tällä tokenilla:" << webToken.left(10) << "...";
+
         QNetworkReply* reply = manager->get(request);
         connect(reply, &QNetworkReply::finished, this, [this, reply]() {
             saldoVastaus(reply);
