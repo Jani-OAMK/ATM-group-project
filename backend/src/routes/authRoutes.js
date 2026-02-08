@@ -1,4 +1,3 @@
-//PIN-tarkistus tällä
 import express from 'express';
 import auth from '../models/authModel.js';
 import jwt from 'jsonwebtoken';
@@ -7,7 +6,18 @@ const router = express.Router();
 
 router.post('/verify-pin', function (request, response) {
 
-    const { kortti_numero, pin } = request.body;
+    //päivitetty const -> let ja trimmataan mahdolliset välilyönnit pois -jani
+    let { kortti_numero, pin } = request.body;
+    // Siivotaan tyhjät välit pois varmuuden vuoksi
+    if (kortti_numero) kortti_numero = kortti_numero.trim();
+    if (pin) pin = pin.trim();
+
+    //lisätty logitusta debuggausta varten 260208 -jani
+    console.log("--- DEBUG START ---");
+    console.log(`Saatu korttinumero: '${kortti_numero}'`); // Huom: heittomerkit paljastavat välilyönnit!
+    console.log(`Pituus: ${kortti_numero ? kortti_numero.length : 0}`);
+    console.log(`Saatu PIN: '${pin}'`);
+    console.log("--- DEBUG END ---");
 
     if (!kortti_numero || !pin) {
         return response.json({
@@ -138,8 +148,7 @@ router.post('/verify-pin', function (request, response) {
                                 kortti_id: kortti.kortti_id,
                                 token: token,
                                 cardType: cardType,
-                                tili_id,
-                                tilit: tilit,
+                                tilit: tilit   // ← tämä on päämuutos
                             });
 
                             // DEBUG-tulostus palvelimelle
