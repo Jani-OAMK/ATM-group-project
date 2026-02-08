@@ -19,45 +19,49 @@ const Transaktio = {
     },
 
     // käyttösaldon haku
-    getKayttosaldo: async function(tili_id, kortti_id, callback) {
+    postKayttosaldo: async function(tili_id, kortti_id, callback) {
         try {
-          // Mika tili kyseessa?
-          const pool = getPool();
+            const pool = getPool();
 
-          const [tiliRows] = pool.query("SELECT saldo_eur, credit_limit FROM Tili WHERE tili_id = ?",
-                [tili_id]);
+            // TÄRKEÄ: puuttuva await
+            const [tiliRows] = await pool.query(
+                "SELECT saldo_eur, credit_limit FROM Tili WHERE tili_id = ?",
+                [tili_id]
+            );
 
-          if (tiliRows.length === 0) {
-            return callback(new Error("Tiliä ei löytynyt"));
-          }
+            if (tiliRows.length === 0) {
+                return callback(new Error("Tiliä ei löytynyt"));
+            }
 
-          const { saldo_eur, credit_limit } = tiliRows[0];
+            const { saldo_eur, credit_limit } = tiliRows[0];
 
-          // Hae rooli juuri tälle kortti–tili -yhdistelmalle
-          const [rooliRows] = await pool.query(
-            'SELECT rooli FROM KorttiTili WHERE kortti_id = ? AND tili_id = ?',
-            [kortti_id, tili_id]);
+            const [rooliRows] = await pool.query(
+                "SELECT rooli FROM KorttiTili WHERE kortti_id = ? AND tili_id = ?",
+                [kortti_id, tili_id]
+            );
 
-          if (rooliRows.length === 0) {
+            if (rooliRows.length === 0) {
                 return callback(new Error("Korttia ei ole liitetty tähän tiliin"));
-          }
+            }
 
-          const rooli = rooliRows[0].rooli;
+            const rooli = rooliRows[0].rooli;
 
-          let kayttosaldo = 0;
+            let kayttosaldo = 0;
 
-          if (rooli === "DEBIT") {
-                kayttosaldo = saldo_eur;
-          } else {  // CREDIT
-            kayttosaldo = Number(saldo_eur) + Number(credit_limit);
-            if (kayttosaldo < 0) kayttosaldo = 0;
-          }
+            if (rooli === "DEBIT") {
+                kayttosaldo = Number(saldo_eur);
+            } else {
+                kayttosaldo = Number(credit_limit) - Number(saldo_eur);
+                if (kayttosaldo < 0) kayttosaldo = 0;
+            }
 
-          return callback(null, {rooli, saldo_eur, credit_limit, kayttosaldo});
+            return callback(null, { rooli, saldo_eur, credit_limit, kayttosaldo });
+
         } catch (err) {
-          return callback(err);
+            return callback(err);
         }
     },
+
 
     //Apufunktio: Lisää tilitapahtuma
     addTilitapahtuma: async function(connection, tili_id, kortti_id, laji, summa_eur) {

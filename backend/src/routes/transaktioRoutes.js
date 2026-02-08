@@ -15,16 +15,14 @@ router.get("/tapahtumat/:tili_id", (req, res) => {
 });
 
 // getKayttosaldo
-router.get("/kayttosaldo/:tili_id", (req, res) => {
-    Transaktio.getKayttosaldo(req.params.tili_id, (err, result) => {
-        if (err) {
-            res.send(err);
-        } else {
-            res.json(result);
-        }
+router.post("/kayttosaldo", (req, res) => {
+    const { tili_id, kortti_id } = req.body;
+
+    Transaktio.postKayttosaldo(tili_id, kortti_id, (err, result) => {
+        if (err) return res.status(400).json({ error: err.message });
+        res.json(result);
     });
 });
-
 
 
 // postNosta
