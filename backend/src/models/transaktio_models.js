@@ -8,7 +8,7 @@ const Transaktio = {
           const pool = getPool();
           const sql = `
             SELECT tapahtuma_id, laji, summa_eur, tapahtuma_aika
-            FROM tilitapahtuma WHERE tili_id = ? ORDER BY tapahtuma_aika
+            FROM Tilitapahtuma WHERE tili_id = ? ORDER BY tapahtuma_aika
             DESC LIMIT 10
           `;
           const [rows] = await pool.query(sql, [tili_id]);
@@ -24,7 +24,7 @@ const Transaktio = {
           // Mika tili kyseessa?
           const pool = getPool();
 
-          const [tiliRows] = pool.query("SELECT saldo_eur, credit_limit FROM tili WHERE tili_id = ?",
+          const [tiliRows] = pool.query("SELECT saldo_eur, credit_limit FROM Tili WHERE tili_id = ?",
                 [tili_id]);
 
           if (tiliRows.length === 0) {
@@ -35,7 +35,7 @@ const Transaktio = {
 
           // Hae rooli juuri tälle kortti–tili -yhdistelmalle
           const [rooliRows] = await pool.query(
-            'SELECT rooli FROM korttitili WHERE kortti_id = ? AND tili_id = ?',
+            'SELECT rooli FROM Korttitili WHERE kortti_id = ? AND tili_id = ?',
             [kortti_id, tili_id]);
 
           if (rooliRows.length === 0) {
@@ -61,7 +61,7 @@ const Transaktio = {
 
     //Apufunktio: Lisää tilitapahtuma
     addTilitapahtuma: async function(connection, tili_id, kortti_id, laji, summa_eur) {
-      const sql = "INSERT INTO tilitapahtuma (tili_id, kortti_id, laji, summa_eur) VALUES (?, ?, ?, ?) "; 
+      const sql = "INSERT INTO Tilitapahtuma (tili_id, kortti_id, laji, summa_eur) VALUES (?, ?, ?, ?) "; 
       const [result] = await connection.query(sql, [tili_id, kortti_id, laji, summa_eur ]); return result;
     },
     postNosta: async function(tili_id, kortti_id, summa_eur, callback) {
@@ -101,7 +101,7 @@ const Transaktio = {
 
           // Päivitetään saldo
           const [updateResult] = await connection.query(
-            'UPDATE tili SET saldo_eur = saldo_eur - ? WHERE tili_id = ?',
+            'UPDATE Tili SET saldo_eur = saldo_eur - ? WHERE tili_id = ?',
             [summa_eur, tili_id]
           );
 
@@ -150,7 +150,7 @@ const Transaktio = {
 
         // Päivitetään saldo
         const [updateResult] = await connection.query(
-          'UPDATE tili SET saldo_eur = saldo_eur + ? WHERE tili_id = ?',
+          'UPDATE Tili SET saldo_eur = saldo_eur + ? WHERE tili_id = ?',
           [summa_eur, tili_id]);
 
         if (updateResult.affectedRows !== 1) {
