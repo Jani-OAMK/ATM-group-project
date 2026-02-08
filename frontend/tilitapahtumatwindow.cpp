@@ -90,7 +90,8 @@ void TilitapahtumatWindow::saldoSlot()
     QJsonDocument doc = QJsonDocument::fromJson(data);
     if (doc.isObject()) {
         QJsonObject obj = doc.object();
-        double saldo = obj.value("saldo_eur").toDouble(-1.0);
+        QString saldoStr = obj.value("saldo_eur").toString();
+        double saldo = saldoStr.toDouble();
         if (saldo >= 0) {
             ui->labelSaldo->setText(QString::number(saldo, 'f', 2) + " €");
         }
@@ -104,7 +105,7 @@ void TilitapahtumatWindow::saldoSlot()
 
 void TilitapahtumatWindow::haeTilitapahtumat()
 {
-    QString url = Environment::base_url() + "tapahtumat/" + QString::number(tili_id);
+    QString url = Environment::base_url() + "transaktio/tapahtumat/" + QString::number(tili_id);
     qDebug() << "Tapahtuma-URL:" << url;
 
     QNetworkRequest request(url);
@@ -131,9 +132,15 @@ void TilitapahtumatWindow::tapahtumatSlot()
         int row = 0;
         for (const QJsonValue &v : arr) {
             QJsonObject o = v.toObject();
-            ui->tableTapahtumat->setItem(row, 0, new QTableWidgetItem(o.value("laji").toString()));
-            ui->tableTapahtumat->setItem(row, 1, new QTableWidgetItem(QString::number(o.value("summa_eur").toDouble(), 'f', 2)));
-            ui->tableTapahtumat->setItem(row, 2, new QTableWidgetItem(o.value("tapahtuma_aika").toString()));
+
+            QString laji = o.value("laji").toString();
+            QString summaStr = o.value("summa_eur").toString();
+            double summa = summaStr.toDouble();
+            QString aika = o.value("tapahtuma_aika").toString();
+
+            ui->tableTapahtumat->setItem(row, 0, new QTableWidgetItem(laji));
+            ui->tableTapahtumat->setItem(row, 1, new QTableWidgetItem(QString::number(summa, 'f', 2)));
+            ui->tableTapahtumat->setItem(row, 2, new QTableWidgetItem(aika));
             row++;
         }
     }
