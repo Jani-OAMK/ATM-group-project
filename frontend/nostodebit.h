@@ -21,7 +21,7 @@ class nosto : public QWidget
     Q_OBJECT
 
 public:
-    explicit nosto(QWidget *parent = nullptr, QNetworkAccessManager* manager = nullptr, int tili_id = 0);
+    explicit nosto(QWidget *parent = nullptr, QNetworkAccessManager* manager = nullptr, int tili_id = 0, QByteArray webToken = "");
     ~nosto();
     //double pitää muutta vielä mikäli käytetään pienempää arvoa
     void settilinSaldo(double tilinSaldo);
@@ -55,6 +55,7 @@ private:
      QNetworkAccessManager* manager = nullptr;
     int tili_id;
     int kortti_id;
+    QByteArray webToken;
 
 };
 
