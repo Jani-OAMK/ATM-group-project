@@ -14,15 +14,9 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    connect(ui->textUsername, &QLineEdit::returnPressed,
-            ui->BtnLogin, &QPushButton::click);
-
-    connect(ui->textUserpassword, &QLineEdit::returnPressed,
-            ui->BtnLogin, &QPushButton::click);
-
-    connect(ui->BtnLogin, &QPushButton::clicked,
-            this, &MainWindow::btnLoginSlot);
-
+    connect(ui->textUsername, &QLineEdit::returnPressed, ui->BtnLogin, &QPushButton::click);
+    connect(ui->textUserpassword, &QLineEdit::returnPressed, ui->BtnLogin, &QPushButton::click);
+    connect(ui->BtnLogin, &QPushButton::clicked, this, &MainWindow::btnLoginSlot);
     manager = new QNetworkAccessManager(this);
 }
 
@@ -36,7 +30,6 @@ void MainWindow::btnLoginSlot()
     const QString url = Environment::base_url() + "auth/verify-pin";
     QNetworkRequest request((QUrl(url)));
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-
 
     QJsonObject jObject;
     jObject.insert("kortti_numero", ui->textUsername->text());

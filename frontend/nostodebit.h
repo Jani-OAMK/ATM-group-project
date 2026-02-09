@@ -21,34 +21,26 @@ class nosto : public QWidget
     Q_OBJECT
 
 public:
-    explicit nosto(QWidget *parent = nullptr, QNetworkAccessManager* manager = nullptr, int tili_id = 0, QByteArray webToken = "");
+    explicit nosto(QWidget *parent, QNetworkAccessManager* manager, int tili_id, int kortti_id, QByteArray webToken);
     ~nosto();
     //double pitää muutta vielä mikäli käytetään pienempää arvoa
     void settilinSaldo(double tilinSaldo);
     void setnostettu(double nostettu);
-    void setnostettavissa(double nostettavissa);
-
-
 
 signals:
-    void on_btn20eValittu();
-    void on_btn40eValittu();
-    void on_btn50eValittu();
-    void on_btn100eValittu();
-    void on_btn200eValittu();
-    void on_btnmuuSummaValittu();
-    void on_btnKirjauduUlosValittu();
-
+    void kirjauduUlosValittu();
+    void logoutValittu();
 
 private slots:
-    void on_btn20e_clicked();
+    /*void on_btn20e_clicked();
     void on_btn40e_clicked();
     void on_btn50e_clicked();
     void on_btn100e_clicked();
-    void on_btn200e_clicked();
+    void on_btn200e_clicked();*/
     void on_btnmuuSumma_clicked();
     void saldoVastaus(QNetworkReply*reply);
-
+    void on_btnKirjauduUlos_clicked();
+    void on_btnPalaa_clicked();
 
 private:
     Ui::nosto *ui;
@@ -56,7 +48,7 @@ private:
     int tili_id;
     int kortti_id;
     QByteArray webToken;
-
+    void haeKayttosaldo();
 };
 
 #endif // NOSTO_H
