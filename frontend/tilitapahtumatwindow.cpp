@@ -93,7 +93,7 @@ void TilitapahtumatWindow::saldoSlot()
         QString saldoStr = obj.value("saldo_eur").toString();
         double saldo = saldoStr.toDouble();
         if (saldo >= 0) {
-            ui->labelSaldo->setText(QString::number(saldo, 'f', 2) + " €");
+            ui->labelSaldo->setText(QString::number(saldo, 'f', 2));
         }
         else {
             ui->labelSaldo->setText("ei saatavilla");
@@ -136,7 +136,10 @@ void TilitapahtumatWindow::tapahtumatSlot()
             QString laji = o.value("laji").toString();
             QString summaStr = o.value("summa_eur").toString();
             double summa = summaStr.toDouble();
-            QString aika = o.value("tapahtuma_aika").toString();
+
+            QString palvelinAika = o.value("tapahtuma_aika").toString();
+            QDateTime dt = QDateTime::fromString(palvelinAika, Qt::ISODate);
+            QString aika = dt.toString("yyyy-MM-dd HH:mm:ss");
 
             ui->tableTapahtumat->setItem(row, 0, new QTableWidgetItem(laji));
             ui->tableTapahtumat->setItem(row, 1, new QTableWidgetItem(QString::number(summa, 'f', 2)));
