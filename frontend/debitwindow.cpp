@@ -36,16 +36,23 @@ void DebitWindow::on_btnNosto_clicked()
 
     auto *anosto = new nosto(nullptr, manager, tili_id, kortti_id, webToken);
     anosto->setAttribute(Qt::WA_DeleteOnClose);
-    connect(anosto, &nosto::logoutValittu, this, [this]() {
-       // this->show();
+
+    connect(anosto, &nosto::takaisin,this,[this](){
+        this -> show();
     });
+
+
+    connect(anosto, &nosto::logoutValittu, this, [this]() {});
+    this -> hide();
     anosto->show();
+
 
     connect(anosto, & nosto::logoutValittu, this, [this](){
         emit logoutValittu();           //Välitetään kirjauduUlos-painikesignaali mainiin
         this->close();                  //Suljetaan debitWindow
     });
 }
+
 
 void DebitWindow::on_btnTilitapahtumat_clicked()
 {

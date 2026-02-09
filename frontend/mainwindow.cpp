@@ -133,11 +133,11 @@ qDebug() << "CREDIT-kortti → suoraan CreditWindow";
     }
     else {
 qDebug() << "Ei debit- eikä credit-tiliä → virhe";
-        // Voit lisätä QMessageBox jos haluat
+
     }
 }
 else {
-    // COMBO tai molemmat tilit löytyi → näytetään valintaikkuna
+
 qDebug() << "COMBO tai useita tilejä → näytetään KortinValintaWindow";
 
     auto *w = new KortinValintaWindow();

@@ -7,7 +7,6 @@
 #include <QNetworkReply>
 #include <QObject>
 #include "environment.h"
-#include "mainwindow.h"
 
 nosto::nosto(QWidget *parent, QNetworkAccessManager* manager, int tili_id, int kortti_id, QByteArray webToken)
     : QWidget(parent), ui(new Ui::nosto),
@@ -44,6 +43,52 @@ void nosto::haeKayttosaldo()
     }
 }
 
+void nosto::lahetaNosto(double summa)
+{
+    QString url = Environment::postNosto();
+    QNetworkRequest request((QUrl(url)));
+
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+    request.setRawHeader("Authorization", "Bearer " + webToken);
+
+    QJsonObject json;
+    json["tili_id"] = tili_id;
+    json["kortti_id"] = kortti_id;
+    json["summa_eur"] = summa;
+
+    QByteArray data = QJsonDocument(json).toJson();
+
+    qDebug() << "noston url:" << url;
+    qDebug() << "noston json:" << data;
+
+    QNetworkReply* reply = manager->post(request, data);
+
+    connect(reply, &QNetworkReply::finished, this, [this, reply]() {
+        nostoVastaus(reply);
+    });
+}
+
+
+void nosto::nostoVastaus(QNetworkReply* reply)
+{
+    QByteArray response = reply->readAll();
+    qDebug() << "nostoVastaus:" << response;
+
+    if(reply->error() != QNetworkReply::NoError){
+        qDebug() << "Nosto virhe:" << reply->errorString();
+        reply->deleteLater();
+        return;
+    }
+
+    QJsonObject obj = QJsonDocument::fromJson(response).object();
+    double saldo = obj["saldo_eur"].toString().toDouble();
+
+
+
+    settilinSaldo(saldo);
+    reply->deleteLater();
+}
+
 nosto::~nosto()
 {
     delete ui;
@@ -66,6 +111,40 @@ double saldo = obj["saldo_eur"].toString().toDouble();
 }
 
 
+void nosto::on_btn20e_clicked()
+{
+    qDebug() << "Nostettu 20€";
+    double summa = 20;
+    lahetaNosto(summa);
+    setnostettu(summa);
+}
+
+void nosto::on_btn40e_clicked()
+{
+    qDebug() << "Nostettu 40€";
+    double summa = 40;
+    lahetaNosto(summa);
+    setnostettu(summa);
+}
+
+void nosto::on_btn50e_clicked()
+{
+    qDebug() << "Nostettu 50€";
+    double summa = 50;
+    lahetaNosto(summa);
+    setnostettu(summa);
+}
+
+void nosto::on_btn100e_clicked()
+{
+    qDebug() << "Nostettu 100€";
+    double summa = 100;
+    lahetaNosto(summa);
+    setnostettu(summa);
+}
+
+
+
 void nosto::on_btnmuuSumma_clicked()
 {
 
@@ -85,9 +164,9 @@ void nosto::on_btnKirjauduUlos_clicked()
     emit logoutValittu();
     close();
 }
-
 void nosto::on_btnPalaa_clicked()
 {
     qDebug() <<"Palaa takaisin" ;
+    emit takaisin();
     this->close();
 }
