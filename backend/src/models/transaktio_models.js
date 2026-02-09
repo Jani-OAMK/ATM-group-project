@@ -81,7 +81,7 @@ const Transaktio = {
           await connection.beginTransaction();
 
           const saldoTiedot = await new Promise((resolve, reject) => {
-            this.getKayttosaldo(tili_id, kortti_id, (err, data) => {
+            this.postKayttosaldo(tili_id, kortti_id, (err, data) => {
               if (err) reject(err);
               else resolve(data);
             });
@@ -126,7 +126,7 @@ const Transaktio = {
           if (connection) connection.release();
         }
     },
-
+/*
     //Debit-puolella tämä ohjataan Talleta rahaa-vaihtoehtoon, credit-puolella Lyhennä luottoa!
     postTalleta: async function(tili_id, kortti_id, summa_eur, callback) {
       if (summa_eur <= 0) {
@@ -173,7 +173,8 @@ const Transaktio = {
       } finally {
         if (connection) connection.release();
       }
-   },
+    },
+ */
 };
 
 export default Transaktio;
