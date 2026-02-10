@@ -30,25 +30,30 @@ public:
 signals:
     void kirjauduUlosValittu();
     void logoutValittu();
+    void takaisin();
 
 private slots:
-    /*void on_btn20e_clicked();
+    void on_btn20e_clicked();
     void on_btn40e_clicked();
     void on_btn50e_clicked();
     void on_btn100e_clicked();
-    void on_btn200e_clicked();*/
+    void on_btn200e_clicked();
     void on_btnmuuSumma_clicked();
-    void saldoVastaus(QNetworkReply*reply);
     void on_btnKirjauduUlos_clicked();
     void on_btnPalaa_clicked();
+    void saldoVastaus(QNetworkReply*reply);
 
 private:
     Ui::nosto *ui;
      QNetworkAccessManager* manager = nullptr;
+    QByteArray webToken;
     int tili_id;
     int kortti_id;
-    QByteArray webToken;
+
+
     void haeKayttosaldo();
+    void lahetaNosto(double summa);
+    void nostoVastaus(QNetworkReply*reply);
 };
 
 #endif // NOSTO_H
