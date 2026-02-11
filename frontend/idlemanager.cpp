@@ -15,10 +15,7 @@ IdleManager* IdleManager::instance()
 IdleManager::IdleManager(QObject *parent)
     : QObject(parent)
 {
-    connect(&timer, &QTimer::timeout, this, [this]() {
-        qDebug() << "IDLE TIMEOUT TRIGGERED";
-        emit idleTimeout();
-    });
+    connect(&timer, &QTimer::timeout, this, &IdleManager::onTimerTimeout);
 }
 
 void IdleManager::start(int timeoutMs)
@@ -33,6 +30,12 @@ void IdleManager::stop()
     timer.stop();
     qApp->removeEventFilter(this);
     qDebug() << "IdleManager stopped";
+}
+
+void IdleManager::onTimerTimeout()
+{
+    qDebug() << "IDLE TIMEOUT TRIGGERED";
+    emit idleTimeout();
 }
 
 bool IdleManager::eventFilter(QObject *, QEvent *event)
