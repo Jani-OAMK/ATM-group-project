@@ -39,7 +39,7 @@
     <string>Kirjaudu ulos</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_14">
+  <widget class="QPushButton" name="btnSeuraava">
    <property name="geometry">
     <rect>
      <x>680</x>
@@ -52,7 +52,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_13">
+  <widget class="QPushButton" name="btnEdellinen">
    <property name="geometry">
     <rect>
      <x>680</x>
@@ -70,7 +70,7 @@
     <rect>
      <x>70</x>
      <y>10</y>
-     <width>101</width>
+     <width>221</width>
      <height>51</height>
     </rect>
    </property>
@@ -80,7 +80,7 @@
     </font>
    </property>
    <property name="text">
-    <string>Debit</string>
+    <string>Tilitapahtumat</string>
    </property>
   </widget>
   <widget class="QPushButton" name="btnTilitapahtumat">

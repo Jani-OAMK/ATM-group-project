@@ -2,11 +2,8 @@
 #include "ui_debitwindow.h"
 #include "tilitapahtumatwindow.h"
 #include "nostodebit.h"
-#include "mainwindow.h"
-
 #include <QDebug>
-#include <ui_nostodebit.h>
-#include "nostodebit.h"
+//#include <ui_nostodebit.h>
 
 DebitWindow::DebitWindow(const QByteArray &token, int tili_id, int kortti_id, QNetworkAccessManager *manager, QWidget *parent)
     : QMainWindow(parent)

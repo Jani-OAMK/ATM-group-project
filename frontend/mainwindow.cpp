@@ -1,13 +1,15 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
-#include "debitwindow.h"
 #include "kortinvalintawindow.h"
-#include <QUrl>
-#include <QDebug>
+#include "debitwindow.h"
 #include "creditwindow.h"
-#include <QPixmap>
 #include "environment.h"
 #include "idlemanager.h"
+
+
+#include <QUrl>
+#include <QDebug>
+#include <QPixmap>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
