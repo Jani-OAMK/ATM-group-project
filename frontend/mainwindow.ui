@@ -96,6 +96,9 @@ QLineEdit {
     selection-color: white;                /* valitun tekstin väri */
 }</string>
     </property>
+    <property name="echoMode">
+     <enum>QLineEdit::EchoMode::Password</enum>
+    </property>
    </widget>
    <widget class="QPushButton" name="BtnLogin">
     <property name="geometry">
