@@ -1,9 +1,11 @@
 #include "debitwindow.h"
 #include "ui_debitwindow.h"
 #include "tilitapahtumatwindow.h"
+#include "nostodebit.h"
 #include "mainwindow.h"
 
 #include <QDebug>
+#include <ui_nostodebit.h>
 #include "nostodebit.h"
 
 DebitWindow::DebitWindow(const QByteArray &token, int tili_id, int kortti_id, QNetworkAccessManager *manager, QWidget *parent)
@@ -32,13 +34,17 @@ void DebitWindow::on_btnNosto_clicked()
 {
     qDebug() << "DebitWindow: Nosta rahaa painettu";
 
-    auto *anosto = new nosto(nullptr, manager, tili_id, webToken);
+    auto *anosto = new nosto(nullptr, manager, tili_id, kortti_id, webToken);
     anosto->setAttribute(Qt::WA_DeleteOnClose);
-    connect(anosto, &QWidget::destroyed, this, [this]() {
-        this->show();
+    connect(anosto, &nosto::logoutValittu, this, [this]() {
+       // this->show();
     });
-    this->hide();
     anosto->show();
+
+    connect(anosto, & nosto::logoutValittu, this, [this](){
+        emit logoutValittu();           //Välitetään kirjauduUlos-painikesignaali mainiin
+        this->close();                  //Suljetaan debitWindow
+    });
 }
 
 void DebitWindow::on_btnTilitapahtumat_clicked()
@@ -59,8 +65,8 @@ void DebitWindow::on_btnTilitapahtumat_clicked()
 
 
     connect(t, &TilitapahtumatWindow::logoutValittu, this, [this](){
-        emit logoutValittu();
-        this->close();
+        emit logoutValittu();           //Välitetään kirjauduUlos-painikesignaali mainiin
+        this->close();                  //Suljetaan TapahtumatWindow
     });
 
     t->show();

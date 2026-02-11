@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QPushButton" name="btn200e">
+  <widget class="QPushButton" name="btnPalaa">
    <property name="geometry">
     <rect>
      <x>20</x>
@@ -28,7 +28,7 @@
     </font>
    </property>
    <property name="text">
-    <string>200€</string>
+    <string>Palaa</string>
    </property>
   </widget>
   <widget class="QPushButton" name="btn50e">
@@ -157,24 +157,6 @@
     <string>Muu summa</string>
    </property>
   </widget>
-  <widget class="QLabel" name="nostettavissatxt">
-   <property name="geometry">
-    <rect>
-     <x>190</x>
-     <y>320</y>
-     <width>181</width>
-     <height>61</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>22</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>Nostettavissa:</string>
-   </property>
-  </widget>
   <widget class="QLabel" name="Tilinsaldotxt">
    <property name="geometry">
     <rect>
@@ -216,24 +198,6 @@
     <rect>
      <x>350</x>
      <y>220</y>
-     <width>151</width>
-     <height>61</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>22</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="nostettavissa">
-   <property name="geometry">
-    <rect>
-     <x>380</x>
-     <y>320</y>
      <width>151</width>
      <height>61</height>
     </rect>
