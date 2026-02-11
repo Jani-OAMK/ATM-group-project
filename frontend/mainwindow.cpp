@@ -7,6 +7,7 @@
 #include "creditwindow.h"
 #include <QPixmap>
 #include "environment.h"
+#include "idlemanager.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -18,11 +19,22 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->textUserpassword, &QLineEdit::returnPressed, ui->BtnLogin, &QPushButton::click);
     connect(ui->BtnLogin, &QPushButton::clicked, this, &MainWindow::btnLoginSlot);
     manager = new QNetworkAccessManager(this);
+
+    // Yhdistä IdleManager timeout tähän ikkunaan
+    connect(IdleManager::instance(), &IdleManager::idleTimeout, 
+            this, &MainWindow::handleIdleTimeout);
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::showEvent(QShowEvent *event)
+{
+    QMainWindow::showEvent(event);
+    IdleManager::instance()->start(10000);
+    qDebug() << "MainWindow shown - IdleManager started with 10s timeout";
 }
 
 void MainWindow::btnLoginSlot()
@@ -89,6 +101,10 @@ qDebug() << "Token jemmassa" << webToken.size();
 qDebug() << "kortti_id:" << kortti_id;
 qDebug() << "cardType:" << cardType;
 
+ // KÄYNNISTÄ IdleManager 30 sekunnin timeoutilla
+    IdleManager::instance()->start(30000);
+
+
     int debitTiliId  = 0;
     int creditTiliId = 0;
 
@@ -113,6 +129,7 @@ qDebug() << "DEBIT-kortti → suoraan DebitWindow";
         auto *d = new DebitWindow(webToken, debitTiliId, kortti_id, manager);
         d->setAttribute(Qt::WA_DeleteOnClose);
         connect(d, &DebitWindow::logoutValittu, this, [this]() {
+            IdleManager::instance()->stop();
             resetLogin();
             this->show();
         });
@@ -125,6 +142,7 @@ qDebug() << "CREDIT-kortti → suoraan CreditWindow";
         // ↑↑↑ TÄRKEÄÄ: CreditWindow pitää tukea samaa konstruktoria kuin DebitWindow
         c->setAttribute(Qt::WA_DeleteOnClose);
         connect(c, &CreditWindow::logoutValittu, this, [this]() {
+            IdleManager::instance()->stop();
             resetLogin();
             this->show();
         });
@@ -133,11 +151,11 @@ qDebug() << "CREDIT-kortti → suoraan CreditWindow";
     }
     else {
 qDebug() << "Ei debit- eikä credit-tiliä → virhe";
-        // Voit lisätä QMessageBox jos haluat
+
     }
 }
 else {
-    // COMBO tai molemmat tilit löytyi → näytetään valintaikkuna
+
 qDebug() << "COMBO tai useita tilejä → näytetään KortinValintaWindow";
 
     auto *w = new KortinValintaWindow();
@@ -149,6 +167,7 @@ qDebug() << "Debit valittu, käytetään tili_id:" << debitTiliId;
             auto *d = new DebitWindow(webToken, debitTiliId, kortti_id, manager);
             d->setAttribute(Qt::WA_DeleteOnClose);
             connect(d, &DebitWindow::logoutValittu, this, [this]() {
+                IdleManager::instance()->stop();
                 resetLogin();
                 this->show();
             });
@@ -165,6 +184,7 @@ qDebug() << "Credit valittu, käytetään tili_id:" << creditTiliId;
             auto *c = new CreditWindow(webToken, creditTiliId, kortti_id, manager);
             c->setAttribute(Qt::WA_DeleteOnClose);
             connect(c, &CreditWindow::logoutValittu, this, [this]() {
+                IdleManager::instance()->stop();
                 resetLogin();
                 this->show();
             });
@@ -176,6 +196,7 @@ qDebug() << "Virhe: credit-tiliä ei löytynyt vaikka CREDIT valittiin";
     });
 
     connect(w, &KortinValintaWindow::logoutValittu, this, [this]() {
+        IdleManager::instance()->stop();
         resetLogin();
         this->show();
     });
@@ -194,7 +215,28 @@ void MainWindow::resetLogin()
     ui->textUserpassword->clear();
     ui->textUsername->setFocus();
     webToken = "";
-    kortti_id =  0;
+    kortti_id =  0;   
 }
+
+void MainWindow::handleIdleTimeout()
+{
+    qDebug() << "MainWindow::handleIdleTimeout() CALLED";
+    qDebug() << "Idle timeout -> automaattinen logout";
+
+   
+
+    // Sulje kaikki muut ikkunat paitsi MainWindow
+    for (QWidget *w : QApplication::topLevelWidgets()) {
+        if (w != this && w->isVisible()) {
+            w->close();
+        }
+    }
+
+    resetLogin();
+    this->show();
+
+     IdleManager::instance()->start(10000);
+}
+
 
 

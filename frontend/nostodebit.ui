@@ -179,7 +179,7 @@
    <property name="geometry">
     <rect>
      <x>190</x>
-     <y>410</y>
+     <y>320</y>
      <width>131</width>
      <height>61</height>
     </rect>
@@ -196,7 +196,7 @@
   <widget class="QLabel" name="tilinSaldo">
    <property name="geometry">
     <rect>
-     <x>350</x>
+     <x>340</x>
      <y>220</y>
      <width>151</width>
      <height>61</height>
@@ -215,7 +215,7 @@
    <property name="geometry">
     <rect>
      <x>320</x>
-     <y>410</y>
+     <y>320</y>
      <width>151</width>
      <height>61</height>
     </rect>
