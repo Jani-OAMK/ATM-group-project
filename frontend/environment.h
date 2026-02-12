@@ -7,7 +7,7 @@ class Environment
 public:
     Environment();
     QString static base_url();
-    static QString getKayttosaldo(int tili_id);
+    static QString getKayttosaldo(int tili_id,int kortti_id);
     static QString postNosto();
     static QString getTapahtumat(int tili_id);
     static QString getKortti(int kortti_id);
