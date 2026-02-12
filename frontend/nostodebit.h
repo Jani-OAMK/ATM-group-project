@@ -37,7 +37,6 @@ private slots:
     void on_btn40e_clicked();
     void on_btn50e_clicked();
     void on_btn100e_clicked();
-    void on_btn200e_clicked();
     void on_btnmuuSumma_clicked();
     void on_btnKirjauduUlos_clicked();
     void on_btnPalaa_clicked();

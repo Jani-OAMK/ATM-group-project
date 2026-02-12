@@ -40,6 +40,7 @@ private slots:
     void btnLoginSlot();
     void loginAction();
     void handleIdleTimeout();
+    void handleLogoutSignal();
 
 protected:
     void showEvent(QShowEvent *event) override;

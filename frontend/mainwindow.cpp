@@ -130,11 +130,7 @@ if (!useSelectionWindow) {
 qDebug() << "DEBIT-kortti → suoraan DebitWindow";
         auto *d = new DebitWindow(webToken, debitTiliId, kortti_id, manager);
         d->setAttribute(Qt::WA_DeleteOnClose);
-        connect(d, &DebitWindow::logoutValittu, this, [this]() {
-            IdleManager::instance()->stop();
-            resetLogin();
-            this->show();
-        });
+        connect(d, &DebitWindow::logoutValittu, this, &MainWindow::handleLogoutSignal);
         d->show();
         this->hide();
     }
@@ -143,11 +139,7 @@ qDebug() << "CREDIT-kortti → suoraan CreditWindow";
         auto *c = new CreditWindow(webToken, creditTiliId, kortti_id, manager);
         // ↑↑↑ TÄRKEÄÄ: CreditWindow pitää tukea samaa konstruktoria kuin DebitWindow
         c->setAttribute(Qt::WA_DeleteOnClose);
-        connect(c, &CreditWindow::logoutValittu, this, [this]() {
-            IdleManager::instance()->stop();
-            resetLogin();
-            this->show();
-        });
+        connect(c, &CreditWindow::logoutValittu, this, &MainWindow::handleLogoutSignal);
         c->show();
         this->hide();
     }
@@ -168,11 +160,7 @@ qDebug() << "Debit valittu, käytetään tili_id:" << debitTiliId;
         if (debitTiliId > 0) {
             auto *d = new DebitWindow(webToken, debitTiliId, kortti_id, manager);
             d->setAttribute(Qt::WA_DeleteOnClose);
-            connect(d, &DebitWindow::logoutValittu, this, [this]() {
-                IdleManager::instance()->stop();
-                resetLogin();
-                this->show();
-            });
+            connect(d, &DebitWindow::logoutValittu, this, &MainWindow::handleLogoutSignal);
             d->show();
             this->hide();
         } else {
@@ -185,11 +173,7 @@ qDebug() << "Credit valittu, käytetään tili_id:" << creditTiliId;
         if (creditTiliId > 0) {
             auto *c = new CreditWindow(webToken, creditTiliId, kortti_id, manager);
             c->setAttribute(Qt::WA_DeleteOnClose);
-            connect(c, &CreditWindow::logoutValittu, this, [this]() {
-                IdleManager::instance()->stop();
-                resetLogin();
-                this->show();
-            });
+            connect(c, &CreditWindow::logoutValittu, this, &MainWindow::handleLogoutSignal);
             c->show();
             this->hide();
         } else {
@@ -197,11 +181,7 @@ qDebug() << "Virhe: credit-tiliä ei löytynyt vaikka CREDIT valittiin";
         }
     });
 
-    connect(w, &KortinValintaWindow::logoutValittu, this, [this]() {
-        IdleManager::instance()->stop();
-        resetLogin();
-        this->show();
-    });
+    connect(w, &KortinValintaWindow::logoutValittu, this, &MainWindow::handleLogoutSignal);
 
     w->show();
     this->hide();
@@ -218,6 +198,14 @@ void MainWindow::resetLogin()
     ui->textUsername->setFocus();
     webToken = "";
     kortti_id =  0;   
+}
+
+void MainWindow::handleLogoutSignal()
+{
+    qDebug() << "handleLogoutSignal() called";
+    IdleManager::instance()->stop();
+    resetLogin();
+    this->show();
 }
 
 void MainWindow::handleIdleTimeout()
