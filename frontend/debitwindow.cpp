@@ -38,16 +38,9 @@ void DebitWindow::on_btnNosto_clicked()
         this -> show();
     });
 
-
-    connect(anosto, &nosto::logoutValittu, this, [this]() {});
+    connect(anosto, &nosto::logoutValittu,this,[this]() {});
     this -> hide();
     anosto->show();
-
-
-    connect(anosto, & nosto::logoutValittu, this, [this](){
-        emit logoutValittu();           //Välitetään kirjauduUlos-painikesignaali mainiin
-        this->close();                  //Suljetaan debitWindow
-    });
 }
 
 
@@ -73,6 +66,7 @@ void DebitWindow::on_btnTilitapahtumat_clicked()
         this->close();                  //Suljetaan TapahtumatWindow
     });
 
+    this -> hide();
     t->show();
     }
 
