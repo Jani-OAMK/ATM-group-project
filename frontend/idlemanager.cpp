@@ -29,7 +29,6 @@ void IdleManager::stop()
 {
     timer.stop();
     qApp->removeEventFilter(this);
-    qDebug() << "IdleManager stopped";
 }
 
 void IdleManager::onTimerTimeout()
