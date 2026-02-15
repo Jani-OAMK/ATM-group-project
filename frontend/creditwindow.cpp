@@ -52,13 +52,18 @@ void CreditWindow::on_btnTilitapahtumat_clicked()
     t->setKorttiId(kortti_id);
     t->setRooli("CREDIT");
 
+    connect(t, &TilitapahtumatWindow::takaisin, this, [this](){
+        this->show();
+    });
+
+    connect(t, &TilitapahtumatWindow::logoutValittu, this, [this]() {});
+    this->hide();
+    t->show();
 
     connect(t, &TilitapahtumatWindow::logoutValittu, this, [this](){
         emit logoutValittu();           //Välitetään kirjauduUlos-painikesignaali mainiin
-        this->close();                  //Suljetaan TapahtumatWindow
+        this->close();                  //Suljetaan creditWindow
     });
-
-    t->show();
 }
 
 
