@@ -14,6 +14,7 @@ nosto::nosto(QWidget *parent, QNetworkAccessManager* manager, int tili_id, int k
     kortti_id(kortti_id), webToken(webToken)
 {
     ui->setupUi(this);
+    ui -> muuSummaWidget ->hide();
 
     haeKayttosaldo();
 
@@ -22,7 +23,7 @@ nosto::nosto(QWidget *parent, QNetworkAccessManager* manager, int tili_id, int k
 void nosto::haeKayttosaldo()
 {
     if(manager && (tili_id != 0 || kortti_id != 0)) {
-        QString url = Environment:: base_url() + "transaktio/kayttosaldo/" + QString::number(tili_id);
+        QString url = Environment:: base_url() + "transaktio/kayttosaldo/";
         QNetworkRequest request((QUrl(url)));
 
         request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
@@ -92,6 +93,8 @@ void nosto::nostoVastaus(QNetworkReply* reply)
     reply->deleteLater();
 }
 
+
+
 nosto::~nosto()
 {
     delete ui;
@@ -149,16 +152,57 @@ void nosto::on_btn100e_clicked()
 }
 
 
+void nosto::on_btnOk_clicked()
+{
+    qDebug() << "btn_ok_clicked";
+    QString text = ui-> muuSummaEdit->text();
+    if(text.isEmpty())
+        return (ui->varoitusLabel->setText("Summan pitaa olla suurempi kuin 0"));
+
+    double muuSumma = text.toDouble();
+
+    // pitää vielä testata tätä
+    if(muuSumma <= 0)
+        return (ui->varoitusLabel->setText("Summan pitaa olla suurempi kuin 0"));
+
+    if(muuSumma >= 401)
+        return (ui->varoitusLabel->setText("Nostorajoitus MAX 400€/vuorokausi"));
+
+    ui->nostettu->clear();
+
+    lahetaNosto(muuSumma);
+    setnostettu(muuSumma);
+    ui -> muuSummaWidget ->close ();
+
+}
+
+void nosto::on_btnPeruuta_clicked()
+{
+    qDebug() << "btn_peruuta_clicked";
+    ui->muuSummaWidget->close();
+    ui->varoitusLabel->clear();
+}
 
 void nosto::on_btnmuuSumma_clicked()
 {
+    emit muuSummaWidget();
+    ui ->muuSummaWidget->show();
+    haeKayttosaldo();
+    ui->muuSummaEdit->clear();
+    ui -> saldoVastaus -> clear();
+    ui -> nostettu -> clear();
+    ui->varoitusLabel -> clear();
+
 
 }
+
 void nosto::setsaldoVastaus(double saldo)
 {
     qDebug() << "setsaldoVastaus called with:" << saldo;
     ui->saldoVastaus-> setText(QString::number(saldo, 'f', 2) + " €");
 }
+
+
 
 void nosto::settilinSaldo(double tilinSaldo)
 {

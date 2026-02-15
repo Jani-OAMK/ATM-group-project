@@ -34,7 +34,7 @@ void DebitWindow::on_btnNosto_clicked()
     auto *anosto = new nosto(nullptr, manager, tili_id, kortti_id, webToken);
     anosto->setAttribute(Qt::WA_DeleteOnClose);
 
-    connect(anosto, &nosto::takaisin,this,[this](){
+        connect(anosto, &nosto::takaisin,this,[this](){
         this -> show();
     });
 

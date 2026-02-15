@@ -32,6 +32,7 @@ signals:
     void on_btnNosto_clicked();
     void on_btnTilitapahtumat_clicked();
 
+
 private:
     Ui::DebitWindow *ui;
     QByteArray webToken;
