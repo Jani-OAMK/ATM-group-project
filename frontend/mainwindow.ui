@@ -110,7 +110,9 @@ QLineEdit {
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">QLabel { color: gold; }</string>
+     <string notr="true">background-color: rgb(255, 255, 0);
+font: 16pt &quot;Segoe UI&quot;;
+color: black;</string>
     </property>
     <property name="text">
      <string>KIRJAUDU</string>
@@ -133,7 +135,8 @@ QLineEdit {
     <property name="styleSheet">
      <string notr="true">QLabel {
     color: black;
-}</string>
+}
+border-color: rgb(255, 255, 0);</string>
     </property>
     <property name="text">
      <string>TUNNUS</string>
@@ -146,11 +149,10 @@ QLineEdit {
      <x>0</x>
      <y>0</y>
      <width>1055</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <resources/>
  <connections/>
