@@ -65,13 +65,13 @@ void DebitWindow::on_btnTilitapahtumat_clicked()
         this->show();
     });
 
-    connect(t, &TilitapahtumatWindow::logoutValittu, this, [this]() {});
-    this->hide();
-    t->show();
-
     connect(t, &TilitapahtumatWindow::logoutValittu, this, [this](){
         emit logoutValittu();           //Välitetään kirjauduUlos-painikesignaali mainiin
         this->close();                  //Suljetaan debitWindow
     });
-    }
+
+    this->hide();
+    t->show();
+}
+
 
