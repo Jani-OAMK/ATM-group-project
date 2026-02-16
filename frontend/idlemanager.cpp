@@ -40,7 +40,6 @@ void IdleManager::onTimerTimeout()
 bool IdleManager::eventFilter(QObject *, QEvent *event)
 {
     switch (event->type()) {
-    case QEvent::MouseMove:
     case QEvent::MouseButtonPress:
     case QEvent::KeyPress:
         timer.start(m_timeoutMs);

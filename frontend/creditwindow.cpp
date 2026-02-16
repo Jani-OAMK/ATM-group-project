@@ -1,7 +1,7 @@
 #include "creditwindow.h"
 #include "ui_creditwindow.h"
 #include "tilitapahtumatwindow.h"
-
+#include "nostodebit.h"
 #include <QWidget>
 
 CreditWindow::CreditWindow(const QByteArray &token, int tili_id, int kortti_id, QNetworkAccessManager *manager, QWidget *parent)
@@ -31,9 +31,24 @@ void CreditWindow::on_btnKirjauduUlos_clicked()
 
 void CreditWindow::on_btnNosto_clicked()
 {
-    qDebug() << "Credit: nosta rahaa";
-    emit nostoValittu();
+    qDebug() << "CreditWindow: Nosta rahaa painettu";
+
+    auto *anosto = new nosto(nullptr, manager, tili_id, kortti_id, webToken);
+    anosto->setAttribute(Qt::WA_DeleteOnClose);
+
+    connect(anosto, &nosto::takaisin, this, [this](){
+        this->show();
+    });
+
+    connect(anosto, &nosto::logoutValittu, this, [this](){
+        emit logoutValittu();
+        this->close();
+    });
+
+    this->hide();
+    anosto->show();
 }
+
 
 void CreditWindow::on_btnTilitapahtumat_clicked()
 {
