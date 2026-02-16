@@ -74,5 +74,5 @@ void DebitWindow::on_btnTilitapahtumat_clicked()
     });
 
     t->show();
-    }
+}
 

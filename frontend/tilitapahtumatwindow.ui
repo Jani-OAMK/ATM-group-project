@@ -49,7 +49,7 @@
     </rect>
    </property>
    <property name="text">
-    <string/>
+    <string>Seuraavat tilitapahtumat</string>
    </property>
   </widget>
   <widget class="QPushButton" name="btnEdellinen">
@@ -62,7 +62,7 @@
     </rect>
    </property>
    <property name="text">
-    <string/>
+    <string>Edelliset tilitapahtumat</string>
    </property>
   </widget>
   <widget class="QLabel" name="label">

@@ -133,32 +133,31 @@ void TilitapahtumatWindow::tapahtumatSlot()
     QByteArray data = replyTapahtumat->readAll();
     QJsonDocument doc = QJsonDocument::fromJson(data);
 
-    if (doc.isArray()) {
-        QJsonArray arr = doc.array();
+    (doc.isArray());
+    QJsonArray arr = doc.array();
 
-        ui->tableTapahtumat->setRowCount(arr.size());
+    ui->tableTapahtumat->setRowCount(arr.size());
+    ui->tableTapahtumat->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
-        int row = 0;
-        for (const QJsonValue &v : arr) {
-            QJsonObject o = v.toObject();
+    int row = 0;
+    for (const QJsonValue &v : arr) {
+        QJsonObject o = v.toObject();
 
-            QString laji = o.value("laji").toString();
-            QString summaStr = o.value("summa_eur").toString();
-            double summa = summaStr.toDouble();
+        QString laji = o.value("laji").toString();
+        QString summaStr = o.value("summa_eur").toString();
+        double summa = summaStr.toDouble();
 
-            QString palvelinAika = o.value("tapahtuma_aika").toString();
-            QDateTime dt = QDateTime::fromString(palvelinAika, Qt::ISODate);
-            QString aika = dt.toString("yyyy-MM-dd HH:mm:ss");
+        QString palvelinAika = o.value("tapahtuma_aika").toString();
+        QDateTime dt = QDateTime::fromString(palvelinAika, Qt::ISODate);
+        QString aika = dt.toString("yyyy-MM-dd HH:mm:ss");
 
-            ui->tableTapahtumat->setItem(row, 0, new QTableWidgetItem(laji));
-            ui->tableTapahtumat->setItem(row, 1, new QTableWidgetItem(QString::number(summa, 'f', 2)));
-            ui->tableTapahtumat->setItem(row, 2, new QTableWidgetItem(aika));
-            row++;
-        }
+        ui->tableTapahtumat->setItem(row, 0, new QTableWidgetItem(laji));
+        ui->tableTapahtumat->setItem(row, 1, new QTableWidgetItem(QString::number(summa, 'f', 2)));
+        ui->tableTapahtumat->setItem(row, 2, new QTableWidgetItem(aika));
+        row++;
     }
-    else {
-        qDebug() << "Ei array-vastausta tapahtumissa";
-    }
+
+
     replyTapahtumat->deleteLater();
     replyTapahtumat = nullptr;
 }
