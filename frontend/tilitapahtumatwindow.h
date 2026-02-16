@@ -49,6 +49,7 @@ private slots:
     void saldoSlot();
 signals:
     void logoutValittu();
+    void takaisin();
 
 };
 

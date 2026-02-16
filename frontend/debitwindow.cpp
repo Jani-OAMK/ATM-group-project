@@ -61,12 +61,17 @@ void DebitWindow::on_btnTilitapahtumat_clicked()
     t->setKorttiId(kortti_id);
 
 
-    connect(t, &TilitapahtumatWindow::logoutValittu, this, [this](){
-        emit logoutValittu();           //Välitetään kirjauduUlos-painikesignaali mainiin
-        this->close();                  //Suljetaan TapahtumatWindow
+    connect(t, &TilitapahtumatWindow::takaisin, this, [this](){
+        this->show();
     });
 
-    this -> hide();
+    connect(t, &TilitapahtumatWindow::logoutValittu, this, [this]() {});
+    this->hide();
     t->show();
+
+    connect(t, &TilitapahtumatWindow::logoutValittu, this, [this](){
+        emit logoutValittu();           //Välitetään kirjauduUlos-painikesignaali mainiin
+        this->close();                  //Suljetaan debitWindow
+    });
     }
 
