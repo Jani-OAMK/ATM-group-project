@@ -6,14 +6,29 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>791</width>
+    <height>660</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
+  <property name="autoFillBackground">
+   <bool>false</bool>
+  </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
   <widget class="QWidget" name="centralwidget">
+   <property name="styleSheet">
+    <string notr="true">QWidget#centralwidget {
+    border-image: url(:/images/kortinvalinta1.png) 0 0 0 0 stretch stretch;
+}
+
+QLineEdit {
+    background-color: white;
+}</string>
+   </property>
    <widget class="QPushButton" name="pushButton">
     <property name="geometry">
      <rect>
@@ -22,6 +37,11 @@
       <width>131</width>
       <height>61</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(255, 255, 0);
+font: 16pt &quot;Segoe UI&quot;;
+color: black;</string>
     </property>
     <property name="text">
      <string/>
@@ -36,6 +56,11 @@
       <height>61</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(255, 255, 0);
+font: 16pt &quot;Segoe UI&quot;;
+color: black;</string>
+    </property>
     <property name="text">
      <string/>
     </property>
@@ -48,6 +73,11 @@
       <width>131</width>
       <height>61</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(255, 255, 0);
+font: 16pt &quot;Segoe UI&quot;;
+color: black;</string>
     </property>
     <property name="text">
      <string/>
@@ -62,6 +92,11 @@
       <height>61</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(255, 255, 0);
+font: 16pt &quot;Segoe UI&quot;;
+color: black;</string>
+    </property>
     <property name="text">
      <string>Kirjaudu ulos</string>
     </property>
@@ -74,6 +109,11 @@
       <width>131</width>
       <height>61</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(255, 255, 0);
+font: 16pt &quot;Segoe UI&quot;;
+color: black;</string>
     </property>
     <property name="text">
      <string>Debit</string>
@@ -88,6 +128,11 @@
       <height>61</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(255, 255, 0);
+font: 16pt &quot;Segoe UI&quot;;
+color: black;</string>
+    </property>
     <property name="text">
      <string>Credit</string>
     </property>
@@ -100,6 +145,11 @@
       <width>131</width>
       <height>61</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(255, 255, 0);
+font: 16pt &quot;Segoe UI&quot;;
+color: black;</string>
     </property>
     <property name="text">
      <string/>
@@ -119,8 +169,15 @@
       <pointsize>22</pointsize>
      </font>
     </property>
+    <property name="styleSheet">
+     <string notr="true">color: black;
+</string>
+    </property>
     <property name="text">
      <string>Yhdistelmäkortti</string>
+    </property>
+    <property name="scaledContents">
+     <bool>false</bool>
     </property>
    </widget>
    <widget class="QLabel" name="label_2">
@@ -134,11 +191,21 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>22</pointsize>
+      <family>Segoe UI</family>
+      <pointsize>24</pointsize>
+      <italic>false</italic>
+      <bold>false</bold>
      </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: black;
+font: 24pt &quot;Segoe UI&quot;;</string>
     </property>
     <property name="text">
      <string>Valitse tili</string>
+    </property>
+    <property name="scaledContents">
+     <bool>false</bool>
     </property>
    </widget>
   </widget>
@@ -147,12 +214,11 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
-     <height>22</height>
+     <width>791</width>
+     <height>21</height>
     </rect>
    </property>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <resources/>
  <connections/>
