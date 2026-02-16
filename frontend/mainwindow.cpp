@@ -36,7 +36,6 @@ void MainWindow::showEvent(QShowEvent *event)
 {
     QMainWindow::showEvent(event);
     IdleManager::instance()->start(10000);
-    qDebug() << "MainWindow shown - IdleManager started with 10s timeout";
 }
 
 void MainWindow::btnLoginSlot()
