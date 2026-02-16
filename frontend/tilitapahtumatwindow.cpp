@@ -55,6 +55,7 @@ qDebug() <<"Kirjaudu ulos" ;
 void TilitapahtumatWindow::on_btnPalaa_clicked()
 {
 qDebug() <<"Palaa takaisin" ;
+    emit takaisin();
     this->close();
 }
 

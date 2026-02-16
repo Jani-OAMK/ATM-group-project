@@ -95,7 +95,6 @@ backend/
 ├── src/
 │   ├── db.js                      # MySQL-tietokantayhteyden hallinta
 │   ├── server.js                  # Express-sovelluksen pääkonfiguraatio
-│   ├── create_secret.js           # JWT-salaisen avaimen generointi
 │   ├── middleware/
 │   │   └── authenticateToken.js   # JWT-tokenin validointimiddleware
 │   ├── models/
