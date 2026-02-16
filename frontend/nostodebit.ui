@@ -268,8 +268,8 @@
   <widget class="QWidget" name="muuSummaWidget" native="true">
    <property name="geometry">
     <rect>
-     <x>160</x>
-     <y>220</y>
+     <x>150</x>
+     <y>250</y>
      <width>491</width>
      <height>261</height>
     </rect>
