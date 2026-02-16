@@ -60,6 +60,7 @@ private:
     void nostoVastaus(QNetworkReply*reply);
     void muuSumma(double);
     void varoitusLabel();
+    double hetkellinenSaldo=0;
 
 };
 

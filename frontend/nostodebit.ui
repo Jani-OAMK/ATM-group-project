@@ -346,9 +346,9 @@ border-color: rgb(0, 0, 0);
   <widget class="QLabel" name="varoitusLabel">
    <property name="geometry">
     <rect>
-     <x>160</x>
+     <x>80</x>
      <y>170</y>
-     <width>491</width>
+     <width>631</width>
      <height>41</height>
     </rect>
    </property>
