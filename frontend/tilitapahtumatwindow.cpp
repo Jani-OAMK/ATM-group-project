@@ -13,8 +13,8 @@ TilitapahtumatWindow::TilitapahtumatWindow(QNetworkAccessManager *manager, QWidg
     this->manager = manager;
 
     //Varmistetaan tässä kohtaa taulukon valmius
-    ui->tableTapahtumat->setColumnCount(3);
-    ui->tableTapahtumat->setHorizontalHeaderLabels({"Laji", "Summa (€)", "Aika"});
+    ui->tableTapahtumat->setColumnCount(4);
+    ui->tableTapahtumat->setHorizontalHeaderLabels({"", "Laji", "Summa (€)", "Aika"});
     ui->tableTapahtumat->horizontalHeader()->setStretchLastSection(true);
 }
 
@@ -73,6 +73,22 @@ qDebug() << "tili_id:" << tili_id;
     haeTilitapahtumat();
 }
 
+void TilitapahtumatWindow::on_btnSeuraava_clicked()
+{
+    if(rivitJaljella >0){
+    sivu++;
+    haeTilitapahtumat();
+    }
+}
+
+void TilitapahtumatWindow::on_btnEdellinen_clicked()
+{
+    if (sivu > 0 ) {
+        sivu--;
+        haeTilitapahtumat();
+    }
+}
+
 void TilitapahtumatWindow::haeSaldo()
 {
     QString url;
@@ -117,7 +133,7 @@ void TilitapahtumatWindow::saldoSlot()
 
 void TilitapahtumatWindow::haeTilitapahtumat()
 {
-    QString url = Environment::base_url() + "transaktio/tapahtumat/" + QString::number(tili_id);
+    QString url = Environment::base_url() + "transaktio/tapahtumat/" + QString::number(tili_id) + "?page=" + QString::number(sivu);
     qDebug() << "Tapahtuma-URL:" << url;
 
     QNetworkRequest request(url);
@@ -140,7 +156,10 @@ void TilitapahtumatWindow::tapahtumatSlot()
     ui->tableTapahtumat->setRowCount(arr.size());
     ui->tableTapahtumat->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
-    int row = 0;
+    rivitJaljella = arr.size();
+    int rivi = 0;
+    int alkuRivi = sivu * 10;
+
     for (const QJsonValue &v : arr) {
         QJsonObject o = v.toObject();
 
@@ -152,14 +171,15 @@ void TilitapahtumatWindow::tapahtumatSlot()
         QDateTime dt = QDateTime::fromString(palvelinAika, Qt::ISODate);
         QString aika = dt.toString("yyyy-MM-dd HH:mm:ss");
 
-        ui->tableTapahtumat->setItem(row, 0, new QTableWidgetItem(laji));
-        ui->tableTapahtumat->setItem(row, 1, new QTableWidgetItem(QString::number(summa, 'f', 2)));
-        ui->tableTapahtumat->setItem(row, 2, new QTableWidgetItem(aika));
-        row++;
+        ui->tableTapahtumat->setItem(rivi, 0, new QTableWidgetItem(QString::number(alkuRivi + rivi + 1)));
+        ui->tableTapahtumat->setItem(rivi, 1, new QTableWidgetItem(laji));
+        ui->tableTapahtumat->setItem(rivi, 2, new QTableWidgetItem(QString::number(summa, 'f', 2)));
+        ui->tableTapahtumat->setItem(rivi, 3, new QTableWidgetItem(aika));
+        ui->tableTapahtumat->verticalHeader()->hide();
+        rivi++;
     }
 
 
     replyTapahtumat->deleteLater();
     replyTapahtumat = nullptr;
 }
-

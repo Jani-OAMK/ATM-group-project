@@ -69,6 +69,9 @@ void DebitWindow::on_btnTilitapahtumat_clicked()
         emit logoutValittu();           //Välitetään kirjauduUlos-painikesignaali mainiin
         this->close();                  //Suljetaan debitWindow
     });
+
+    this->hide();
+    t->show();
 }
 
 

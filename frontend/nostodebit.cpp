@@ -160,6 +160,16 @@ void nosto::setsaldoVastaus(double saldo)
     ui->saldoVastaus-> setText(QString::number(saldo, 'f', 2) + " €");
 }
 
+void nosto::on_btnOk_clicked()
+{
+
+}
+
+void nosto::on_btnPeruuta_clicked()
+{
+
+}
+
 void nosto::settilinSaldo(double tilinSaldo)
 {
     ui->tilinSaldo-> setText(QString::number(tilinSaldo, 'f', 2) + " €");
