@@ -26,6 +26,8 @@ public:
     //double pitää muutta vielä mikäli käytetään pienempää arvoa
     void settilinSaldo(double tilinSaldo);
     void setnostettu(double nostettu);
+    void setsaldoVastaus(double saldo );
+    void setmuuSumma(int muuSummax);
 
 signals:
     void kirjauduUlosValittu();
@@ -33,11 +35,12 @@ signals:
     void takaisin();
 
 private slots:
+    void on_btnOk_clicked();
+    void on_btnPeruuta_clicked();
     void on_btn20e_clicked();
     void on_btn40e_clicked();
     void on_btn50e_clicked();
     void on_btn100e_clicked();
-    void on_btn200e_clicked();
     void on_btnmuuSumma_clicked();
     void on_btnKirjauduUlos_clicked();
     void on_btnPalaa_clicked();

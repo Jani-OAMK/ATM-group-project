@@ -18,6 +18,9 @@ signals:
 protected:
     bool eventFilter(QObject *obj, QEvent *event) override;
 
+private slots:
+    void onTimerTimeout();
+
 private:
     explicit IdleManager(QObject *parent = nullptr);
     static IdleManager* m_instance;
