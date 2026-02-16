@@ -33,6 +33,7 @@ signals:
     void kirjauduUlosValittu();
     void logoutValittu();
     void takaisin();
+    void muuSummaWidget();
 
 private slots:
     void on_btnOk_clicked();
@@ -57,6 +58,10 @@ private:
     void haeKayttosaldo();
     void lahetaNosto(double summa);
     void nostoVastaus(QNetworkReply*reply);
+    void muuSumma(double);
+    void varoitusLabel();
+    double hetkellinenSaldo=0;
+
 };
 
 #endif // NOSTO_H

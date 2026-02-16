@@ -14,6 +14,7 @@ nosto::nosto(QWidget *parent, QNetworkAccessManager* manager, int tili_id, int k
     kortti_id(kortti_id), webToken(webToken)
 {
     ui->setupUi(this);
+    ui -> muuSummaWidget ->hide();
 
     haeKayttosaldo();
 
@@ -22,7 +23,7 @@ nosto::nosto(QWidget *parent, QNetworkAccessManager* manager, int tili_id, int k
 void nosto::haeKayttosaldo()
 {
     if(manager && (tili_id != 0 || kortti_id != 0)) {
-        QString url = Environment:: base_url() + "transaktio/kayttosaldo/" + QString::number(tili_id);
+        QString url = Environment:: base_url() + "transaktio/kayttosaldo/";
         QNetworkRequest request((QUrl(url)));
 
         request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
@@ -92,6 +93,8 @@ void nosto::nostoVastaus(QNetworkReply* reply)
     reply->deleteLater();
 }
 
+
+
 nosto::~nosto()
 {
     delete ui;
@@ -111,8 +114,10 @@ void nosto::saldoVastaus(QNetworkReply* reply)
     QJsonObject obj = QJsonDocument::fromJson(data).object();
     qDebug() << "saldoVastaus: JSON =" << obj;
     double saldo = obj["saldo_eur"].toString().toDouble();
+    hetkellinenSaldo = saldo;
     qDebug() << "saldoVastaus: saldo =" << saldo;
     settilinSaldo(saldo);
+
 }
 
 
@@ -120,6 +125,10 @@ void nosto::on_btn20e_clicked()
 {
     qDebug() << "Nostettu 20€";
     double summa = 20;
+    if(summa > hetkellinenSaldo){
+        ui -> varoitusLabel ->setText("Tilillä ei ole riittävästi katetta");
+        return;
+    }
     lahetaNosto(summa);
     setnostettu(summa);
 }
@@ -128,6 +137,10 @@ void nosto::on_btn40e_clicked()
 {
     qDebug() << "Nostettu 40€";
     double summa = 40;
+    if(summa > hetkellinenSaldo){
+        ui -> varoitusLabel ->setText("Tilillä ei ole riittävästi katetta");
+        return;
+    }
     lahetaNosto(summa);
     setnostettu(summa);
 }
@@ -136,6 +149,10 @@ void nosto::on_btn50e_clicked()
 {
     qDebug() << "Nostettu 50€";
     double summa = 50;
+    if(summa > hetkellinenSaldo){
+        ui -> varoitusLabel ->setText("Tilillä ei ole riittävästi katetta");
+        return;
+    }
     lahetaNosto(summa);
     setnostettu(summa);
 }
@@ -144,31 +161,74 @@ void nosto::on_btn100e_clicked()
 {
     qDebug() << "Nostettu 100€";
     double summa = 100;
+    if(summa > hetkellinenSaldo){
+        ui -> varoitusLabel ->setText("Tilillä ei ole riittävästi katetta");
+            return;
+    }
     lahetaNosto(summa);
     setnostettu(summa);
 }
 
 
+void nosto::on_btnOk_clicked()
+{
+    qDebug() << "btn_ok_clicked";
+    QString text = ui-> muuSummaEdit->text();
+    if(text.isEmpty())
+        return (ui->varoitusLabel->setText("Summan pitää olla suurempi kuin 0"));
+
+    double muuSumma = text.toDouble();
+
+    // pitää vielä testata tätä
+    if(muuSumma <= 0)
+        return (ui->varoitusLabel->setText("Summan pitää olla suurempi kuin 0"));
+
+    if(muuSumma >= 401)
+        return (ui->varoitusLabel->setText("Nostorajoitus MAX 400€/vuorokausi"));
+
+    if(!(muuSumma == 20 || (muuSumma >= 40 && ((int)muuSumma % 10 == 0))))
+    {
+        return ui->varoitusLabel->setText("Nostettavan summan tulee koostua vähintään 20€ ja 50€ seteleistä");
+    }
+    if(muuSumma > hetkellinenSaldo){
+        ui -> varoitusLabel ->setText("Tilillä ei ole riittävästi katetta");
+        return;
+    }
+
+    ui->nostettu->clear();
+
+    lahetaNosto(muuSumma);
+    setnostettu(muuSumma);
+    ui -> muuSummaWidget ->close ();
+
+}
+
+void nosto::on_btnPeruuta_clicked()
+{
+    qDebug() << "btn_peruuta_clicked";
+    ui->muuSummaWidget->close();
+    ui->varoitusLabel->clear();
+}
 
 void nosto::on_btnmuuSumma_clicked()
 {
+    emit muuSummaWidget();
+    ui ->muuSummaWidget->show();
+    haeKayttosaldo();
+    ui->muuSummaEdit->clear();
+    ui -> saldoVastaus -> clear();
+    ui -> nostettu -> clear();
+    ui->varoitusLabel -> clear();
+
 
 }
+
 void nosto::setsaldoVastaus(double saldo)
 {
     qDebug() << "setsaldoVastaus called with:" << saldo;
     ui->saldoVastaus-> setText(QString::number(saldo, 'f', 2) + " €");
 }
 
-void nosto::on_btnOk_clicked()
-{
-
-}
-
-void nosto::on_btnPeruuta_clicked()
-{
-
-}
 
 void nosto::settilinSaldo(double tilinSaldo)
 {
