@@ -7,7 +7,7 @@ const Transaktio = {
         try {
           const pool = getPool();
           const sql = 
-            "SELECT tapahtuma_id, laji, summa_eur, tapahtuma_aika FROM Tilitapahtuma WHERE tili_id = ? ORDER BY tapahtuma_aika DESC";
+            "SELECT tapahtuma_id, laji, summa_eur, tapahtuma_aika FROM Tilitapahtuma WHERE tili_id = ? ORDER BY tapahtuma_aika DESC LIMIT 10 OFFSET ?";
           const [rows] = await pool.query(sql, [tili_id]);
           return callback(null, rows);
         } catch (err) {
