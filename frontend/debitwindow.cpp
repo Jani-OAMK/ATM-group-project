@@ -2,11 +2,8 @@
 #include "ui_debitwindow.h"
 #include "tilitapahtumatwindow.h"
 #include "nostodebit.h"
-#include "mainwindow.h"
-
 #include <QDebug>
-#include <ui_nostodebit.h>
-#include "nostodebit.h"
+//#include <ui_nostodebit.h>
 
 DebitWindow::DebitWindow(const QByteArray &token, int tili_id, int kortti_id, QNetworkAccessManager *manager, QWidget *parent)
     : QMainWindow(parent)
@@ -36,16 +33,16 @@ void DebitWindow::on_btnNosto_clicked()
 
     auto *anosto = new nosto(nullptr, manager, tili_id, kortti_id, webToken);
     anosto->setAttribute(Qt::WA_DeleteOnClose);
-    connect(anosto, &nosto::logoutValittu, this, [this]() {
-       // this->show();
-    });
-    anosto->show();
 
-    connect(anosto, & nosto::logoutValittu, this, [this](){
-        emit logoutValittu();           //Välitetään kirjauduUlos-painikesignaali mainiin
-        this->close();                  //Suljetaan debitWindow
+    connect(anosto, &nosto::takaisin,this,[this](){
+        this -> show();
     });
+
+    connect(anosto, &nosto::logoutValittu,this,[this]() {});
+    this -> hide();
+    anosto->show();
 }
+
 
 void DebitWindow::on_btnTilitapahtumat_clicked()
 {
@@ -64,11 +61,14 @@ void DebitWindow::on_btnTilitapahtumat_clicked()
     t->setKorttiId(kortti_id);
 
 
-    connect(t, &TilitapahtumatWindow::logoutValittu, this, [this](){
-        emit logoutValittu();           //Välitetään kirjauduUlos-painikesignaali mainiin
-        this->close();                  //Suljetaan TapahtumatWindow
+    connect(t, &TilitapahtumatWindow::takaisin, this, [this](){
+        this->show();
     });
 
-    t->show();
-    }
+    connect(t, &TilitapahtumatWindow::logoutValittu, this, [this](){
+        emit logoutValittu();           //Välitetään kirjauduUlos-painikesignaali mainiin
+        this->close();                  //Suljetaan debitWindow
+    });
+}
+
 

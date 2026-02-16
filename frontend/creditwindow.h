@@ -28,10 +28,11 @@ private slots:
 
 private:
     Ui::CreditWindow *ui;
-    QByteArray token;
+    QByteArray webToken;
     int tili_id;
     int kortti_id;
     QNetworkAccessManager *manager;
+    QString rooli;
 };
 
 #endif // CREDITWINDOW_H

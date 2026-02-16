@@ -1,6 +1,6 @@
 #ifndef DEBITWINDOW_H
 #define DEBITWINDOW_H
-#include "nostodebit.h"
+
 #include <QMainWindow>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
@@ -8,6 +8,9 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
+
+#include "tilitapahtumatwindow.h"
+#include "nostodebit.h"
 
 namespace Ui {
 class DebitWindow;

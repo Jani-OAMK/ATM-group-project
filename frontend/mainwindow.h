@@ -8,6 +8,7 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QMainWindow>
+#include <QShowEvent> 
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -38,5 +39,11 @@ private:
 private slots:
     void btnLoginSlot();
     void loginAction();
+    void handleIdleTimeout();
+    void handleLogoutSignal();
+
+protected:
+    void showEvent(QShowEvent *event) override;
+
 };
 #endif // MAINWINDOW_H

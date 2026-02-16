@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>816</width>
-    <height>629</height>
+    <width>800</width>
+    <height>600</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,8 +16,8 @@
   <widget class="QPushButton" name="pushButton_12">
    <property name="geometry">
     <rect>
-     <x>680</x>
-     <y>210</y>
+     <x>650</x>
+     <y>250</y>
      <width>131</width>
      <height>61</height>
     </rect>
@@ -29,8 +29,8 @@
   <widget class="QPushButton" name="btnKirjauduUlos">
    <property name="geometry">
     <rect>
-     <x>680</x>
-     <y>10</y>
+     <x>650</x>
+     <y>50</y>
      <width>131</width>
      <height>61</height>
     </rect>
@@ -39,38 +39,38 @@
     <string>Kirjaudu ulos</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_14">
+  <widget class="QPushButton" name="btnSeuraava">
    <property name="geometry">
     <rect>
-     <x>680</x>
-     <y>411</y>
+     <x>650</x>
+     <y>450</y>
      <width>131</width>
      <height>61</height>
     </rect>
    </property>
    <property name="text">
-    <string/>
+    <string>Seuraavat tilitapahtumat</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_13">
+  <widget class="QPushButton" name="btnEdellinen">
    <property name="geometry">
     <rect>
-     <x>680</x>
-     <y>311</y>
+     <x>650</x>
+     <y>350</y>
      <width>131</width>
      <height>61</height>
     </rect>
    </property>
    <property name="text">
-    <string/>
+    <string>Edelliset tilitapahtumat</string>
    </property>
   </widget>
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>70</x>
-     <y>10</y>
-     <width>101</width>
+     <x>20</x>
+     <y>50</y>
+     <width>221</width>
      <height>51</height>
     </rect>
    </property>
@@ -80,14 +80,14 @@
     </font>
    </property>
    <property name="text">
-    <string>Debit</string>
+    <string>Tilitapahtumat</string>
    </property>
   </widget>
   <widget class="QPushButton" name="btnTilitapahtumat">
    <property name="geometry">
     <rect>
-     <x>40</x>
-     <y>311</y>
+     <x>10</x>
+     <y>350</y>
      <width>131</width>
      <height>61</height>
     </rect>
@@ -99,8 +99,8 @@
   <widget class="QPushButton" name="btnPalaa">
    <property name="geometry">
     <rect>
-     <x>40</x>
-     <y>411</y>
+     <x>10</x>
+     <y>450</y>
      <width>131</width>
      <height>61</height>
     </rect>
@@ -112,8 +112,8 @@
   <widget class="QPushButton" name="btnNosto">
    <property name="geometry">
     <rect>
-     <x>40</x>
-     <y>210</y>
+     <x>10</x>
+     <y>250</y>
      <width>131</width>
      <height>61</height>
     </rect>
@@ -125,7 +125,7 @@
   <widget class="QTableWidget" name="tableTapahtumat">
    <property name="geometry">
     <rect>
-     <x>200</x>
+     <x>170</x>
      <y>270</y>
      <width>451</width>
      <height>201</height>
@@ -135,15 +135,15 @@
   <widget class="QLabel" name="label_2">
    <property name="geometry">
     <rect>
-     <x>200</x>
-     <y>230</y>
+     <x>170</x>
+     <y>220</y>
      <width>441</width>
-     <height>21</height>
+     <height>31</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <pointsize>14</pointsize>
+     <pointsize>22</pointsize>
     </font>
    </property>
    <property name="text">
@@ -155,7 +155,7 @@
     <rect>
      <x>520</x>
      <y>230</y>
-     <width>101</width>
+     <width>71</width>
      <height>21</height>
     </rect>
    </property>
@@ -171,15 +171,15 @@
   <widget class="QLabel" name="label_3">
    <property name="geometry">
     <rect>
-     <x>630</x>
-     <y>230</y>
-     <width>16</width>
-     <height>21</height>
+     <x>590</x>
+     <y>220</y>
+     <width>21</width>
+     <height>31</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <pointsize>14</pointsize>
+     <pointsize>22</pointsize>
     </font>
    </property>
    <property name="text">

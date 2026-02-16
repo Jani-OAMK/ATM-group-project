@@ -1,8 +1,8 @@
 #include "tilitapahtumatwindow.h"
 #include "ui_tilitapahtumatwindow.h"
-#include <QDebug>
-#include <QShowEvent>
-#include <QMessageBox>
+//#include <QDebug>
+//#include <QShowEvent>
+//#include <QMessageBox>
 
 
 TilitapahtumatWindow::TilitapahtumatWindow(QNetworkAccessManager *manager, QWidget *parent)
@@ -40,6 +40,11 @@ void TilitapahtumatWindow::setKorttiId(int id)
     kortti_id = id;
 }
 
+void TilitapahtumatWindow::setRooli(const QString &r)
+{
+    rooli =r;
+}
+
 void TilitapahtumatWindow::on_btnKirjauduUlos_clicked()
 {
 qDebug() <<"Kirjaudu ulos" ;
@@ -50,6 +55,7 @@ qDebug() <<"Kirjaudu ulos" ;
 void TilitapahtumatWindow::on_btnPalaa_clicked()
 {
 qDebug() <<"Palaa takaisin" ;
+    emit takaisin();
     this->close();
 }
 
@@ -69,9 +75,15 @@ qDebug() << "tili_id:" << tili_id;
 
 void TilitapahtumatWindow::haeSaldo()
 {
-    QString url = Environment::base_url() + "tili/" + QString::number(tili_id) + "/debit";
-qDebug() << "HAETAAN SALDO → URL:" << url;
+    QString url;
 
+    if (rooli == "CREDIT"){
+        url = Environment::base_url() + "tili/" + QString::number(tili_id) + "/credit";
+qDebug() << "HAETAAN SALDO → URL:" << url;
+    } else{
+        url = Environment::base_url() + "tili/" + QString::number(tili_id) + "/debit";
+qDebug() << "HAETAAN SALDO → URL:" << url;
+    }
 
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
@@ -85,19 +97,19 @@ void TilitapahtumatWindow::saldoSlot()
 {
     QByteArray data = replySaldo->readAll();
 
-    qDebug() << "Saldo-vastaus:" << data;
+ qDebug() << "Saldo-vastaus:" << data;
 
     QJsonDocument doc = QJsonDocument::fromJson(data);
-    if (doc.isObject()) {
-        QJsonObject obj = doc.object();
-        QString saldoStr = obj.value("saldo_eur").toString();
-        double saldo = saldoStr.toDouble();
-        if (saldo >= 0) {
-            ui->labelSaldo->setText(QString::number(saldo, 'f', 2));
-        }
-        else {
-            ui->labelSaldo->setText("ei saatavilla");
-        }
+    QJsonObject obj = doc.object();
+
+    if (rooli == "CREDIT") {
+ qDebug() << "Credit JSON keys:" << obj.keys();
+        QString key = "(credit_limit + saldo_eur)";
+        double kayttosaldo = obj.value(key).toString().toDouble();
+        ui->labelSaldo->setText(QString::number(kayttosaldo, 'f', 2));
+    } else {
+        double saldo = obj.value("saldo_eur").toString().toDouble();
+        ui->labelSaldo->setText(QString::number(saldo, 'f', 2));
     }
     replySaldo->deleteLater();
     replySaldo = nullptr;
@@ -120,36 +132,33 @@ void TilitapahtumatWindow::haeTilitapahtumat()
 void TilitapahtumatWindow::tapahtumatSlot()
 {
     QByteArray data = replyTapahtumat->readAll();
-
-    qDebug() << "Tapahtumat-vastaus:" << data;
-
     QJsonDocument doc = QJsonDocument::fromJson(data);
-    if (doc.isArray()) {
-        QJsonArray arr = doc.array();
 
-        ui->tableTapahtumat->setRowCount(arr.size());
+    (doc.isArray());
+    QJsonArray arr = doc.array();
 
-        int row = 0;
-        for (const QJsonValue &v : arr) {
-            QJsonObject o = v.toObject();
+    ui->tableTapahtumat->setRowCount(arr.size());
+    ui->tableTapahtumat->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
-            QString laji = o.value("laji").toString();
-            QString summaStr = o.value("summa_eur").toString();
-            double summa = summaStr.toDouble();
+    int row = 0;
+    for (const QJsonValue &v : arr) {
+        QJsonObject o = v.toObject();
 
-            QString palvelinAika = o.value("tapahtuma_aika").toString();
-            QDateTime dt = QDateTime::fromString(palvelinAika, Qt::ISODate);
-            QString aika = dt.toString("yyyy-MM-dd HH:mm:ss");
+        QString laji = o.value("laji").toString();
+        QString summaStr = o.value("summa_eur").toString();
+        double summa = summaStr.toDouble();
 
-            ui->tableTapahtumat->setItem(row, 0, new QTableWidgetItem(laji));
-            ui->tableTapahtumat->setItem(row, 1, new QTableWidgetItem(QString::number(summa, 'f', 2)));
-            ui->tableTapahtumat->setItem(row, 2, new QTableWidgetItem(aika));
-            row++;
-        }
+        QString palvelinAika = o.value("tapahtuma_aika").toString();
+        QDateTime dt = QDateTime::fromString(palvelinAika, Qt::ISODate);
+        QString aika = dt.toString("yyyy-MM-dd HH:mm:ss");
+
+        ui->tableTapahtumat->setItem(row, 0, new QTableWidgetItem(laji));
+        ui->tableTapahtumat->setItem(row, 1, new QTableWidgetItem(QString::number(summa, 'f', 2)));
+        ui->tableTapahtumat->setItem(row, 2, new QTableWidgetItem(aika));
+        row++;
     }
-    else {
-        qDebug() << "Ei array-vastausta tapahtumissa";
-    }
+
+
     replyTapahtumat->deleteLater();
     replyTapahtumat = nullptr;
 }
