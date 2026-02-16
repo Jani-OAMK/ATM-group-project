@@ -7,7 +7,7 @@ const router = express.Router();
 router.get("/tapahtumat/:tili_id", (req, res) => {
     const page = Number(req.query.page); 
     const offset = page * 10;
-    Transaktio.getTilitapahtumat(req.params.tili_id, (err, result) => {
+    Transaktio.getTilitapahtumat(req.params.tili_id, offset, (err, result) => {
         if (err) {
             res.send(err);
         } else {
