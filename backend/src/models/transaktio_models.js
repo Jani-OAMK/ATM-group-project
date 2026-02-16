@@ -3,12 +3,12 @@ import {getPool} from '../db.js';
 const Transaktio = {
 
      // Tilitapahtumat-toiminto, näyttää 10 uusinta tapahtumaa
-    getTilitapahtumat: async function(tili_id, callback) {
+    getTilitapahtumat: async function(tili_id, offset, callback) {
         try {
           const pool = getPool();
           const sql = 
-            "SELECT tapahtuma_id, laji, summa_eur, tapahtuma_aika FROM Tilitapahtuma WHERE tili_id = ? ORDER BY tapahtuma_aika DESC";
-          const [rows] = await pool.query(sql, [tili_id]);
+            "SELECT tapahtuma_id, laji, summa_eur, tapahtuma_aika FROM Tilitapahtuma WHERE tili_id = ? ORDER BY tapahtuma_aika DESC LIMIT 10 OFFSET ?";
+          const [rows] = await pool.query(sql, [tili_id, offset]);
           return callback(null, rows);
         } catch (err) {
           return callback(err);

@@ -230,7 +230,6 @@ void nosto::setsaldoVastaus(double saldo)
 }
 
 
-
 void nosto::settilinSaldo(double tilinSaldo)
 {
     ui->tilinSaldo-> setText(QString::number(tilinSaldo, 'f', 2) + " €");
