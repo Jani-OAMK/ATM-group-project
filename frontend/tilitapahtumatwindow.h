@@ -48,6 +48,7 @@ private slots:
     void on_btnKirjauduUlos_clicked();
     void on_btnPalaa_clicked();
     void haeSaldo();
+    void onIdleTimeout();
     void haeTilitapahtumat();
     void tapahtumatSlot();
     void saldoSlot();

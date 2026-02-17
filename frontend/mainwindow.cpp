@@ -21,8 +21,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->textUserpassword, &QLineEdit::returnPressed, ui->BtnLogin, &QPushButton::click);
     connect(ui->BtnLogin, &QPushButton::clicked, this, &MainWindow::btnLoginSlot);
     manager = new QNetworkAccessManager(this);
-
-    // Yhdistä IdleManager timeout tähän ikkunaan
+    
+    // Connectaa IdleManager timeout tähän ikkunaan
     connect(IdleManager::instance(), &IdleManager::idleTimeout, 
             this, &MainWindow::handleIdleTimeout);
 }
@@ -194,22 +194,31 @@ void MainWindow::resetLogin()
 {
     ui->textUsername->clear();
     ui->textUserpassword->clear();
+    ui->textUsername->setText("");
+    ui->textUserpassword->setText("");
     ui->textUsername->setFocus();
     webToken = "";
-    kortti_id =  0;   
+    kortti_id =  0;
 }
 
 void MainWindow::handleLogoutSignal()
 {
-    qDebug() << "handleLogoutSignal() called";
     IdleManager::instance()->stop();
     resetLogin();
     this->show();
+    
+    // Reconnectaa mainwindow idleTimeout handleri kun kirjautumisnäkymä näytetään
+    connect(IdleManager::instance(), &IdleManager::idleTimeout, 
+            this, &MainWindow::handleIdleTimeout);
 }
 
 void MainWindow::handleIdleTimeout()
 {
-    qDebug() << "MainWindow::handleIdleTimeout() CALLED";
+    // Tarkista, onko mainwindow näkyvissä - jos ei, älä tee mitään
+    if (!this->isVisible()) {
+        return;
+    }
+    
     qDebug() << "Idle timeout -> automaattinen logout";
 
    

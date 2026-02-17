@@ -1,7 +1,8 @@
 #include "tilitapahtumatwindow.h"
 #include "ui_tilitapahtumatwindow.h"
-//#include <QDebug>
-//#include <QShowEvent>
+#include "idlemanager.h"
+#include <QDebug>
+#include <QShowEvent>
 //#include <QMessageBox>
 
 
@@ -16,6 +17,10 @@ TilitapahtumatWindow::TilitapahtumatWindow(QNetworkAccessManager *manager, QWidg
     ui->tableTapahtumat->setColumnCount(4);
     ui->tableTapahtumat->setHorizontalHeaderLabels({"", "Laji", "Summa (€)", "Aika"});
     ui->tableTapahtumat->horizontalHeader()->setStretchLastSection(true);
+
+    IdleManager::instance()->stop();
+    IdleManager::instance()->start(10000);
+    connect(IdleManager::instance(), &IdleManager::idleTimeout, this, &TilitapahtumatWindow::onIdleTimeout);
 }
 
 TilitapahtumatWindow::~TilitapahtumatWindow()
@@ -182,4 +187,10 @@ void TilitapahtumatWindow::tapahtumatSlot()
 
     replyTapahtumat->deleteLater();
     replyTapahtumat = nullptr;
+}
+
+void TilitapahtumatWindow::onIdleTimeout()
+{
+    emit takaisin();
+    this->close();
 }

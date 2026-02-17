@@ -31,6 +31,13 @@ void IdleManager::stop()
     qApp->removeEventFilter(this);
 }
 
+void IdleManager::setTimeout(int timeoutMs)
+{
+    m_timeoutMs = timeoutMs;
+    timer.stop();
+    timer.start(m_timeoutMs);
+}
+
 void IdleManager::onTimerTimeout()
 {
     qDebug() << "IDLE TIMEOUT TRIGGERED";

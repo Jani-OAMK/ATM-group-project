@@ -1,5 +1,6 @@
 #include "nostodebit.h"
 #include "ui_nostodebit.h"
+#include "idlemanager.h"
 #include <QDebug>
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -15,6 +16,10 @@ nosto::nosto(QWidget *parent, QNetworkAccessManager* manager, int tili_id, int k
 {
     ui->setupUi(this);
     ui -> muuSummaWidget ->hide();
+
+    IdleManager::instance()->stop();
+    IdleManager::instance()->start(10000);
+    connect(IdleManager::instance(), &IdleManager::idleTimeout, this, &nosto::onIdleTimeout);
 
     haeKayttosaldo();
 
@@ -248,6 +253,12 @@ void nosto::on_btnKirjauduUlos_clicked()
 void nosto::on_btnPalaa_clicked()
 {
     qDebug() <<"Palaa takaisin" ;
+    emit takaisin();
+    this->close();
+}
+
+void nosto::onIdleTimeout()
+{
     emit takaisin();
     this->close();
 }

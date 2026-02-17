@@ -25,6 +25,7 @@ private slots:
     void on_btnKirjauduUlos_clicked();
     void on_btnNosto_clicked();
     void on_btnTilitapahtumat_clicked();
+    void onIdleTimeout();
 
 private:
     Ui::CreditWindow *ui;
