@@ -24,6 +24,10 @@ private slots:
     void on_btnDebit_clicked();
     void on_btnCredit_clicked();
     void on_btnKirjauduUlos_clicked();
+    void onIdleTimeout();
+
+protected:
+    void showEvent(QShowEvent *event) override;
 
 private:
     Ui::KortinValintaWindow *ui;

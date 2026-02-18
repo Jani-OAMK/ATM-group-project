@@ -46,6 +46,7 @@ private slots:
     void on_btnKirjauduUlos_clicked();
     void on_btnPalaa_clicked();
     void saldoVastaus(QNetworkReply*reply);
+    void onIdleTimeout();
 
 private:
     Ui::nosto *ui;
