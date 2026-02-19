@@ -6,12 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
+    <width>802</width>
     <height>600</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true"/>
   </property>
   <widget class="QPushButton" name="btnPalaa">
    <property name="geometry">
@@ -24,8 +27,16 @@
    </property>
    <property name="font">
     <font>
-     <pointsize>14</pointsize>
+     <family>Segoe UI</family>
+     <pointsize>16</pointsize>
+     <italic>false</italic>
+     <bold>false</bold>
     </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 255, 0);
+font: 16pt &quot;Segoe UI&quot;;
+color: black;</string>
    </property>
    <property name="text">
     <string>Palaa</string>
@@ -42,8 +53,16 @@
    </property>
    <property name="font">
     <font>
-     <pointsize>14</pointsize>
+     <family>Segoe UI</family>
+     <pointsize>16</pointsize>
+     <italic>false</italic>
+     <bold>false</bold>
     </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 255, 0);
+font: 16pt &quot;Segoe UI&quot;;
+color: black;</string>
    </property>
    <property name="text">
     <string>50€</string>
@@ -60,8 +79,16 @@
    </property>
    <property name="font">
     <font>
-     <pointsize>14</pointsize>
+     <family>Segoe UI</family>
+     <pointsize>16</pointsize>
+     <italic>false</italic>
+     <bold>false</bold>
     </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 255, 0);
+font: 16pt &quot;Segoe UI&quot;;
+color: black;</string>
    </property>
    <property name="text">
     <string>Kirjaudu ulos</string>
@@ -78,8 +105,16 @@
    </property>
    <property name="font">
     <font>
-     <pointsize>14</pointsize>
+     <family>Segoe UI</family>
+     <pointsize>16</pointsize>
+     <italic>false</italic>
+     <bold>false</bold>
     </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 255, 0);
+font: 16pt &quot;Segoe UI&quot;;
+color: black;</string>
    </property>
    <property name="text">
     <string>100€</string>
@@ -96,29 +131,19 @@
    </property>
    <property name="font">
     <font>
-     <pointsize>14</pointsize>
+     <family>Segoe UI</family>
+     <pointsize>16</pointsize>
+     <italic>false</italic>
+     <bold>false</bold>
     </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 255, 0);
+font: 16pt &quot;Segoe UI&quot;;
+color: black;</string>
    </property>
    <property name="text">
     <string>20€</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>40</y>
-     <width>251</width>
-     <height>61</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>22</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>Nosto</string>
    </property>
   </widget>
   <widget class="QPushButton" name="btn40e">
@@ -132,8 +157,16 @@
    </property>
    <property name="font">
     <font>
-     <pointsize>14</pointsize>
+     <family>Segoe UI</family>
+     <pointsize>16</pointsize>
+     <italic>false</italic>
+     <bold>false</bold>
     </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 255, 0);
+font: 16pt &quot;Segoe UI&quot;;
+color: black;</string>
    </property>
    <property name="text">
     <string>40€</string>
@@ -150,8 +183,16 @@
    </property>
    <property name="font">
     <font>
-     <pointsize>14</pointsize>
+     <family>Segoe UI</family>
+     <pointsize>16</pointsize>
+     <italic>false</italic>
+     <bold>false</bold>
     </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 255, 0);
+font: 16pt &quot;Segoe UI&quot;;
+color: black;</string>
    </property>
    <property name="text">
     <string>Muu summa</string>
@@ -160,16 +201,25 @@
   <widget class="QLabel" name="Tilinsaldotxt">
    <property name="geometry">
     <rect>
-     <x>190</x>
-     <y>220</y>
-     <width>141</width>
+     <x>220</x>
+     <y>250</y>
+     <width>191</width>
      <height>61</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <pointsize>22</pointsize>
+     <family>Segoe UI</family>
+     <pointsize>30</pointsize>
+     <italic>false</italic>
+     <bold>false</bold>
+     <underline>true</underline>
     </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">font: 30pt &quot;Segoe UI&quot;;
+color: rgb(255, 255, 0);
+text-decoration: underline;</string>
    </property>
    <property name="text">
     <string>Tilin saldo:</string>
@@ -178,16 +228,25 @@
   <widget class="QLabel" name="nostettutxt">
    <property name="geometry">
     <rect>
-     <x>190</x>
-     <y>320</y>
-     <width>131</width>
+     <x>220</x>
+     <y>350</y>
+     <width>171</width>
      <height>61</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <pointsize>22</pointsize>
+     <family>Segoe UI</family>
+     <pointsize>30</pointsize>
+     <italic>false</italic>
+     <bold>false</bold>
+     <underline>true</underline>
     </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">font: 30pt &quot;Segoe UI&quot;;
+color: rgb(255, 255, 0);
+text-decoration: underline;</string>
    </property>
    <property name="text">
     <string>Nostettu:</string>
@@ -196,16 +255,25 @@
   <widget class="QLabel" name="tilinSaldo">
    <property name="geometry">
     <rect>
-     <x>340</x>
-     <y>220</y>
+     <x>420</x>
+     <y>250</y>
      <width>151</width>
      <height>61</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <pointsize>22</pointsize>
+     <family>Segoe UI</family>
+     <pointsize>30</pointsize>
+     <italic>false</italic>
+     <bold>false</bold>
+     <underline>true</underline>
     </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">font: 30pt &quot;Segoe UI&quot;;
+color: rgb(255, 255, 0);
+text-decoration: underline;</string>
    </property>
    <property name="text">
     <string/>
@@ -214,16 +282,25 @@
   <widget class="QLabel" name="nostettu">
    <property name="geometry">
     <rect>
-     <x>320</x>
-     <y>320</y>
+     <x>390</x>
+     <y>350</y>
      <width>151</width>
      <height>61</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <pointsize>22</pointsize>
+     <family>Segoe UI</family>
+     <pointsize>30</pointsize>
+     <italic>false</italic>
+     <bold>false</bold>
+     <underline>true</underline>
     </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">font: 30pt &quot;Segoe UI&quot;;
+color: rgb(255, 255, 0);
+text-decoration: underline;</string>
    </property>
    <property name="text">
     <string/>
@@ -232,16 +309,25 @@
   <widget class="QLabel" name="saldoVastaus">
    <property name="geometry">
     <rect>
-     <x>340</x>
-     <y>400</y>
+     <x>360</x>
+     <y>440</y>
      <width>151</width>
      <height>61</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <pointsize>22</pointsize>
+     <family>Segoe UI</family>
+     <pointsize>30</pointsize>
+     <italic>false</italic>
+     <bold>false</bold>
+     <underline>true</underline>
     </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">font: 30pt &quot;Segoe UI&quot;;
+color: rgb(255, 255, 0);
+text-decoration: underline;</string>
    </property>
    <property name="text">
     <string/>
@@ -250,16 +336,25 @@
   <widget class="QLabel" name="jaljella">
    <property name="geometry">
     <rect>
-     <x>190</x>
-     <y>400</y>
+     <x>220</x>
+     <y>440</y>
      <width>131</width>
      <height>61</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <pointsize>22</pointsize>
+     <family>Segoe UI</family>
+     <pointsize>30</pointsize>
+     <italic>false</italic>
+     <bold>false</bold>
+     <underline>true</underline>
     </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">font: 30pt &quot;Segoe UI&quot;;
+color: rgb(255, 255, 0);
+text-decoration: underline;</string>
    </property>
    <property name="text">
     <string>Jäljellä:</string>
@@ -268,11 +363,14 @@
   <widget class="QWidget" name="muuSummaWidget" native="true">
    <property name="geometry">
     <rect>
-     <x>160</x>
-     <y>220</y>
+     <x>150</x>
+     <y>250</y>
      <width>491</width>
      <height>261</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(157, 157, 0);</string>
    </property>
    <widget class="QPushButton" name="btnOk">
     <property name="geometry">
@@ -282,6 +380,19 @@
       <width>141</width>
       <height>61</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Segoe UI</family>
+      <pointsize>16</pointsize>
+      <italic>false</italic>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(255, 255, 0);
+font: 16pt &quot;Segoe UI&quot;;
+color: black;</string>
     </property>
     <property name="text">
      <string>OK</string>
@@ -296,24 +407,147 @@
       <height>61</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <family>Segoe UI</family>
+      <pointsize>16</pointsize>
+      <italic>false</italic>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(255, 255, 0);
+font: 16pt &quot;Segoe UI&quot;;
+color: black;</string>
+    </property>
     <property name="text">
      <string>PERUUTA</string>
     </property>
    </widget>
-   <widget class="QLabel" name="muuSummalabel">
+   <widget class="QLineEdit" name="muuSummaEdit">
     <property name="geometry">
      <rect>
-      <x>130</x>
-      <y>60</y>
-      <width>231</width>
+      <x>90</x>
+      <y>70</y>
+      <width>311</width>
       <height>61</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <pointsize>16</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(255, 255, 255);
+border-color: rgb(0, 0, 0);
+</string>
+    </property>
     <property name="text">
-     <string>0</string>
+     <string/>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>-180</x>
+      <y>50</y>
+      <width>251</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>22</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Nosto</string>
     </property>
    </widget>
   </widget>
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>20</y>
+     <width>131</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>26</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: black;
+</string>
+   </property>
+   <property name="text">
+    <string>Nosto</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="taustakuva">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>861</width>
+     <height>621</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-image: url(:/images/nostodebit2.png);</string>
+   </property>
+   <property name="text">
+    <string>TextLabel</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="varoitusLabel">
+   <property name="geometry">
+    <rect>
+     <x>70</x>
+     <y>210</y>
+     <width>631</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>14</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color:black;</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignmentFlag::AlignCenter</set>
+   </property>
+  </widget>
+  <zorder>taustakuva</zorder>
+  <zorder>btnPalaa</zorder>
+  <zorder>btn50e</zorder>
+  <zorder>btnKirjauduUlos</zorder>
+  <zorder>btn100e</zorder>
+  <zorder>btn20e</zorder>
+  <zorder>btn40e</zorder>
+  <zorder>btnmuuSumma</zorder>
+  <zorder>Tilinsaldotxt</zorder>
+  <zorder>nostettutxt</zorder>
+  <zorder>tilinSaldo</zorder>
+  <zorder>nostettu</zorder>
+  <zorder>saldoVastaus</zorder>
+  <zorder>jaljella</zorder>
+  <zorder>muuSummaWidget</zorder>
+  <zorder>label_2</zorder>
+  <zorder>varoitusLabel</zorder>
  </widget>
  <resources/>
  <connections/>

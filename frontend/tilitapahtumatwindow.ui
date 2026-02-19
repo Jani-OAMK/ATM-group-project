@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QPushButton" name="pushButton_12">
+  <widget class="QPushButton" name="btnEdellinen">
    <property name="geometry">
     <rect>
      <x>650</x>
@@ -22,8 +22,13 @@
      <height>61</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 255, 0);
+font: 16pt &quot;Segoe UI&quot;;
+color: black;</string>
+   </property>
    <property name="text">
-    <string/>
+    <string>Edellinen</string>
    </property>
   </widget>
   <widget class="QPushButton" name="btnKirjauduUlos">
@@ -34,6 +39,11 @@
      <width>131</width>
      <height>61</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 255, 0);
+font: 16pt &quot;Segoe UI&quot;;
+color: black;</string>
    </property>
    <property name="text">
     <string>Kirjaudu ulos</string>
@@ -48,11 +58,16 @@
      <height>61</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 255, 0);
+font: 16pt &quot;Segoe UI&quot;;
+color: black;</string>
+   </property>
    <property name="text">
-    <string>Seuraavat tilitapahtumat</string>
+    <string>Seuraava</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="btnEdellinen">
+  <widget class="QPushButton" name="btn">
    <property name="geometry">
     <rect>
      <x>650</x>
@@ -61,8 +76,13 @@
      <height>61</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 255, 0);
+font: 16pt &quot;Segoe UI&quot;;
+color: black;</string>
+   </property>
    <property name="text">
-    <string>Edelliset tilitapahtumat</string>
+    <string/>
    </property>
   </widget>
   <widget class="QLabel" name="label">
@@ -70,14 +90,22 @@
     <rect>
      <x>20</x>
      <y>50</y>
-     <width>221</width>
+     <width>271</width>
      <height>51</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <pointsize>22</pointsize>
+     <family>Segoe UI</family>
+     <pointsize>30</pointsize>
+     <italic>false</italic>
+     <bold>false</bold>
     </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: black;
+font: 30pt &quot;Segoe UI&quot;;
+alternate-background-color: rgb(0, 0, 0);</string>
    </property>
    <property name="text">
     <string>Tilitapahtumat</string>
@@ -92,6 +120,11 @@
      <height>61</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 255, 0);
+font: 16pt &quot;Segoe UI&quot;;
+color: black;</string>
+   </property>
    <property name="text">
     <string/>
    </property>
@@ -104,6 +137,11 @@
      <width>131</width>
      <height>61</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 255, 0);
+font: 16pt &quot;Segoe UI&quot;;
+color: black;</string>
    </property>
    <property name="text">
     <string>Palaa</string>
@@ -118,6 +156,11 @@
      <height>61</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 255, 0);
+font: 16pt &quot;Segoe UI&quot;;
+color: black;</string>
+   </property>
    <property name="text">
     <string/>
    </property>
@@ -130,6 +173,10 @@
      <width>451</width>
      <height>201</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255,255,0);
+ color:black;</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_2">
@@ -145,6 +192,9 @@
     <font>
      <pointsize>22</pointsize>
     </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color:black;</string>
    </property>
    <property name="text">
     <string>Käytettävissä</string>
@@ -164,6 +214,9 @@
      <pointsize>14</pointsize>
     </font>
    </property>
+   <property name="styleSheet">
+    <string notr="true">color:black;</string>
+   </property>
    <property name="text">
     <string/>
    </property>
@@ -182,10 +235,43 @@
      <pointsize>22</pointsize>
     </font>
    </property>
+   <property name="styleSheet">
+    <string notr="true">color: black</string>
+   </property>
    <property name="text">
     <string>€</string>
    </property>
   </widget>
+  <widget class="QLabel" name="taustakuva">
+   <property name="geometry">
+    <rect>
+     <x>-2</x>
+     <y>-5</y>
+     <width>811</width>
+     <height>611</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-image: url(:/images/tilitapahtumat1.png);
+background-color: rgba(0, 0, 0, 120);</string>
+   </property>
+   <property name="text">
+    <string>TextLabel</string>
+   </property>
+  </widget>
+  <zorder>taustakuva</zorder>
+  <zorder>btnEdellinen</zorder>
+  <zorder>btnKirjauduUlos</zorder>
+  <zorder>btnSeuraava</zorder>
+  <zorder>btn</zorder>
+  <zorder>label</zorder>
+  <zorder>btnTilitapahtumat</zorder>
+  <zorder>btnPalaa</zorder>
+  <zorder>btnNosto</zorder>
+  <zorder>tableTapahtumat</zorder>
+  <zorder>label_2</zorder>
+  <zorder>labelSaldo</zorder>
+  <zorder>label_3</zorder>
  </widget>
  <resources/>
  <connections/>

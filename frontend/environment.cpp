@@ -7,7 +7,7 @@ QString Environment::base_url()
     return "https://ankkalinnanpankki.rocks/api/";
 }
 
-QString Environment::getKayttosaldo(int tili_id,int kortti_id)
+QString Environment::getKayttosaldo(int tili_id)
 {
     return base_url() + "transaktio/kayttosaldo/" + QString::number(tili_id);
 }

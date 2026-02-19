@@ -10,6 +10,7 @@ Tämä projekti on Oulun ammattikorkeakoulun Tieto- ja viestintätekniikan tutki
 - [Backend](#backend)
 - [API-dokumentaatio](#api-dokumentaatio)
 - [Tietokantarakenne](#tietokantarakenne)
+- [Poster](#poster)
 - [Kehitystiimi](#kehitystiimi)
 
 ## Projektin kuvaus
@@ -228,6 +229,11 @@ Hakee asiakkaan kaikki tilit.
 
    *Tietokannan ER-kaavio.*
 
+##  Poster
+
+![Projektin Poster](images/POSTER.png)
+
+    
 
 ##  Kehitystiimi
 

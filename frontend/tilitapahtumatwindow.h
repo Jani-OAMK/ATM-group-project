@@ -35,15 +35,20 @@ private:
     QByteArray token;
     int tili_id;
     int kortti_id;
+    int sivu = 0;
+    int rivitJaljella = 0;
     QNetworkAccessManager *manager = nullptr;
     QNetworkReply *replySaldo = nullptr;
     QNetworkReply *replyTapahtumat = nullptr;
     void setRooli();
     QString rooli;
 private slots:
+    void on_btnSeuraava_clicked();
+    void on_btnEdellinen_clicked();
     void on_btnKirjauduUlos_clicked();
     void on_btnPalaa_clicked();
     void haeSaldo();
+    void onIdleTimeout();
     void haeTilitapahtumat();
     void tapahtumatSlot();
     void saldoSlot();

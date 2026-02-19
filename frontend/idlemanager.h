@@ -11,6 +11,7 @@ public:
     static IdleManager* instance();   
     void start(int timeoutMs);
     void stop();
+    void setTimeout(int timeoutMs);
 
 signals:
     void idleTimeout();
