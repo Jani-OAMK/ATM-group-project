@@ -8,6 +8,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
+#include <QPixmap>
 
 #include "tilitapahtumatwindow.h"
 #include "nostodebit.h"
@@ -21,13 +22,13 @@ class DebitWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit DebitWindow(const QByteArray &token, int tili_id, int kortti_id, QNetworkAccessManager *manager, QWidget *parent = nullptr);
+    explicit DebitWindow(const QByteArray &token, int tili_id, int kortti_id, QNetworkAccessManager *manager, QString kuva, QWidget *parent = nullptr);
     ~DebitWindow();
 
 signals:
     void logoutValittu();
 
- private slots:
+private slots:
     void on_btnKirjauduUlos_clicked();
     void on_btnNosto_clicked();
     void on_btnTilitapahtumat_clicked();

@@ -13,7 +13,7 @@ class CreditWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit CreditWindow(const QByteArray &token, int tili_id, int kortti_id, QNetworkAccessManager *manager, QWidget *parent = nullptr);
+    explicit CreditWindow(const QByteArray &token, int tili_id, int kortti_id, QNetworkAccessManager *manager, QString kuva, QWidget *parent = nullptr);
     ~CreditWindow();
 
 signals:
