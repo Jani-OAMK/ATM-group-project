@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QPushButton" name="btnEdellinen_2">
+  <widget class="QPushButton" name="btnEdellinen">
    <property name="geometry">
     <rect>
      <x>650</x>
@@ -260,7 +260,7 @@ background-color: rgba(0, 0, 0, 120);</string>
    </property>
   </widget>
   <zorder>taustakuva</zorder>
-  <zorder>btnEdellinen_2</zorder>
+  <zorder>btnEdellinen</zorder>
   <zorder>btnKirjauduUlos</zorder>
   <zorder>btnSeuraava</zorder>
   <zorder>btn</zorder>
