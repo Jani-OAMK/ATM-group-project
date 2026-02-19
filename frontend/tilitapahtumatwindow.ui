@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QPushButton" name="pushButton_12">
+  <widget class="QPushButton" name="btnEdellinen_2">
    <property name="geometry">
     <rect>
      <x>650</x>
@@ -28,7 +28,7 @@ font: 16pt &quot;Segoe UI&quot;;
 color: black;</string>
    </property>
    <property name="text">
-    <string/>
+    <string>Edellinen</string>
    </property>
   </widget>
   <widget class="QPushButton" name="btnKirjauduUlos">
@@ -64,10 +64,10 @@ font: 16pt &quot;Segoe UI&quot;;
 color: black;</string>
    </property>
    <property name="text">
-    <string>Seuraavat tilitapahtumat</string>
+    <string>Seuraava</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="btnEdellinen">
+  <widget class="QPushButton" name="btn">
    <property name="geometry">
     <rect>
      <x>650</x>
@@ -82,7 +82,7 @@ font: 16pt &quot;Segoe UI&quot;;
 color: black;</string>
    </property>
    <property name="text">
-    <string>Edelliset tilitapahtumat</string>
+    <string/>
    </property>
   </widget>
   <widget class="QLabel" name="label">
@@ -103,7 +103,7 @@ color: black;</string>
     </font>
    </property>
    <property name="styleSheet">
-    <string notr="true">color: rgb(255, 255, 0);
+    <string notr="true">color: black;
 font: 30pt &quot;Segoe UI&quot;;
 alternate-background-color: rgb(0, 0, 0);</string>
    </property>
@@ -174,6 +174,10 @@ color: black;</string>
      <height>201</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255,255,0);
+ color:black;</string>
+   </property>
   </widget>
   <widget class="QLabel" name="label_2">
    <property name="geometry">
@@ -190,7 +194,7 @@ color: black;</string>
     </font>
    </property>
    <property name="styleSheet">
-    <string notr="true">color:rgb(255, 255, 0)</string>
+    <string notr="true">color:black;</string>
    </property>
    <property name="text">
     <string>Käytettävissä</string>
@@ -209,6 +213,9 @@ color: black;</string>
     <font>
      <pointsize>14</pointsize>
     </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color:black;</string>
    </property>
    <property name="text">
     <string/>
@@ -229,7 +236,7 @@ color: black;</string>
     </font>
    </property>
    <property name="styleSheet">
-    <string notr="true">color: rgb(255, 255, 0);</string>
+    <string notr="true">color: black</string>
    </property>
    <property name="text">
     <string>€</string>
@@ -245,17 +252,18 @@ color: black;</string>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-image: url(:/images/tilitapahtumat1.png);</string>
+    <string notr="true">background-image: url(:/images/tilitapahtumat1.png);
+background-color: rgba(0, 0, 0, 120);</string>
    </property>
    <property name="text">
     <string>TextLabel</string>
    </property>
   </widget>
   <zorder>taustakuva</zorder>
-  <zorder>pushButton_12</zorder>
+  <zorder>btnEdellinen_2</zorder>
   <zorder>btnKirjauduUlos</zorder>
   <zorder>btnSeuraava</zorder>
-  <zorder>btnEdellinen</zorder>
+  <zorder>btn</zorder>
   <zorder>label</zorder>
   <zorder>btnTilitapahtumat</zorder>
   <zorder>btnPalaa</zorder>

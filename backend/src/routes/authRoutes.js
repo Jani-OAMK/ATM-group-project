@@ -110,6 +110,14 @@ router.post('/verify-pin', function (request, response) {
                 // oikea PIN
                 else {
                     auth.resetPinError(kortti.kortti_id, function () {
+
+                        auth.getAsiakasByKorttiId(kortti.kortti_id, function(err, asiakasRows) {
+                            if (err || asiakasRows.length === 0) {
+                                 return response.json({ success: false, message: 'Asiakastietoja ei löydy' });
+                            } 
+                            
+                            const asiakas = asiakasRows[0];
+
                         auth.getKorttiTilit(kortti.kortti_id, function (err, tiliRows) {
                             if (err) {
                                 console.error('getKorttiTilit virhe:', err);
@@ -148,12 +156,13 @@ router.post('/verify-pin', function (request, response) {
                                 kortti_id: kortti.kortti_id,
                                 token: token,
                                 cardType: cardType,
-                                tilit: tilit   // ← tämä on päämuutos
+                                tilit: tilit,  
+                                kuva: asiakas.kuva
                             });
 
                             // DEBUG-tulostus palvelimelle
                             console.log(`Kirjautuminen onnistui kortti_id=${kortti.kortti_id}, cardType=${cardType}, tilit:`, tilit);
-                        });
+                        })});
                     });
                 }
             });
