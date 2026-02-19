@@ -5,7 +5,7 @@
 #include "idlemanager.h"
 #include <QWidget>
 
-CreditWindow::CreditWindow(const QByteArray &token, int tili_id, int kortti_id, QNetworkAccessManager *manager, QWidget *parent)
+CreditWindow::CreditWindow(const QByteArray &token, int tili_id, int kortti_id, QNetworkAccessManager *manager, QString kuva, QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::CreditWindow)
 {
@@ -19,6 +19,24 @@ CreditWindow::CreditWindow(const QByteArray &token, int tili_id, int kortti_id, 
     
     // Connectaa idle timeout - jos 30s tulee täyteen, logout
     connect(IdleManager::instance(), &IdleManager::idleTimeout, this, &CreditWindow::onIdleTimeout);
+
+    const QString kuvaUrl =
+        "https://ankkalinnanpankki.rocks/asiakasImages/" + kuva;
+    qDebug() << "Manager pointer:" << manager;
+    QNetworkReply *rep = manager->get( QNetworkRequest(QUrl(kuvaUrl)) );
+
+    connect(rep, &QNetworkReply::finished, this, [this, rep]() {
+        if (rep->error() == QNetworkReply::NoError) {
+            QByteArray data = rep->readAll();
+            QPixmap px;
+            if (px.loadFromData(data)) {
+                ui->labelKuva->setPixmap(px.scaled(200, 200, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+            } else {
+                qDebug() << "Kuvan lataus epäonnistui:" << rep->errorString();
+            }
+            rep->deleteLater();
+        }
+    });
 }
 
 CreditWindow::~CreditWindow()

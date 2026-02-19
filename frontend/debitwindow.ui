@@ -181,6 +181,19 @@ font: 30pt &quot;Segoe UI&quot;;</string>
      <string>TextLabel</string>
     </property>
    </widget>
+   <widget class="QLabel" name="labelKuva">
+    <property name="geometry">
+     <rect>
+      <x>480</x>
+      <y>10</y>
+      <width>151</width>
+      <height>141</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>TextLabel</string>
+    </property>
+   </widget>
    <zorder>taustakuva</zorder>
    <zorder>btnNosto</zorder>
    <zorder>btnTilitapahtumat</zorder>
@@ -190,6 +203,7 @@ font: 30pt &quot;Segoe UI&quot;;</string>
    <zorder>pushButton_14</zorder>
    <zorder>btnKirjauduUlos</zorder>
    <zorder>label</zorder>
+   <zorder>labelKuva</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
