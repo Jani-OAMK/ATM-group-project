@@ -21,6 +21,8 @@ app.use(helmet());
 app.use(express.json());
 app.use(morgan('combined'));
 
+app.use('/asiakasImages', express.static('/home/ubuntu/atm-projekti/group_4/asiasiakasImages'));
+
 app.get('/api/health', (req, res) => res.json({ ok: true }));
 app.get('/health', (req, res) => res.json({ ok: true })); //poistetaan testien jälkeen
 app.use('/api/auth', authRoutes); 			//public routes, joka ei vaadi tokenia

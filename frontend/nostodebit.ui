@@ -484,7 +484,7 @@ border-color: rgb(0, 0, 0);
     </font>
    </property>
    <property name="styleSheet">
-    <string notr="true">color: rgb(255, 255, 0);
+    <string notr="true">color: black;
 </string>
    </property>
    <property name="text">
@@ -522,7 +522,7 @@ border-color: rgb(0, 0, 0);
     </font>
    </property>
    <property name="styleSheet">
-    <string notr="true">color:rgb(255, 255, 0);</string>
+    <string notr="true">color:black;</string>
    </property>
    <property name="text">
     <string/>
