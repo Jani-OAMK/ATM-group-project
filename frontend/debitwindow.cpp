@@ -6,7 +6,7 @@
 #include <QDebug>
 //#include <ui_nostodebit.h>
 
-DebitWindow::DebitWindow(const QByteArray &token, int tili_id, int kortti_id, QNetworkAccessManager *manager, QWidget *parent)
+DebitWindow::DebitWindow(const QByteArray &token, int tili_id, int kortti_id, QNetworkAccessManager *manager, QString kuva, QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::DebitWindow)
 {
@@ -15,9 +15,30 @@ DebitWindow::DebitWindow(const QByteArray &token, int tili_id, int kortti_id, QN
     this->tili_id = tili_id;
     this->kortti_id = kortti_id;
     this->manager = manager;
-    
+
     // Connectaa idle timeout - jos 30s tulee täyteen, logout
     connect(IdleManager::instance(), &IdleManager::idleTimeout, this, &DebitWindow::onIdleTimeout);
+
+
+    const QString kuvaUrl =
+        "https://ankkalinnanpankki.rocks/asiakasImages/" + kuva;
+qDebug() << "Manager pointer:" << manager;
+    QNetworkReply *rep = manager->get( QNetworkRequest(QUrl(kuvaUrl)) );
+
+    connect(rep, &QNetworkReply::finished, this, [this, rep]() {
+        if (rep->error() == QNetworkReply::NoError) {
+            QByteArray data = rep->readAll();
+            QPixmap px;
+            if (px.loadFromData(data)) {
+                ui->labelKuva->setPixmap(px.scaled(200, 200, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+            } else {
+                qDebug() << "Kuvan lataus epäonnistui:" << rep->errorString();
+            }
+            rep->deleteLater();
+        }
+    });
+
+
 }
 DebitWindow::~DebitWindow()
 {
@@ -44,7 +65,7 @@ void DebitWindow::on_btnNosto_clicked()
     auto *anosto = new nosto(nullptr, manager, tili_id, kortti_id, webToken);
     anosto->setAttribute(Qt::WA_DeleteOnClose);
 
-        connect(anosto, &nosto::takaisin,this,[this](){
+    connect(anosto, &nosto::takaisin,this,[this](){
         IdleManager::instance()->stop();
         IdleManager::instance()->start(30000);
         // Reconnectaa debit window idleTimeout
@@ -53,10 +74,10 @@ void DebitWindow::on_btnNosto_clicked()
     });
 
     connect(anosto, &nosto::logoutValittu,this,[this]() {});
-    
+
     // Disconnectaa debit window idleTimeout ennen nosto ikkunan avaus
     disconnect(IdleManager::instance(), &IdleManager::idleTimeout, this, &DebitWindow::onIdleTimeout);
-    
+
     this -> hide();
     anosto->show();
 }
@@ -94,9 +115,7 @@ void DebitWindow::on_btnTilitapahtumat_clicked()
 
     // Disconnectaa debit window idleTimeout ennen tilitapahtumat ikkunan avaus
     disconnect(IdleManager::instance(), &IdleManager::idleTimeout, this, &DebitWindow::onIdleTimeout);
-    
+
     this->hide();
     t->show();
 }
-
-
