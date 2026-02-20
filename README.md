@@ -43,11 +43,10 @@ Projekti koostuu kolmesta pääkomponentista:
 
 ### Pankkiautomaatin toiminnot:
 - ✅ **PIN-koodin vahvistus** korttinumerolla
-- ✅ **Kortin valinta** (debit, kaksoiskortti = debit + credit)
+- ✅ **Kortin valinta** (debit, credit tai kaksoiskortti)
 - ✅ **Tilin saldokysely** 
 - ✅ **Rahan nosto** 
-- ✅ **Rahan talletus**
-- ✅ **Tilitapahtumien selaus** (viimeisimmät 10 tapahtumaa)
+- ✅ **Tilitapahtumien selaus** 
 
 
 ### Turvallisuusominaisuudet:
@@ -143,8 +142,6 @@ backend/
 
 ##  API-dokumentaatio
 
-Backend API on saatavilla osoitteessa: //TÄHÄN SWAGGER
-
 ### Autentikointi
 
 #### POST `/api/auth/verify-pin`
@@ -191,7 +188,6 @@ Hakee kaikki kortin tiedot.
 #### GET `/api/kortti/:kortti_id/balance`
 Hakee kortin saldon ja credit limitin.
 
-
 **Response:**
 ```json
 {
@@ -201,12 +197,7 @@ Hakee kortin saldon ja credit limitin.
 }
 ```
 
-
 ### Transaktiot
-
-#### GET `/api/transaktio/tapahtumat/:kortti_id`
-Hakee kortin tilitapahtumat.
-
 
 #### POST `/api/transaktio/kayttosaldo`
 Hakee käyttösaldon.
