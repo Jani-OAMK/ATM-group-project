@@ -70,9 +70,25 @@ Projekti koostuu kolmesta pääkomponentista:
 
 ## Frontend
 
+![Käyttöliittymä](images/Käyttöliittymä.png)
+
 ### Rakenne
 
-// tähän qt tiedosto rakenne
+```
+frontend/
+├── main.cpp                            # Sovelluksen pääohjelma
+├── mainwindow.cpp / .h / .ui           # Kirjautumisnäkymä
+├── kortinvalintawindow.cpp / .h / .ui  # Kortin valinta-ikkuna
+├── debitwindow.cpp / .h / .ui          # Debit-tilin pääikkuna
+├── creditwindow.cpp / .h / .ui         # Credit-tilin pääikkuna
+├── nostodebit.cpp / .h / .ui           # Rahan nosto -ikkuna
+├── tilitapahtumatwindow.cpp / .h / .ui # Tilitapahtumat -ikkuna
+├── idlemanager.cpp / .h                # Idle timeout -hallinta 10s ja 30s
+├── environment.cpp / .h                # API-osoitteet ja ympäristömuuttujat
+├── CMakeLists.txt                      # CMake build -konfiguraatio
+├── taustakuvalogin.qrc                 # Qt-resurssit (kuvat, ikonit)
+└── build/                              # Käännöstuotokset (Qt Creator)
+```
 
 ####  Teknologiat
 - **C++**
