@@ -4,6 +4,7 @@
 #include "nostodebit.h"
 #include "idlemanager.h"
 #include <QWidget>
+#include "config.h"
 
 CreditWindow::CreditWindow(const QByteArray &token, int tili_id, int kortti_id, QNetworkAccessManager *manager, QString kuva, QWidget *parent)
     : QMainWindow(parent)
@@ -15,14 +16,14 @@ CreditWindow::CreditWindow(const QByteArray &token, int tili_id, int kortti_id, 
     this->kortti_id = kortti_id;
     this->manager   = manager;
 
-    qDebug() << "CreditWindow avattu → tili_id:" << tili_id << "kortti_id:" << kortti_id;
+    DBG() << "CreditWindow avattu → tili_id:" << tili_id << "kortti_id:" << kortti_id;
     
     // Connectaa idle timeout - jos 30s tulee täyteen, logout
     connect(IdleManager::instance(), &IdleManager::idleTimeout, this, &CreditWindow::onIdleTimeout);
 
     const QString kuvaUrl =
         "https://ankkalinnanpankki.rocks/asiakasImages/" + kuva;
-    qDebug() << "Manager pointer:" << manager;
+    DBG() << "Manager pointer:" << manager;
     QNetworkReply *rep = manager->get( QNetworkRequest(QUrl(kuvaUrl)) );
 
     connect(rep, &QNetworkReply::finished, this, [this, rep]() {
@@ -32,7 +33,7 @@ CreditWindow::CreditWindow(const QByteArray &token, int tili_id, int kortti_id, 
             if (px.loadFromData(data)) {
                 ui->labelKuva->setPixmap(px.scaled(200, 200, Qt::KeepAspectRatio, Qt::SmoothTransformation));
             } else {
-                qDebug() << "Kuvan lataus epäonnistui:" << rep->errorString();
+                DBG() << "Kuvan lataus epäonnistui:" << rep->errorString();
             }
             rep->deleteLater();
         }
@@ -52,14 +53,14 @@ void CreditWindow::onIdleTimeout()
 
 void CreditWindow::on_btnKirjauduUlos_clicked()
 {
-    qDebug() << "Credit: kirjaudu ulos";
+    DBG() << "Credit: kirjaudu ulos";
     emit logoutValittu();
     close();
 }
 
 void CreditWindow::on_btnNosto_clicked()
 {
-    qDebug() << "CreditWindow: Nosta rahaa painettu";
+    DBG() << "CreditWindow: Nosta rahaa painettu";
 
     auto *anosto = new nosto(nullptr, manager, tili_id, kortti_id, webToken);
     anosto->setAttribute(Qt::WA_DeleteOnClose);
@@ -88,11 +89,11 @@ void CreditWindow::on_btnNosto_clicked()
 void CreditWindow::on_btnTilitapahtumat_clicked()
 {
     //TilitapahtumatWindow *objTilitapahtumat = new TilitapahtumatWindow(this);
-    qDebug() << "DebitWindow: Tilitapahtumat valittu";
-    qDebug() << "DebitWindow: Tilitapahtumat valittu";
-    //qDebug() << "Token:" << webToken.left(20) << "...";
-    qDebug() << "Tili ID:" << tili_id;
-    qDebug() << "Kortti ID:" << kortti_id;
+    DBG() << "DebitWindow: Tilitapahtumat valittu";
+    DBG() << "DebitWindow: Tilitapahtumat valittu";
+    //DBG() << "Token:" << webToken.left(20) << "...";
+    DBG() << "Tili ID:" << tili_id;
+    DBG() << "Kortti ID:" << kortti_id;
 
     auto *t = new TilitapahtumatWindow(manager, this);
     t->setAttribute(Qt::WA_DeleteOnClose);

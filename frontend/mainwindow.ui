@@ -43,13 +43,14 @@ QLineEdit {
      <rect>
       <x>180</x>
       <y>340</y>
-      <width>143</width>
+      <width>161</width>
       <height>38</height>
      </rect>
     </property>
     <property name="font">
      <font>
       <pointsize>22</pointsize>
+      <bold>true</bold>
      </font>
     </property>
     <property name="styleSheet">
@@ -70,6 +71,12 @@ QLineEdit {
       <height>41</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <pointsize>16</pointsize>
+      <bold>true</bold>
+     </font>
+    </property>
     <property name="styleSheet">
      <string notr="true">QLineEdit {
     background-color: #333333;
@@ -77,6 +84,9 @@ QLineEdit {
     selection-background-color: #0066cc;   /* valitun tekstin tausta – sininen tms. */
     selection-color: white;                /* valitun tekstin väri */
 }</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignCenter</set>
     </property>
    </widget>
    <widget class="QLineEdit" name="textUserpassword">
@@ -88,6 +98,11 @@ QLineEdit {
       <height>41</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <pointsize>26</pointsize>
+     </font>
+    </property>
     <property name="styleSheet">
      <string notr="true">QLineEdit {
     background-color: #333333;
@@ -98,6 +113,9 @@ QLineEdit {
     </property>
     <property name="echoMode">
      <enum>QLineEdit::EchoMode::Password</enum>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignBottom|Qt::AlignmentFlag::AlignHCenter</set>
     </property>
    </widget>
    <widget class="QPushButton" name="BtnLogin">
@@ -123,13 +141,14 @@ color: black;</string>
      <rect>
       <x>180</x>
       <y>260</y>
-      <width>114</width>
+      <width>131</width>
       <height>38</height>
      </rect>
     </property>
     <property name="font">
      <font>
       <pointsize>22</pointsize>
+      <bold>true</bold>
      </font>
     </property>
     <property name="styleSheet">

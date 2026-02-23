@@ -169,32 +169,39 @@ color: black;</string>
    <property name="geometry">
     <rect>
      <x>170</x>
-     <y>270</y>
+     <y>230</y>
      <width>451</width>
-     <height>201</height>
+     <height>331</height>
     </rect>
    </property>
    <property name="styleSheet">
     <string notr="true">background-color: rgb(255,255,0);
  color:black;</string>
    </property>
+   <property name="verticalScrollBarPolicy">
+    <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
+   </property>
   </widget>
   <widget class="QLabel" name="label_2">
    <property name="geometry">
     <rect>
      <x>170</x>
-     <y>220</y>
-     <width>441</width>
+     <y>190</y>
+     <width>201</width>
      <height>31</height>
     </rect>
    </property>
    <property name="font">
     <font>
      <pointsize>22</pointsize>
+     <bold>true</bold>
     </font>
    </property>
    <property name="styleSheet">
     <string notr="true">color:black;</string>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Shadow::Raised</enum>
    </property>
    <property name="text">
     <string>Käytettävissä</string>
@@ -203,15 +210,17 @@ color: black;</string>
   <widget class="QLabel" name="labelSaldo">
    <property name="geometry">
     <rect>
-     <x>520</x>
-     <y>230</y>
-     <width>71</width>
-     <height>21</height>
+     <x>400</x>
+     <y>190</y>
+     <width>201</width>
+     <height>31</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <pointsize>14</pointsize>
+     <pointsize>20</pointsize>
+     <bold>true</bold>
+     <underline>true</underline>
     </font>
    </property>
    <property name="styleSheet">
@@ -220,12 +229,15 @@ color: black;</string>
    <property name="text">
     <string/>
    </property>
+   <property name="alignment">
+    <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+   </property>
   </widget>
   <widget class="QLabel" name="label_3">
    <property name="geometry">
     <rect>
-     <x>590</x>
-     <y>220</y>
+     <x>600</x>
+     <y>190</y>
      <width>21</width>
      <height>31</height>
     </rect>
@@ -233,6 +245,7 @@ color: black;</string>
    <property name="font">
     <font>
      <pointsize>22</pointsize>
+     <bold>true</bold>
     </font>
    </property>
    <property name="styleSheet">

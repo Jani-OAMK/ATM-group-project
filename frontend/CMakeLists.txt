@@ -38,6 +38,7 @@ environment.h environment.cpp
 
     taustakuvalogin.qrc
     idlemanager.h idlemanager.cpp
+    config.h
 )
 
 else()
