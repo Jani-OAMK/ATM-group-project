@@ -74,8 +74,10 @@ void DebitWindow::on_btnNosto_clicked()
         this -> show();
     });
 
-    connect(anosto, &nosto::logoutValittu,this,[this]() {});
-
+    connect(anosto, &nosto::logoutValittu, this, [this](){
+        emit logoutValittu();  // Välitetään mainiin
+        this->close();         // Suljetaan debit window
+    });
     // Disconnectaa debit window idleTimeout ennen nosto ikkunan avaus
     disconnect(IdleManager::instance(), &IdleManager::idleTimeout, this, &DebitWindow::onIdleTimeout);
 

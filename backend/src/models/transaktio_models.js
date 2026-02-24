@@ -3,7 +3,7 @@ import {getPool} from '../db.js';
 const Transaktio = {
 
      // Tilitapahtumat-toiminto, näyttää 10 uusinta tapahtumaa
-    getTilitapahtumat: async function(tili_id, offset, callback) {
+    getTilitapahtumat: async function(tili_id, offset = 0, callback) {
         try {
           const pool = getPool();
           const sql = 
