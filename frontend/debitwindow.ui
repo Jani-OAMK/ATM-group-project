@@ -184,10 +184,10 @@ font: 30pt &quot;Segoe UI&quot;;</string>
    <widget class="QLabel" name="labelKuva">
     <property name="geometry">
      <rect>
-      <x>480</x>
+      <x>430</x>
       <y>10</y>
-      <width>151</width>
-      <height>141</height>
+      <width>201</width>
+      <height>241</height>
      </rect>
     </property>
     <property name="text">
