@@ -92,7 +92,7 @@ router.post('/verify-pin', function (request, response) {
                                 auth.lockCard(kortti.kortti_id, function () {
                                     return response.json({
                                         success: false,
-                                        message: 'Kortti lukittu liian monen virheellisen PIN-yrityksen vuoksi'
+                                        message: 'PIN väärin - kortti lukittu'
                                     });
                                 });
                             });
@@ -100,7 +100,7 @@ router.post('/verify-pin', function (request, response) {
                         } else {
                             return response.json({
                                 success: false,
-                                message: 'Väärä PIN',
+                                message: 'PIN väärin',
                                 yrityksiä_jäljellä: 3 - (pinYritys.virhelaskuri + 1)
                             });
                         }
@@ -127,7 +127,7 @@ router.post('/verify-pin', function (request, response) {
                             if (!tiliRows || tiliRows.length === 0) {
                                 return response.json({
                                     success: false,
-                                    message: 'Kortille ei ole liitetty yhtään aktiivista tiliä'
+                                    message: 'Kortilla ei aktiivisia tilejä'
                                 });
                             }
 
