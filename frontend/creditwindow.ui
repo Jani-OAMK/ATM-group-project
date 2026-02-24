@@ -25,7 +25,7 @@
     </property>
     <property name="styleSheet">
      <string notr="true">background-color: rgb(211,211,211);
-font: 16pt &quot;Segoe UI&quot;; 
+font: 14pt &quot;Segoe UI&quot;; 
 color: black;
 border: 1px solid black;    </string>
     </property>
@@ -44,7 +44,7 @@ border: 1px solid black;    </string>
     </property>
     <property name="styleSheet">
      <string notr="true">background-color: rgb(211,211,211);
-font: 16pt &quot;Segoe UI&quot;; 
+font: 14pt &quot;Segoe UI&quot;; 
 color: black;
 border: 1px solid black;    </string>
     </property>
@@ -63,7 +63,7 @@ border: 1px solid black;    </string>
     </property>
     <property name="styleSheet">
      <string notr="true">background-color: rgb(211,211,211);
-font: bold 16pt &quot;Segoe UI&quot;; 
+font: 14pt &quot;Segoe UI&quot;; 
 color: black;
 border: 1px solid black;    </string>
     </property>
@@ -82,7 +82,7 @@ border: 1px solid black;    </string>
     </property>
     <property name="styleSheet">
      <string notr="true">background-color: rgb(211,211,211);
-font: bold 16pt &quot;Segoe UI&quot;; 
+font: 14pt &quot;Segoe UI&quot;; 
 color: black;
 border: 1px solid black;    </string>
     </property>
@@ -101,7 +101,7 @@ border: 1px solid black;    </string>
     </property>
     <property name="styleSheet">
      <string notr="true">background-color: rgb(211,211,211);
-font: bold 16pt &quot;Segoe UI&quot;; 
+font: 14pt &quot;Segoe UI&quot;; 
 color: black;
 border: 1px solid black;    </string>
     </property>
@@ -120,7 +120,7 @@ border: 1px solid black;    </string>
     </property>
     <property name="styleSheet">
      <string notr="true">background-color: rgb(211,211,211);
-font: bold 16pt &quot;Segoe UI&quot;; 
+font: 14pt &quot;Segoe UI&quot;; 
 color: black;
 border: 1px solid black;    </string>
     </property>
@@ -139,7 +139,7 @@ border: 1px solid black;    </string>
     </property>
     <property name="styleSheet">
      <string notr="true">background-color: rgb(211,211,211);
-font: bold 16pt &quot;Segoe UI&quot;; 
+font: bold 14pt &quot;Segoe UI&quot;; 
 color: black;
 border: 1px solid black;    </string>
     </property>

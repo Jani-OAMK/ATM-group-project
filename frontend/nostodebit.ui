@@ -28,14 +28,14 @@
    <property name="font">
     <font>
      <family>Segoe UI</family>
-     <pointsize>16</pointsize>
+     <pointsize>14</pointsize>
      <italic>false</italic>
      <bold>false</bold>
     </font>
    </property>
    <property name="styleSheet">
     <string notr="true">background-color: rgb(211,211,211);
-font: 16pt &quot;Segoe UI&quot;; 
+font: 14pt &quot;Segoe UI&quot;; 
 color: black;
 border: 1px solid black;    </string>
    </property>
@@ -55,14 +55,14 @@ border: 1px solid black;    </string>
    <property name="font">
     <font>
      <family>Segoe UI</family>
-     <pointsize>16</pointsize>
+     <pointsize>14</pointsize>
      <italic>false</italic>
      <bold>false</bold>
     </font>
    </property>
    <property name="styleSheet">
     <string notr="true">background-color: rgb(211,211,211);
-font: 16pt &quot;Segoe UI&quot;; 
+font: 14pt &quot;Segoe UI&quot;; 
 color: black;
 border: 1px solid black;    </string>
    </property>
@@ -82,14 +82,14 @@ border: 1px solid black;    </string>
    <property name="font">
     <font>
      <family>Segoe UI</family>
-     <pointsize>16</pointsize>
+     <pointsize>14</pointsize>
      <italic>false</italic>
      <bold>true</bold>
     </font>
    </property>
    <property name="styleSheet">
     <string notr="true">background-color: rgb(211,211,211);
-font: bold 16pt &quot;Segoe UI&quot;; 
+font: bold 14pt &quot;Segoe UI&quot;; 
 color: black;
 border: 1px solid black;    </string>
    </property>
@@ -109,14 +109,14 @@ border: 1px solid black;    </string>
    <property name="font">
     <font>
      <family>Segoe UI</family>
-     <pointsize>16</pointsize>
+     <pointsize>14</pointsize>
      <italic>false</italic>
      <bold>false</bold>
     </font>
    </property>
    <property name="styleSheet">
     <string notr="true">background-color: rgb(211,211,211);
-font: 16pt &quot;Segoe UI&quot;; 
+font: 14pt &quot;Segoe UI&quot;; 
 color: black;
 border: 1px solid black;    </string>
    </property>
@@ -136,14 +136,14 @@ border: 1px solid black;    </string>
    <property name="font">
     <font>
      <family>Segoe UI</family>
-     <pointsize>16</pointsize>
+     <pointsize>14</pointsize>
      <italic>false</italic>
      <bold>false</bold>
     </font>
    </property>
    <property name="styleSheet">
     <string notr="true">background-color: rgb(211,211,211);
-font: 16pt &quot;Segoe UI&quot;; 
+font: 14pt &quot;Segoe UI&quot;; 
 color: black;
 border: 1px solid black;    </string>
    </property>
@@ -163,14 +163,14 @@ border: 1px solid black;    </string>
    <property name="font">
     <font>
      <family>Segoe UI</family>
-     <pointsize>16</pointsize>
+     <pointsize>14</pointsize>
      <italic>false</italic>
      <bold>false</bold>
     </font>
    </property>
    <property name="styleSheet">
     <string notr="true">background-color: rgb(211,211,211);
-font: 16pt &quot;Segoe UI&quot;; 
+font: 14pt &quot;Segoe UI&quot;; 
 color: black;
 border: 1px solid black;    </string>
    </property>
@@ -190,14 +190,14 @@ border: 1px solid black;    </string>
    <property name="font">
     <font>
      <family>Segoe UI</family>
-     <pointsize>16</pointsize>
+     <pointsize>14</pointsize>
      <italic>false</italic>
      <bold>false</bold>
     </font>
    </property>
    <property name="styleSheet">
     <string notr="true">background-color: rgb(211,211,211);
-font: 16pt &quot;Segoe UI&quot;; 
+font: 14pt &quot;Segoe UI&quot;; 
 color: black;
 border: 1px solid black;    </string>
    </property>
@@ -220,13 +220,12 @@ border: 1px solid black;    </string>
      <pointsize>30</pointsize>
      <italic>false</italic>
      <bold>false</bold>
-     <underline>true</underline>
+     <underline>false</underline>
     </font>
    </property>
    <property name="styleSheet">
     <string notr="true">font: 30pt &quot;Segoe UI&quot;;
-color: black;
-text-decoration: underline;</string>
+color: black;</string>
    </property>
    <property name="text">
     <string>Tilin saldo:</string>
@@ -247,13 +246,12 @@ text-decoration: underline;</string>
      <pointsize>30</pointsize>
      <italic>false</italic>
      <bold>false</bold>
-     <underline>true</underline>
+     <underline>false</underline>
     </font>
    </property>
    <property name="styleSheet">
     <string notr="true">font: 30pt &quot;Segoe UI&quot;;
-color: black;
-text-decoration: underline;</string>
+color: black;</string>
    </property>
    <property name="text">
     <string>Nostettu:</string>
@@ -274,13 +272,12 @@ text-decoration: underline;</string>
      <pointsize>30</pointsize>
      <italic>false</italic>
      <bold>false</bold>
-     <underline>true</underline>
+     <underline>false</underline>
     </font>
    </property>
    <property name="styleSheet">
     <string notr="true">font: 30pt &quot;Segoe UI&quot;;
-color: black;
-text-decoration: underline;</string>
+color: black;</string>
    </property>
    <property name="text">
     <string/>
@@ -301,13 +298,12 @@ text-decoration: underline;</string>
      <pointsize>30</pointsize>
      <italic>false</italic>
      <bold>false</bold>
-     <underline>true</underline>
+     <underline>false</underline>
     </font>
    </property>
    <property name="styleSheet">
     <string notr="true">font: 30pt &quot;Segoe UI&quot;;
-color: rgb(255, 255, 0);
-text-decoration: underline;</string>
+color: black;</string>
    </property>
    <property name="text">
     <string/>
@@ -328,13 +324,12 @@ text-decoration: underline;</string>
      <pointsize>30</pointsize>
      <italic>false</italic>
      <bold>false</bold>
-     <underline>true</underline>
+     <underline>false</underline>
     </font>
    </property>
    <property name="styleSheet">
     <string notr="true">font: 30pt &quot;Segoe UI&quot;;
-color: rgb(255, 255, 0);
-text-decoration: underline;</string>
+color: black;</string>
    </property>
    <property name="text">
     <string/>
@@ -355,13 +350,12 @@ text-decoration: underline;</string>
      <pointsize>30</pointsize>
      <italic>false</italic>
      <bold>false</bold>
-     <underline>true</underline>
+     <underline>false</underline>
     </font>
    </property>
    <property name="styleSheet">
     <string notr="true">font: 30pt &quot;Segoe UI&quot;;
-color: black;
-text-decoration: underline;</string>
+color: black;</string>
    </property>
    <property name="text">
     <string>Jäljellä:</string>
@@ -391,14 +385,14 @@ text-decoration: underline;</string>
     <property name="font">
      <font>
       <family>Segoe UI</family>
-      <pointsize>16</pointsize>
+      <pointsize>14</pointsize>
       <italic>false</italic>
       <bold>true</bold>
      </font>
     </property>
     <property name="styleSheet">
      <string notr="true">background-color: rgb(211,211,211);
-font: bold 16pt &quot;Segoe UI&quot;; 
+font: bold 14pt &quot;Segoe UI&quot;; 
 color: black;
 border: 1px solid black;    </string>
     </property>
@@ -418,14 +412,14 @@ border: 1px solid black;    </string>
     <property name="font">
      <font>
       <family>Segoe UI</family>
-      <pointsize>16</pointsize>
+      <pointsize>14</pointsize>
       <italic>false</italic>
       <bold>true</bold>
      </font>
     </property>
     <property name="styleSheet">
      <string notr="true">background-color: rgb(211,211,211);
-font: bold 16pt &quot;Segoe UI&quot;; 
+font: bold 14pt &quot;Segoe UI&quot;; 
 color: black;
 border: 1px solid black;    </string>
     </property>
@@ -682,6 +676,35 @@ border: 1px solid black;    </string>
     </property>
     <property name="text">
      <string>Nosto</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_3">
+    <property name="geometry">
+     <rect>
+      <x>330</x>
+      <y>230</y>
+      <width>461</width>
+      <height>261</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>TextLabel</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="Taustavari">
+    <property name="geometry">
+     <rect>
+      <x>320</x>
+      <y>230</y>
+      <width>491</width>
+      <height>261</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color:rbg(211,211,211);</string>
+    </property>
+    <property name="text">
+     <string>TextLabel</string>
     </property>
    </widget>
   </widget>
