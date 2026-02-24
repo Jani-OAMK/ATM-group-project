@@ -128,9 +128,10 @@ QLineEdit {
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgb(255, 255, 0);
-font: 16pt &quot;Segoe UI&quot;;
-color: black;</string>
+     <string notr="true">background-color: rgb(211,211,211);
+font: bold 16pt &quot;Segoe UI&quot;; 
+color: black;
+border: 1px solid black;    </string>
     </property>
     <property name="text">
      <string>KIRJAUDU</string>
@@ -168,7 +169,7 @@ border-color: rgb(255, 255, 0);</string>
      <x>0</x>
      <y>0</y>
      <width>1055</width>
-     <height>21</height>
+     <height>17</height>
     </rect>
    </property>
   </widget>
