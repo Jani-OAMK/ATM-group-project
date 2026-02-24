@@ -17,7 +17,9 @@
    <bool>false</bool>
   </property>
   <property name="styleSheet">
-   <string notr="true"/>
+   <string notr="true">font: bold 16pt &quot;Segoe UI&quot;; 
+color: black;
+  </string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <property name="styleSheet">
@@ -39,9 +41,10 @@ QLineEdit {
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgb(255, 255, 0);
-font: 16pt &quot;Segoe UI&quot;;
-color: black;</string>
+     <string notr="true">background-color: rgb(211,211,211);
+font: 16pt &quot;Segoe UI&quot;; 
+color: black;
+border: 1px solid black;    </string>
     </property>
     <property name="text">
      <string/>
@@ -57,9 +60,10 @@ color: black;</string>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgb(255, 255, 0);
-font: 16pt &quot;Segoe UI&quot;;
-color: black;</string>
+     <string notr="true">background-color: rgb(211,211,211);
+font: 16pt &quot;Segoe UI&quot;; 
+color: black;
+border: 1px solid black;    </string>
     </property>
     <property name="text">
      <string/>
@@ -75,9 +79,10 @@ color: black;</string>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgb(255, 255, 0);
-font: 16pt &quot;Segoe UI&quot;;
-color: black;</string>
+     <string notr="true">background-color: rgb(211,211,211);
+font: 16pt &quot;Segoe UI&quot;; 
+color: black;
+border: 1px solid black;    </string>
     </property>
     <property name="text">
      <string/>
@@ -93,9 +98,10 @@ color: black;</string>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgb(255, 255, 0);
-font: 16pt &quot;Segoe UI&quot;;
-color: black;</string>
+     <string notr="true">background-color: rgb(211,211,211);
+font: bold 16pt &quot;Segoe UI&quot;; 
+color: black;
+border: 1px solid black;    </string>
     </property>
     <property name="text">
      <string>Kirjaudu ulos</string>
@@ -111,9 +117,10 @@ color: black;</string>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgb(255, 255, 0);
-font: 16pt &quot;Segoe UI&quot;;
-color: black;</string>
+     <string notr="true">background-color: rgb(211,211,211);
+font: 16pt &quot;Segoe UI&quot;; 
+color: black;
+border: 1px solid black;    </string>
     </property>
     <property name="text">
      <string>Debit</string>
@@ -129,9 +136,10 @@ color: black;</string>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgb(255, 255, 0);
-font: 16pt &quot;Segoe UI&quot;;
-color: black;</string>
+     <string notr="true">background-color: rgb(211,211,211);
+font: 16pt &quot;Segoe UI&quot;; 
+color: black;
+border: 1px solid black;    </string>
     </property>
     <property name="text">
      <string>Credit</string>
@@ -147,9 +155,10 @@ color: black;</string>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgb(255, 255, 0);
-font: 16pt &quot;Segoe UI&quot;;
-color: black;</string>
+     <string notr="true">background-color: rgb(211,211,211);
+font: 16pt &quot;Segoe UI&quot;; 
+color: black;
+border: 1px solid black;    </string>
     </property>
     <property name="text">
      <string/>
@@ -166,12 +175,15 @@ color: black;</string>
     </property>
     <property name="font">
      <font>
-      <pointsize>22</pointsize>
+      <family>Segoe UI</family>
+      <pointsize>30</pointsize>
+      <italic>false</italic>
+      <bold>true</bold>
      </font>
     </property>
     <property name="styleSheet">
-     <string notr="true">color: black;
-</string>
+     <string notr="true">color:black;
+font: bold 30pt &quot;Segoe UI&quot;;</string>
     </property>
     <property name="text">
      <string>Yhdistelmäkortti</string>
@@ -192,14 +204,14 @@ color: black;</string>
     <property name="font">
      <font>
       <family>Segoe UI</family>
-      <pointsize>24</pointsize>
+      <pointsize>30</pointsize>
       <italic>false</italic>
       <bold>false</bold>
      </font>
     </property>
     <property name="styleSheet">
-     <string notr="true">color: black;
-font: 24pt &quot;Segoe UI&quot;;</string>
+     <string notr="true">color:black;
+font: 30pt &quot;Segoe UI&quot;;</string>
     </property>
     <property name="text">
      <string>Valitse tili</string>
@@ -218,7 +230,7 @@ font: 24pt &quot;Segoe UI&quot;;</string>
      <x>0</x>
      <y>0</y>
      <width>791</width>
-     <height>21</height>
+     <height>27</height>
     </rect>
    </property>
   </widget>
