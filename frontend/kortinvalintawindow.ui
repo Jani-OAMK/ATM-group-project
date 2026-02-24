@@ -204,6 +204,9 @@ font: 24pt &quot;Segoe UI&quot;;</string>
     <property name="text">
      <string>Valitse tili</string>
     </property>
+    <property name="textFormat">
+     <enum>Qt::TextFormat::PlainText</enum>
+    </property>
     <property name="scaledContents">
      <bool>false</bool>
     </property>

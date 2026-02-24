@@ -1,7 +1,8 @@
 #include "idlemanager.h"
 #include <QApplication>
 #include <QEvent>
-#include <QDebug>
+#include <qDebug>
+#include "config.h"
 
 IdleManager* IdleManager::m_instance = nullptr;
 
@@ -40,7 +41,7 @@ void IdleManager::setTimeout(int timeoutMs)
 
 void IdleManager::onTimerTimeout()
 {
-    qDebug() << "IDLE TIMEOUT TRIGGERED";
+    DBG() << "IDLE TIMEOUT TRIGGERED";
     emit idleTimeout();
 }
 

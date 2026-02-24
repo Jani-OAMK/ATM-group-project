@@ -4,6 +4,7 @@
 #include <QDebug>
 #include <QShowEvent>
 //#include <QMessageBox>
+#include "config.h"
 
 
 TilitapahtumatWindow::TilitapahtumatWindow(QNetworkAccessManager *manager, QWidget *parent)
@@ -52,14 +53,14 @@ void TilitapahtumatWindow::setRooli(const QString &r)
 
 void TilitapahtumatWindow::on_btnKirjauduUlos_clicked()
 {
-qDebug() <<"Kirjaudu ulos" ;
+DBG() <<"Kirjaudu ulos" ;
     emit logoutValittu();
     close();
 }
 
 void TilitapahtumatWindow::on_btnPalaa_clicked()
 {
-qDebug() <<"Palaa takaisin" ;
+DBG() <<"Palaa takaisin" ;
     emit takaisin();
     this->close();
 }
@@ -70,8 +71,8 @@ void TilitapahtumatWindow::showEvent(QShowEvent *event)
 
     // Varmistetaan että tarvittavat tiedot ovat olemassa ennen hakuja
     if (token.isEmpty() || tili_id <= 0) {
-qDebug() << "token tyhjä tai tili_id virheellinen";
-qDebug() << "tili_id:" << tili_id;
+DBG() << "token tyhjä tai tili_id virheellinen";
+DBG() << "tili_id:" << tili_id;
         return;
     }
     haeSaldo();
@@ -100,10 +101,10 @@ void TilitapahtumatWindow::haeSaldo()
 
     if (rooli == "CREDIT"){
         url = Environment::base_url() + "tili/" + QString::number(tili_id) + "/credit";
-qDebug() << "HAETAAN SALDO → URL:" << url;
+DBG() << "HAETAAN SALDO → URL:" << url;
     } else{
         url = Environment::base_url() + "tili/" + QString::number(tili_id) + "/debit";
-qDebug() << "HAETAAN SALDO → URL:" << url;
+DBG() << "HAETAAN SALDO → URL:" << url;
     }
 
     QNetworkRequest request(url);
@@ -118,13 +119,13 @@ void TilitapahtumatWindow::saldoSlot()
 {
     QByteArray data = replySaldo->readAll();
 
- qDebug() << "Saldo-vastaus:" << data;
+ DBG() << "Saldo-vastaus:" << data;
 
     QJsonDocument doc = QJsonDocument::fromJson(data);
     QJsonObject obj = doc.object();
 
     if (rooli == "CREDIT") {
- qDebug() << "Credit JSON keys:" << obj.keys();
+ DBG() << "Credit JSON keys:" << obj.keys();
         QString key = "(credit_limit + saldo_eur)";
         double kayttosaldo = obj.value(key).toString().toDouble();
         ui->labelSaldo->setText(QString::number(kayttosaldo, 'f', 2));
@@ -139,7 +140,7 @@ void TilitapahtumatWindow::saldoSlot()
 void TilitapahtumatWindow::haeTilitapahtumat()
 {
     QString url = Environment::base_url() + "transaktio/tapahtumat/" + QString::number(tili_id) + "?page=" + QString::number(sivu);
-    qDebug() << "Tapahtuma-URL:" << url;
+    DBG() << "Tapahtuma-URL:" << url;
 
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");

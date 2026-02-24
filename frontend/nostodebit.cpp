@@ -8,6 +8,7 @@
 #include <QNetworkReply>
 #include <QObject>
 #include "environment.h"
+#include "config.h"
 
 nosto::nosto(QWidget *parent, QNetworkAccessManager* manager, int tili_id, int kortti_id, QByteArray webToken)
     : QWidget(parent), ui(new Ui::nosto),
@@ -33,10 +34,10 @@ void nosto::haeKayttosaldo()
 
         request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
         request.setRawHeader("Authorization", "Bearer " + webToken);
-        qDebug() << "tarkistetaan saldoa tällä tokenilla:" << webToken.left(10) << "...";
-        qDebug() << "haeKayttosaldo: Lähetetään POST ->" << url;
-        qDebug() << "haeKayttosaldo: tili_id =" << tili_id << ", kortti_id =" << kortti_id;
-        qDebug() << "haeKayttosaldo: token =" << webToken.left(10) << "...";
+        DBG() << "tarkistetaan saldoa tällä tokenilla:" << webToken.left(10) << "...";
+        DBG() << "haeKayttosaldo: Lähetetään POST ->" << url;
+        DBG() << "haeKayttosaldo: tili_id =" << tili_id << ", kortti_id =" << kortti_id;
+        DBG() << "haeKayttosaldo: token =" << webToken.left(10) << "...";
 
         QJsonObject json;
         json["tili_id"] = tili_id;
@@ -64,8 +65,8 @@ void nosto::lahetaNosto(double summa)
 
     QByteArray data = QJsonDocument(json).toJson();
 
-    qDebug() << "noston url:" << url;
-    qDebug() << "noston json:" << data;
+    DBG() << "noston url:" << url;
+    DBG() << "noston json:" << data;
 
     QNetworkReply* reply = manager->post(request, data);
 
@@ -78,21 +79,21 @@ void nosto::nostoVastaus(QNetworkReply* reply)
 {
     QByteArray response = reply->readAll();
 
-    qDebug() << "nostoVastaus RAW:" << response;
+    DBG() << "nostoVastaus RAW:" << response;
 
     if(reply->error() != QNetworkReply::NoError){
-        qDebug() << "Error:" << reply->errorString();
+        DBG() << "Error:" << reply->errorString();
         reply->deleteLater();
         return;
     }
 
     QJsonObject obj = QJsonDocument::fromJson(response).object();
-    qDebug() << "nostoVastaus JSON:" << obj;
+    DBG() << "nostoVastaus JSON:" << obj;
     QJsonObject resultObj = obj["result"].toObject();
 
 
     double saldo = obj["result"].toObject()["newSaldo"].toDouble();
-    qDebug() << "New saldo:" << saldo;
+    DBG() << "New saldo:" << saldo;
 
     setsaldoVastaus(saldo);
     reply->deleteLater();
@@ -109,18 +110,18 @@ void nosto::saldoVastaus(QNetworkReply* reply)
 {
     QByteArray data = reply->readAll();
     reply->deleteLater();
-    qDebug() << "saldoVastaus: raw response =" << data;
+    DBG() << "saldoVastaus: raw response =" << data;
 
     if (reply->error() != QNetworkReply::NoError) {
-        qDebug() << "saldoVastaus: VIRHE:" << reply->errorString();
+        DBG() << "saldoVastaus: VIRHE:" << reply->errorString();
         return;
     }
 
     QJsonObject obj = QJsonDocument::fromJson(data).object();
-    qDebug() << "saldoVastaus: JSON =" << obj;
+    DBG() << "saldoVastaus: JSON =" << obj;
     double saldo = obj["saldo_eur"].toString().toDouble();
     hetkellinenSaldo = saldo;
-    qDebug() << "saldoVastaus: saldo =" << saldo;
+    DBG() << "saldoVastaus: saldo =" << saldo;
     settilinSaldo(saldo);
 
 }
@@ -128,7 +129,7 @@ void nosto::saldoVastaus(QNetworkReply* reply)
 
 void nosto::on_btn20e_clicked()
 {
-    qDebug() << "Nostettu 20€";
+    DBG() << "Nostettu 20€";
     double summa = 20;
     if(summa > hetkellinenSaldo){
         ui -> varoitusLabel ->setText("Tilillä ei ole riittävästi katetta");
@@ -140,7 +141,7 @@ void nosto::on_btn20e_clicked()
 
 void nosto::on_btn40e_clicked()
 {
-    qDebug() << "Nostettu 40€";
+    DBG() << "Nostettu 40€";
     double summa = 40;
     if(summa > hetkellinenSaldo){
         ui -> varoitusLabel ->setText("Tilillä ei ole riittävästi katetta");
@@ -152,7 +153,7 @@ void nosto::on_btn40e_clicked()
 
 void nosto::on_btn50e_clicked()
 {
-    qDebug() << "Nostettu 50€";
+    DBG() << "Nostettu 50€";
     double summa = 50;
     if(summa > hetkellinenSaldo){
         ui -> varoitusLabel ->setText("Tilillä ei ole riittävästi katetta");
@@ -164,7 +165,7 @@ void nosto::on_btn50e_clicked()
 
 void nosto::on_btn100e_clicked()
 {
-    qDebug() << "Nostettu 100€";
+    DBG() << "Nostettu 100€";
     double summa = 100;
     if(summa > hetkellinenSaldo){
         ui -> varoitusLabel ->setText("Tilillä ei ole riittävästi katetta");
@@ -177,7 +178,7 @@ void nosto::on_btn100e_clicked()
 
 void nosto::on_btnOk_clicked()
 {
-    qDebug() << "btn_ok_clicked";
+    DBG() << "btn_ok_clicked";
     QString text = ui-> muuSummaEdit->text();
     if(text.isEmpty())
         return (ui->varoitusLabel->setText("Summan pitää olla suurempi kuin 0"));
@@ -210,7 +211,7 @@ void nosto::on_btnOk_clicked()
 
 void nosto::on_btnPeruuta_clicked()
 {
-    qDebug() << "btn_peruuta_clicked";
+    DBG() << "btn_peruuta_clicked";
     ui->muuSummaWidget->close();
     ui->varoitusLabel->clear();
 }
@@ -230,7 +231,7 @@ void nosto::on_btnmuuSumma_clicked()
 
 void nosto::setsaldoVastaus(double saldo)
 {
-    qDebug() << "setsaldoVastaus called with:" << saldo;
+    DBG() << "setsaldoVastaus called with:" << saldo;
     ui->saldoVastaus-> setText(QString::number(saldo, 'f', 2) + " €");
 }
 
@@ -246,13 +247,13 @@ void nosto::setnostettu(double nostettu)
 
 void nosto::on_btnKirjauduUlos_clicked()
 {
-    qDebug() <<"Kirjaudu ulos" ;
+    DBG() <<"Kirjaudu ulos" ;
     emit logoutValittu();
     close();
 }
 void nosto::on_btnPalaa_clicked()
 {
-    qDebug() <<"Palaa takaisin" ;
+    DBG() <<"Palaa takaisin" ;
     emit takaisin();
     this->close();
 }

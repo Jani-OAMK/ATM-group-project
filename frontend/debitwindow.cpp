@@ -4,6 +4,7 @@
 #include "nostodebit.h"
 #include "idlemanager.h"
 #include <QDebug>
+#include "config.h"
 //#include <ui_nostodebit.h>
 
 DebitWindow::DebitWindow(const QByteArray &token, int tili_id, int kortti_id, QNetworkAccessManager *manager, QString kuva, QWidget *parent)
@@ -22,7 +23,7 @@ DebitWindow::DebitWindow(const QByteArray &token, int tili_id, int kortti_id, QN
 
     const QString kuvaUrl =
         "https://ankkalinnanpankki.rocks/asiakasImages/" + kuva;
-qDebug() << "Manager pointer:" << manager;
+DBG() << "Manager pointer:" << manager;
     QNetworkReply *rep = manager->get( QNetworkRequest(QUrl(kuvaUrl)) );
 
     connect(rep, &QNetworkReply::finished, this, [this, rep]() {
@@ -32,7 +33,7 @@ qDebug() << "Manager pointer:" << manager;
             if (px.loadFromData(data)) {
                 ui->labelKuva->setPixmap(px.scaled(200, 200, Qt::KeepAspectRatio, Qt::SmoothTransformation));
             } else {
-                qDebug() << "Kuvan lataus epäonnistui:" << rep->errorString();
+                DBG() << "Kuvan lataus epäonnistui:" << rep->errorString();
             }
             rep->deleteLater();
         }
@@ -53,14 +54,14 @@ void DebitWindow::onIdleTimeout()
 
 void DebitWindow::on_btnKirjauduUlos_clicked()
 {
-    qDebug() << "DebitWindow: Kirjaudu ulos";
+    DBG() << "DebitWindow: Kirjaudu ulos";
     emit logoutValittu();
     close();
 }
 
 void DebitWindow::on_btnNosto_clicked()
 {
-    qDebug() << "DebitWindow: Nosta rahaa painettu";
+    DBG() << "DebitWindow: Nosta rahaa painettu";
 
     auto *anosto = new nosto(nullptr, manager, tili_id, kortti_id, webToken);
     anosto->setAttribute(Qt::WA_DeleteOnClose);
@@ -86,11 +87,11 @@ void DebitWindow::on_btnNosto_clicked()
 void DebitWindow::on_btnTilitapahtumat_clicked()
 {
     //TilitapahtumatWindow *objTilitapahtumat = new TilitapahtumatWindow(this);
-    qDebug() << "DebitWindow: Tilitapahtumat valittu";
-    qDebug() << "DebitWindow: Tilitapahtumat valittu";
-    qDebug() << "Token:" << webToken.left(20) << "...";
-    qDebug() << "Tili ID:" << tili_id;
-    qDebug() << "Kortti ID:" << kortti_id;
+    DBG() << "DebitWindow: Tilitapahtumat valittu";
+    DBG() << "DebitWindow: Tilitapahtumat valittu";
+    DBG() << "Token:" << webToken.left(20) << "...";
+    DBG() << "Tili ID:" << tili_id;
+    DBG() << "Kortti ID:" << kortti_id;
 
     auto *t = new TilitapahtumatWindow(manager, this);
     t->setAttribute(Qt::WA_DeleteOnClose);
