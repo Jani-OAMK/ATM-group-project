@@ -2,13 +2,12 @@
 #include "ui_debitwindow.h"
 #include "tilitapahtumatwindow.h"
 #include "nostodebit.h"
-#include "mainwindow.h"
-
+#include "idlemanager.h"
 #include <QDebug>
-#include <ui_nostodebit.h>
-#include "nostodebit.h"
+#include "config.h"
+//#include <ui_nostodebit.h>
 
-DebitWindow::DebitWindow(const QByteArray &token, int tili_id, int kortti_id, QNetworkAccessManager *manager, QWidget *parent)
+DebitWindow::DebitWindow(const QByteArray &token, int tili_id, int kortti_id, QNetworkAccessManager *manager, QString kuva, QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::DebitWindow)
 {
@@ -17,44 +16,84 @@ DebitWindow::DebitWindow(const QByteArray &token, int tili_id, int kortti_id, QN
     this->tili_id = tili_id;
     this->kortti_id = kortti_id;
     this->manager = manager;
+
+    // Connectaa idle timeout - jos 30s tulee täyteen, logout
+    connect(IdleManager::instance(), &IdleManager::idleTimeout, this, &DebitWindow::onIdleTimeout);
+
+
+    const QString kuvaUrl =
+        "https://ankkalinnanpankki.rocks/asiakasImages/" + kuva;
+DBG() << "Manager pointer:" << manager;
+    QNetworkReply *rep = manager->get( QNetworkRequest(QUrl(kuvaUrl)) );
+
+    connect(rep, &QNetworkReply::finished, this, [this, rep]() {
+        if (rep->error() == QNetworkReply::NoError) {
+            QByteArray data = rep->readAll();
+            QPixmap px;
+            if (px.loadFromData(data)) {
+                ui->labelKuva->setPixmap(px.scaled(200, 200, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+            } else {
+                DBG() << "Kuvan lataus epäonnistui:" << rep->errorString();
+            }
+            rep->deleteLater();
+        }
+    });
+
+
 }
 DebitWindow::~DebitWindow()
 {
     delete ui;
 }
 
+void DebitWindow::onIdleTimeout()
+{
+    emit logoutValittu();
+    this->close();
+}
+
 void DebitWindow::on_btnKirjauduUlos_clicked()
 {
-    qDebug() << "DebitWindow: Kirjaudu ulos";
+    DBG() << "DebitWindow: Kirjaudu ulos";
     emit logoutValittu();
     close();
 }
 
 void DebitWindow::on_btnNosto_clicked()
 {
-    qDebug() << "DebitWindow: Nosta rahaa painettu";
+    DBG() << "DebitWindow: Nosta rahaa painettu";
 
     auto *anosto = new nosto(nullptr, manager, tili_id, kortti_id, webToken);
     anosto->setAttribute(Qt::WA_DeleteOnClose);
-    connect(anosto, &nosto::logoutValittu, this, [this]() {
-       // this->show();
-    });
-    anosto->show();
 
-    connect(anosto, & nosto::logoutValittu, this, [this](){
-        emit logoutValittu();           //Välitetään kirjauduUlos-painikesignaali mainiin
-        this->close();                  //Suljetaan debitWindow
+    connect(anosto, &nosto::takaisin,this,[this](){
+        IdleManager::instance()->stop();
+        IdleManager::instance()->start(30000);
+        // Reconnectaa debit window idleTimeout
+        connect(IdleManager::instance(), &IdleManager::idleTimeout, this, &DebitWindow::onIdleTimeout);
+        this -> show();
     });
+
+    connect(anosto, &nosto::logoutValittu, this, [this](){
+        emit logoutValittu();  // Välitetään mainiin
+        this->close();         // Suljetaan debit window
+    });
+    // Disconnectaa debit window idleTimeout ennen nosto ikkunan avaus
+    disconnect(IdleManager::instance(), &IdleManager::idleTimeout, this, &DebitWindow::onIdleTimeout);
+
+    this -> hide();
+    anosto->show();
 }
+
 
 void DebitWindow::on_btnTilitapahtumat_clicked()
 {
     //TilitapahtumatWindow *objTilitapahtumat = new TilitapahtumatWindow(this);
-    qDebug() << "DebitWindow: Tilitapahtumat valittu";
-    qDebug() << "DebitWindow: Tilitapahtumat valittu";
-    qDebug() << "Token:" << webToken.left(20) << "...";
-    qDebug() << "Tili ID:" << tili_id;
-    qDebug() << "Kortti ID:" << kortti_id;
+    DBG() << "DebitWindow: Tilitapahtumat valittu";
+    DBG() << "DebitWindow: Tilitapahtumat valittu";
+    DBG() << "Token:" << webToken.left(20) << "...";
+    DBG() << "Tili ID:" << tili_id;
+    DBG() << "Kortti ID:" << kortti_id;
 
     auto *t = new TilitapahtumatWindow(manager, this);
     t->setAttribute(Qt::WA_DeleteOnClose);
@@ -64,11 +103,22 @@ void DebitWindow::on_btnTilitapahtumat_clicked()
     t->setKorttiId(kortti_id);
 
 
-    connect(t, &TilitapahtumatWindow::logoutValittu, this, [this](){
-        emit logoutValittu();           //Välitetään kirjauduUlos-painikesignaali mainiin
-        this->close();                  //Suljetaan TapahtumatWindow
+    connect(t, &TilitapahtumatWindow::takaisin, this, [this](){
+        IdleManager::instance()->stop();
+        IdleManager::instance()->start(30000);
+        // Reconnectaa debit window idleTimeout
+        connect(IdleManager::instance(), &IdleManager::idleTimeout, this, &DebitWindow::onIdleTimeout);
+        this->show();
     });
 
-    t->show();
-    }
+    connect(t, &TilitapahtumatWindow::logoutValittu, this, [this](){
+        emit logoutValittu();           //Välitetään kirjauduUlos-painikesignaali mainiin
+        this->close();                  //Suljetaan debitWindow
+    });
 
+    // Disconnectaa debit window idleTimeout ennen tilitapahtumat ikkunan avaus
+    disconnect(IdleManager::instance(), &IdleManager::idleTimeout, this, &DebitWindow::onIdleTimeout);
+
+    this->hide();
+    t->show();
+}

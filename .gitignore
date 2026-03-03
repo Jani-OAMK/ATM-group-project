@@ -24,3 +24,6 @@ dev-envs/
 #qt build kansio
 build/
 witch main
+
+#Ei-kaupalliset kuvat
+asiakasImages/

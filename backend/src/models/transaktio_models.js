@@ -3,15 +3,12 @@ import {getPool} from '../db.js';
 const Transaktio = {
 
      // Tilitapahtumat-toiminto, näyttää 10 uusinta tapahtumaa
-    getTilitapahtumat: async function(tili_id, callback) {
+    getTilitapahtumat: async function(tili_id, offset = 0, callback) {
         try {
           const pool = getPool();
-          const sql = `
-            SELECT tapahtuma_id, laji, summa_eur, tapahtuma_aika
-            FROM Tilitapahtuma WHERE tili_id = ? ORDER BY tapahtuma_aika
-            DESC LIMIT 10
-          `;
-          const [rows] = await pool.query(sql, [tili_id]);
+          const sql = 
+            "SELECT tapahtuma_id, laji, summa_eur, tapahtuma_aika FROM Tilitapahtuma WHERE tili_id = ? ORDER BY tapahtuma_aika DESC LIMIT 10 OFFSET ?";
+          const [rows] = await pool.query(sql, [tili_id, offset]);
           return callback(null, rows);
         } catch (err) {
           return callback(err);
@@ -81,7 +78,7 @@ const Transaktio = {
           await connection.beginTransaction();
 
           const saldoTiedot = await new Promise((resolve, reject) => {
-            this.getKayttosaldo(tili_id, kortti_id, (err, data) => {
+            this.postKayttosaldo(tili_id, kortti_id, (err, data) => {
               if (err) reject(err);
               else resolve(data);
             });
@@ -142,14 +139,14 @@ const Transaktio = {
         await connection.beginTransaction();
 
         const saldoTiedot = await new Promise((resolve, reject) => {
-          this.getKayttosaldo(tili_id, kortti_id, (err, data) => {
+          this.postKayttosaldo(tili_id, kortti_id, (err, data) => {
             if (err) reject(err);
             else resolve(data);
           });
         });
 
         const { rooli, saldo_eur, credit_limit, kayttosaldo } = saldoTiedot;
-        const saldo = Number(saldo_eur);                               // Muunnetaan string numeroksi jotta callback ynnää ne oikein.
+        const saldo = Number(saldo_eur);  // Muunnetaan string numeroksi jotta callback ynnää ne oikein.
 
         // Päivitetään saldo
         const [updateResult] = await connection.query(
@@ -173,7 +170,7 @@ const Transaktio = {
       } finally {
         if (connection) connection.release();
       }
-   },
+    },
 };
 
 export default Transaktio;

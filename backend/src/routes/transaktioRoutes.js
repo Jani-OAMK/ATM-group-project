@@ -5,13 +5,15 @@ const router = express.Router();
 
 // getTilitapahtumat (10 rivia)
 router.get("/tapahtumat/:tili_id", (req, res) => {
-    Transaktio.getTilitapahtumat(req.params.tili_id, (err, result) => {
+    const page = Number(req.query.page); 
+    const offset = page * 10;
+    Transaktio.getTilitapahtumat(req.params.tili_id, offset, (err, result) => {
         if (err) {
-            res.send(err); 
+            res.send(err);
         } else {
-            res.json(result); 
-        } 
-    }); 
+            res.json(result);
+        }
+    });
 });
 
 // postKayttosaldo
@@ -24,14 +26,15 @@ router.post("/kayttosaldo", (req, res) => {
     });
 });
 
-
-
-
 // postNosta
 router.post("/nosta", (req, res) => {
     Transaktio.postNosta(req.body.tili_id,req.body.kortti_id, req.body.summa_eur,(err, result) => {
         if (err) {
-            res.send(err);
+	    //debug 090226 -jani
+	   console.log("Virhe nostossa:", err);
+	   res.status(500).json({ error: "Virhe perkele", details: err.message || err.sqlMessage });
+
+           // res.send(err);
         } else {
             res.json({message:"Nostotapahtuma onnistui", result });
         }

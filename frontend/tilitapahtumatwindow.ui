@@ -6,60 +6,84 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>816</width>
-    <height>629</height>
+    <width>800</width>
+    <height>600</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QPushButton" name="pushButton_12">
+  <widget class="QPushButton" name="btnEdellinen">
    <property name="geometry">
     <rect>
-     <x>680</x>
-     <y>210</y>
+     <x>650</x>
+     <y>250</y>
      <width>131</width>
      <height>61</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(211,211,211);
+font: 14pt &quot;Segoe UI&quot;; 
+color: black;
+border: 1px solid black;    </string>
+   </property>
    <property name="text">
-    <string/>
+    <string>Edellinen</string>
    </property>
   </widget>
   <widget class="QPushButton" name="btnKirjauduUlos">
    <property name="geometry">
     <rect>
-     <x>680</x>
-     <y>10</y>
+     <x>650</x>
+     <y>50</y>
      <width>131</width>
      <height>61</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(211,211,211);
+font: bold 14pt &quot;Segoe UI&quot;; 
+color: black;
+border: 1px solid black;    </string>
    </property>
    <property name="text">
     <string>Kirjaudu ulos</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_14">
+  <widget class="QPushButton" name="btnSeuraava">
    <property name="geometry">
     <rect>
-     <x>680</x>
-     <y>411</y>
+     <x>650</x>
+     <y>450</y>
      <width>131</width>
      <height>61</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(211,211,211);
+font: 14pt &quot;Segoe UI&quot;; 
+color: black;
+border: 1px solid black;    </string>
    </property>
    <property name="text">
-    <string/>
+    <string>Seuraava</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_13">
+  <widget class="QPushButton" name="btn">
    <property name="geometry">
     <rect>
-     <x>680</x>
-     <y>311</y>
+     <x>650</x>
+     <y>350</y>
      <width>131</width>
      <height>61</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(211,211,211);
+font: 14pt &quot;Segoe UI&quot;; 
+color: black;
+border: 1px solid black;    </string>
    </property>
    <property name="text">
     <string/>
@@ -68,29 +92,43 @@
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>70</x>
-     <y>10</y>
-     <width>101</width>
+     <x>20</x>
+     <y>50</y>
+     <width>271</width>
      <height>51</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <pointsize>22</pointsize>
+     <family>Segoe UI</family>
+     <pointsize>30</pointsize>
+     <italic>false</italic>
+     <bold>true</bold>
     </font>
    </property>
+   <property name="styleSheet">
+    <string notr="true">color: black;
+font: bold 30pt &quot;Segoe UI&quot;;
+alternate-background-color: rgb(0, 0, 0);</string>
+   </property>
    <property name="text">
-    <string>Debit</string>
+    <string>Tilitapahtumat</string>
    </property>
   </widget>
   <widget class="QPushButton" name="btnTilitapahtumat">
    <property name="geometry">
     <rect>
-     <x>40</x>
-     <y>311</y>
+     <x>10</x>
+     <y>350</y>
      <width>131</width>
      <height>61</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(211,211,211);
+font: 14pt &quot;Segoe UI&quot;; 
+color: black;
+border: 1px solid black;    </string>
    </property>
    <property name="text">
     <string/>
@@ -99,11 +137,17 @@
   <widget class="QPushButton" name="btnPalaa">
    <property name="geometry">
     <rect>
-     <x>40</x>
-     <y>411</y>
+     <x>10</x>
+     <y>450</y>
      <width>131</width>
      <height>61</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(211,211,211);
+font: 14pt &quot;Segoe UI&quot;; 
+color: black;
+border: 1px solid black;    </string>
    </property>
    <property name="text">
     <string>Palaa</string>
@@ -112,11 +156,17 @@
   <widget class="QPushButton" name="btnNosto">
    <property name="geometry">
     <rect>
-     <x>40</x>
-     <y>210</y>
+     <x>10</x>
+     <y>250</y>
      <width>131</width>
      <height>61</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(211,211,211);
+font: 14pt &quot;Segoe UI&quot;; 
+color: black;
+border: 1px solid black;    </string>
    </property>
    <property name="text">
     <string/>
@@ -125,26 +175,40 @@
   <widget class="QTableWidget" name="tableTapahtumat">
    <property name="geometry">
     <rect>
-     <x>200</x>
-     <y>270</y>
+     <x>170</x>
+     <y>230</y>
      <width>451</width>
-     <height>201</height>
+     <height>331</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(150,150,150);
+ color:black;</string>
+   </property>
+   <property name="verticalScrollBarPolicy">
+    <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
    </property>
   </widget>
   <widget class="QLabel" name="label_2">
    <property name="geometry">
     <rect>
-     <x>200</x>
-     <y>230</y>
-     <width>441</width>
-     <height>21</height>
+     <x>170</x>
+     <y>190</y>
+     <width>201</width>
+     <height>31</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <pointsize>14</pointsize>
+     <pointsize>22</pointsize>
+     <bold>true</bold>
     </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color:black;</string>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Shadow::Raised</enum>
    </property>
    <property name="text">
     <string>Käytettävissä</string>
@@ -153,39 +217,82 @@
   <widget class="QLabel" name="labelSaldo">
    <property name="geometry">
     <rect>
-     <x>520</x>
-     <y>230</y>
-     <width>101</width>
-     <height>21</height>
+     <x>400</x>
+     <y>190</y>
+     <width>201</width>
+     <height>31</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <pointsize>14</pointsize>
+     <pointsize>20</pointsize>
+     <italic>false</italic>
+     <bold>true</bold>
+     <underline>true</underline>
     </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color:black; font:bold;</string>
    </property>
    <property name="text">
     <string/>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
    </property>
   </widget>
   <widget class="QLabel" name="label_3">
    <property name="geometry">
     <rect>
-     <x>630</x>
-     <y>230</y>
-     <width>16</width>
-     <height>21</height>
+     <x>600</x>
+     <y>190</y>
+     <width>21</width>
+     <height>31</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <pointsize>14</pointsize>
+     <pointsize>22</pointsize>
+     <bold>true</bold>
     </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: black</string>
    </property>
    <property name="text">
     <string>€</string>
    </property>
   </widget>
+  <widget class="QLabel" name="taustakuva">
+   <property name="geometry">
+    <rect>
+     <x>-2</x>
+     <y>-5</y>
+     <width>811</width>
+     <height>611</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-image: url(:/images/tilitapahtumat1.png);
+background-color: rgba(0, 0, 0, 120);</string>
+   </property>
+   <property name="text">
+    <string>TextLabel</string>
+   </property>
+  </widget>
+  <zorder>taustakuva</zorder>
+  <zorder>btnEdellinen</zorder>
+  <zorder>btnKirjauduUlos</zorder>
+  <zorder>btnSeuraava</zorder>
+  <zorder>btn</zorder>
+  <zorder>label</zorder>
+  <zorder>btnTilitapahtumat</zorder>
+  <zorder>btnPalaa</zorder>
+  <zorder>btnNosto</zorder>
+  <zorder>tableTapahtumat</zorder>
+  <zorder>label_2</zorder>
+  <zorder>labelSaldo</zorder>
+  <zorder>label_3</zorder>
  </widget>
  <resources/>
  <connections/>

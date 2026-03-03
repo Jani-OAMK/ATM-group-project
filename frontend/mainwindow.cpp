@@ -1,12 +1,15 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
-#include "debitwindow.h"
 #include "kortinvalintawindow.h"
+#include "debitwindow.h"
+#include "creditwindow.h"
+#include "environment.h"
+#include "idlemanager.h"
 #include <QUrl>
 #include <QDebug>
-#include "creditwindow.h"
 #include <QPixmap>
-#include "environment.h"
+#include "config.h"
+#include <QTimer>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -18,11 +21,26 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->textUserpassword, &QLineEdit::returnPressed, ui->BtnLogin, &QPushButton::click);
     connect(ui->BtnLogin, &QPushButton::clicked, this, &MainWindow::btnLoginSlot);
     manager = new QNetworkAccessManager(this);
+
+    connect(IdleManager::instance(), &IdleManager::idleTimeout,
+            this, &MainWindow::handleIdleTimeout);
+
+    errorTimer = new QTimer(this);
+    errorTimer->setSingleShot(true);
+    connect(errorTimer, &QTimer::timeout, this, [this]() {
+        ui->labelPinVaarin->setVisible(false);
+    });
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::showEvent(QShowEvent *event)
+{
+    QMainWindow::showEvent(event);
+    IdleManager::instance()->start(10000);
 }
 
 void MainWindow::btnLoginSlot()
@@ -41,16 +59,28 @@ void MainWindow::btnLoginSlot()
     connect(reply, &QNetworkReply::finished, this, &MainWindow::loginAction);
 }
 
+void MainWindow::showErrorBubble(const QString &msg)
+{
+    ui->labelPinVaarin->setText(msg);
+    ui->labelPinVaarin->setVisible(true);
+    errorTimer->start(3000);
+
+    connect(ui->textUsername, &QLineEdit::textEdited, this, [this]() {
+        ui->labelPinVaarin->setVisible(false);
+    });
+    connect(ui->textUserpassword, &QLineEdit::textEdited, this, [this]() {
+        ui->labelPinVaarin->setVisible(false);
+    });
+}
+
 void MainWindow::loginAction()
 {
     const QByteArray responseData = reply->readAll();
-qDebug() << "Full login response JSON:" << responseData;
-
+    DBG() << "Full login response JSON:" << responseData;
 
     if (reply->error() != QNetworkReply::NoError) {
-       //debug pitää poistaa myöhemmin
-qDebug() << "verify-pin failed:" << reply->errorString();
-qDebug() << "server response:" << responseData;
+        DBG() << "verify-pin failed:" << reply->errorString();
+        DBG() << "server response:" << responseData;
         reply->deleteLater();
         reply = nullptr;
         return;
@@ -59,9 +89,8 @@ qDebug() << "server response:" << responseData;
     QJsonParseError parseError{};
     const QJsonDocument doc = QJsonDocument::fromJson(responseData, &parseError);
     if (parseError.error != QJsonParseError::NoError || !doc.isObject()) {
-        //debug pitää poistaa myöhemmin
-qDebug() << "verify-pin response   " << parseError.errorString();
-qDebug() << "server response:" << responseData;
+        DBG() << "verify-pin response   " << parseError.errorString();
+        DBG() << "server response:" << responseData;
         reply->deleteLater();
         reply = nullptr;
         return;
@@ -69,14 +98,70 @@ qDebug() << "server response:" << responseData;
 
     const QJsonObject obj = doc.object();
 
+    {
+        const bool success = obj.value("success").toBool(false);
+        const QString message = obj.value("message").toString();
+        const int yrityksiaJaljella = obj.value("yrityksiä_jäljellä").toInt(-1);
+
+        if (!success) {
+
+            if (message.contains("kortti lukittu", Qt::CaseInsensitive)) {
+                showErrorBubble(message);
+                ui->textUserpassword->clear();
+                ui->textUserpassword->setFocus();
+                reply->deleteLater();
+                reply = nullptr;
+                return;
+            }
+
+            if (message.contains("väliaikaisesti lukittu", Qt::CaseInsensitive)) {
+                showErrorBubble(message);
+                ui->textUserpassword->clear();
+                ui->textUserpassword->setFocus();
+                reply->deleteLater();
+                reply = nullptr;
+                return;
+            }
+
+            if (message.contains("ei ole aktiivinen", Qt::CaseInsensitive)) {
+                showErrorBubble(message);
+                ui->textUserpassword->clear();
+                ui->textUserpassword->setFocus();
+                reply->deleteLater();
+                reply = nullptr;
+                return;
+            }
+
+            if (message.contains("Väärä PIN", Qt::CaseInsensitive)) {
+                QString teksti = message;
+                if (yrityksiaJaljella >= 0) {
+                    teksti += QString(" (%1)").arg(yrityksiaJaljella);
+                }
+                showErrorBubble(teksti);
+                ui->textUserpassword->clear();
+                ui->textUserpassword->setFocus();
+                reply->deleteLater();
+                reply = nullptr;
+                return;
+            }
+
+            showErrorBubble(message.isEmpty() ? "Tuntematon virhe" : message);
+            reply->deleteLater();
+            reply = nullptr;
+            return;
+        }
+    }
 
     const QString tokenString = obj.value("token").toString();
     const int serverKorttiId  = obj.value("kortti_id").toInt(0);
     const QString cardType    = obj.value("cardType").toString().toUpper();
     const QJsonArray tilit    = obj.value("tilit").toArray();
 
+    asiakasKuva = obj.value("kuva").toString();
+    DBG() << "Asiakkaan kuva:" << asiakasKuva;
+
     if (tokenString.isEmpty() || serverKorttiId <= 0) {
-qDebug() << "verify-pin OK mutta token puuttuu:" << doc;
+        DBG() << "verify-pin OK mutta token puuttuu:" << doc;
         reply->deleteLater();
         reply = nullptr;
         return;
@@ -85,9 +170,11 @@ qDebug() << "verify-pin OK mutta token puuttuu:" << doc;
     webToken = tokenString.toUtf8();
     kortti_id = serverKorttiId;
 
-qDebug() << "Token jemmassa" << webToken.size();
-qDebug() << "kortti_id:" << kortti_id;
-qDebug() << "cardType:" << cardType;
+    DBG() << "Token jemmassa" << webToken.size();
+    DBG() << "kortti_id:" << kortti_id;
+    DBG() << "cardType:" << cardType;
+
+    IdleManager::instance()->start(30000);
 
     int debitTiliId  = 0;
     int creditTiliId = 0;
@@ -100,101 +187,113 @@ qDebug() << "cardType:" << cardType;
         if (rooli == "DEBIT"  && tiliId > 0) debitTiliId  = tiliId;
         if (rooli == "CREDIT" && tiliId > 0) creditTiliId = tiliId;
     }
-qDebug() << "Löydettiin debit tili_id:" << debitTiliId;
-qDebug() << "Löydettiin credit tili_id:" << creditTiliId;
+    DBG() << "Löydettiin debit tili_id:" << debitTiliId;
+    DBG() << "Löydettiin credit tili_id:" << creditTiliId;
 
     bool useSelectionWindow = (cardType == "COMBO") || (debitTiliId > 0 && creditTiliId > 0);
 
-if (!useSelectionWindow) {
-    // Yksinkertainen kortti → suoraan oikeaan ikkunaan
+    if (!useSelectionWindow) {
 
-    if (cardType == "DEBIT" && debitTiliId > 0) {
-qDebug() << "DEBIT-kortti → suoraan DebitWindow";
-        auto *d = new DebitWindow(webToken, debitTiliId, kortti_id, manager);
-        d->setAttribute(Qt::WA_DeleteOnClose);
-        connect(d, &DebitWindow::logoutValittu, this, [this]() {
-            resetLogin();
-            this->show();
-        });
-        d->show();
-        this->hide();
-    }
-    else if (cardType == "CREDIT" && creditTiliId > 0) {
-qDebug() << "CREDIT-kortti → suoraan CreditWindow";
-        auto *c = new CreditWindow(webToken, creditTiliId, kortti_id, manager);
-        // ↑↑↑ TÄRKEÄÄ: CreditWindow pitää tukea samaa konstruktoria kuin DebitWindow
-        c->setAttribute(Qt::WA_DeleteOnClose);
-        connect(c, &CreditWindow::logoutValittu, this, [this]() {
-            resetLogin();
-            this->show();
-        });
-        c->show();
-        this->hide();
-    }
-    else {
-qDebug() << "Ei debit- eikä credit-tiliä → virhe";
-        // Voit lisätä QMessageBox jos haluat
-    }
-}
-else {
-    // COMBO tai molemmat tilit löytyi → näytetään valintaikkuna
-qDebug() << "COMBO tai useita tilejä → näytetään KortinValintaWindow";
-
-    auto *w = new KortinValintaWindow();
-    w->setAttribute(Qt::WA_DeleteOnClose);
-
-    connect(w, &KortinValintaWindow::debitValittu, this, [this, debitTiliId]() {
-qDebug() << "Debit valittu, käytetään tili_id:" << debitTiliId;
-        if (debitTiliId > 0) {
-            auto *d = new DebitWindow(webToken, debitTiliId, kortti_id, manager);
+        if (cardType == "DEBIT" && debitTiliId > 0) {
+            DBG() << "DEBIT-kortti → suoraan DebitWindow";
+            auto *d = new DebitWindow(webToken, debitTiliId, kortti_id, manager, asiakasKuva);
             d->setAttribute(Qt::WA_DeleteOnClose);
-            connect(d, &DebitWindow::logoutValittu, this, [this]() {
-                resetLogin();
-                this->show();
-            });
+            connect(d, &DebitWindow::logoutValittu, this, &MainWindow::handleLogoutSignal);
             d->show();
             this->hide();
-        } else {
-qDebug() << "Virhe: debit-tiliä ei löytynyt vaikka DEBIT valittiin";
         }
-    });
-
-    connect(w, &KortinValintaWindow::creditValittu, this, [this, creditTiliId]() {
-qDebug() << "Credit valittu, käytetään tili_id:" << creditTiliId;
-        if (creditTiliId > 0) {
-            auto *c = new CreditWindow(webToken, creditTiliId, kortti_id, manager);
+        else if (cardType == "CREDIT" && creditTiliId > 0) {
+            DBG() << "CREDIT-kortti → suoraan CreditWindow";
+            auto *c = new CreditWindow(webToken, creditTiliId, kortti_id, manager, asiakasKuva);
             c->setAttribute(Qt::WA_DeleteOnClose);
-            connect(c, &CreditWindow::logoutValittu, this, [this]() {
-                resetLogin();
-                this->show();
-            });
+            connect(c, &CreditWindow::logoutValittu, this, &MainWindow::handleLogoutSignal);
             c->show();
             this->hide();
-        } else {
-qDebug() << "Virhe: credit-tiliä ei löytynyt vaikka CREDIT valittiin";
         }
-    });
+        else {
+            DBG() << "Ei debit- eikä credit-tiliä → virhe";
+        }
+    }
+    else {
 
-    connect(w, &KortinValintaWindow::logoutValittu, this, [this]() {
-        resetLogin();
-        this->show();
-    });
+        DBG() << "COMBO tai useita tilejä → näytetään KortinValintaWindow";
 
-    w->show();
-    this->hide();
-}
+        auto *w = new KortinValintaWindow();
+        w->setAttribute(Qt::WA_DeleteOnClose);
 
-reply->deleteLater();
-reply = nullptr;
+        connect(w, &KortinValintaWindow::debitValittu, this, [this, debitTiliId]() {
+            DBG() << "Debit valittu, käytetään tili_id:" << debitTiliId;
+
+            if (debitTiliId > 0) {
+                auto *d = new DebitWindow(webToken, debitTiliId, kortti_id, manager, asiakasKuva);
+                d->setAttribute(Qt::WA_DeleteOnClose);
+                connect(d, &DebitWindow::logoutValittu, this, &MainWindow::handleLogoutSignal);
+                d->show();
+                this->hide();
+            }
+        });
+
+        connect(w, &KortinValintaWindow::creditValittu, this, [this, creditTiliId]() {
+            DBG() << "Credit valittu, käytetään tili_id:" << creditTiliId;
+            if (creditTiliId > 0) {
+                auto *c = new CreditWindow(webToken, creditTiliId, kortti_id, manager, asiakasKuva);
+                c->setAttribute(Qt::WA_DeleteOnClose);
+                connect(c, &CreditWindow::logoutValittu, this, &MainWindow::handleLogoutSignal);
+                c->show();
+                this->hide();
+            } else {
+                DBG() << "Virhe: credit-tiliä ei löytynyt vaikka CREDIT valittiin";
+            }
+        });
+
+        connect(w, &KortinValintaWindow::logoutValittu, this, &MainWindow::handleLogoutSignal);
+
+        w->show();
+        this->hide();
+    }
+
+    reply->deleteLater();
+    reply = nullptr;
 }
 
 void MainWindow::resetLogin()
 {
     ui->textUsername->clear();
     ui->textUserpassword->clear();
+    ui->textUsername->setText("");
+    ui->textUserpassword->setText("");
     ui->textUsername->setFocus();
     webToken = "";
     kortti_id =  0;
 }
 
+void MainWindow::handleLogoutSignal()
+{
+    IdleManager::instance()->stop();
+    resetLogin();
+    this->show();
 
+    connect(IdleManager::instance(), &IdleManager::idleTimeout,
+            this, &MainWindow::handleIdleTimeout);
+}
+
+void MainWindow::handleIdleTimeout()
+{
+    // Tarkista, onko mainwindow näkyvissä - jos ei, älä tee mitään
+    if (!this->isVisible()) {
+        return;
+    }
+
+    DBG() << "Idle timeout -> automaattinen logout";
+
+    for (QWidget *w : QApplication::topLevelWidgets()) {
+        if (w != this && w->isVisible()) {
+            w->close();
+        }
+    }
+
+    resetLogin();
+    this->show();
+
+    IdleManager::instance()->start(10000);
+}

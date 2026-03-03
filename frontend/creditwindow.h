@@ -13,7 +13,7 @@ class CreditWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit CreditWindow(const QByteArray &token, int tili_id, int kortti_id, QNetworkAccessManager *manager, QWidget *parent = nullptr);
+    explicit CreditWindow(const QByteArray &token, int tili_id, int kortti_id, QNetworkAccessManager *manager, QString kuva, QWidget *parent = nullptr);
     ~CreditWindow();
 
 signals:
@@ -25,13 +25,15 @@ private slots:
     void on_btnKirjauduUlos_clicked();
     void on_btnNosto_clicked();
     void on_btnTilitapahtumat_clicked();
+    void onIdleTimeout();
 
 private:
     Ui::CreditWindow *ui;
-    QByteArray token;
+    QByteArray webToken;
     int tili_id;
     int kortti_id;
     QNetworkAccessManager *manager;
+    QString rooli;
 };
 
 #endif // CREDITWINDOW_H

@@ -37,6 +37,8 @@ environment.h environment.cpp
     tilitapahtumatwindow.h tilitapahtumatwindow.cpp tilitapahtumatwindow.ui
 
     taustakuvalogin.qrc
+    idlemanager.h idlemanager.cpp
+    config.h
 )
 
 else()

@@ -43,13 +43,14 @@ QLineEdit {
      <rect>
       <x>180</x>
       <y>340</y>
-      <width>143</width>
+      <width>161</width>
       <height>38</height>
      </rect>
     </property>
     <property name="font">
      <font>
       <pointsize>22</pointsize>
+      <bold>true</bold>
      </font>
     </property>
     <property name="styleSheet">
@@ -70,6 +71,12 @@ QLineEdit {
       <height>41</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <pointsize>16</pointsize>
+      <bold>true</bold>
+     </font>
+    </property>
     <property name="styleSheet">
      <string notr="true">QLineEdit {
     background-color: #333333;
@@ -77,6 +84,9 @@ QLineEdit {
     selection-background-color: #0066cc;   /* valitun tekstin tausta – sininen tms. */
     selection-color: white;                /* valitun tekstin väri */
 }</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignCenter</set>
     </property>
    </widget>
    <widget class="QLineEdit" name="textUserpassword">
@@ -88,6 +98,11 @@ QLineEdit {
       <height>41</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <pointsize>26</pointsize>
+     </font>
+    </property>
     <property name="styleSheet">
      <string notr="true">QLineEdit {
     background-color: #333333;
@@ -95,6 +110,12 @@ QLineEdit {
     selection-background-color: #0066cc;   /* valitun tekstin tausta – sininen tms. */
     selection-color: white;                /* valitun tekstin väri */
 }</string>
+    </property>
+    <property name="echoMode">
+     <enum>QLineEdit::EchoMode::Password</enum>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignBottom|Qt::AlignmentFlag::AlignHCenter</set>
     </property>
    </widget>
    <widget class="QPushButton" name="BtnLogin">
@@ -107,10 +128,13 @@ QLineEdit {
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">QLabel { color: gold; }</string>
+     <string notr="true">background-color: rgb(211,211,211);
+font: bold 16pt &quot;Segoe UI&quot;; 
+color: black;
+border: 1px solid black;    </string>
     </property>
     <property name="text">
-     <string>KIRJADU</string>
+     <string>KIRJAUDU</string>
     </property>
    </widget>
    <widget class="QLabel" name="labelTunnus">
@@ -118,24 +142,72 @@ QLineEdit {
      <rect>
       <x>180</x>
       <y>260</y>
-      <width>114</width>
+      <width>131</width>
       <height>38</height>
      </rect>
     </property>
     <property name="font">
      <font>
       <pointsize>22</pointsize>
+      <bold>true</bold>
      </font>
     </property>
     <property name="styleSheet">
      <string notr="true">QLabel {
     color: black;
-}</string>
+}
+border-color: rgb(255, 255, 0);</string>
     </property>
     <property name="text">
      <string>TUNNUS</string>
     </property>
    </widget>
+   <widget class="QLabel" name="labelPinVaarin">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>370</x>
+      <y>180</y>
+      <width>291</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>BlankCursor</cursorShape>
+    </property>
+    <property name="contextMenuPolicy">
+     <enum>Qt::ContextMenuPolicy::NoContextMenu</enum>
+    </property>
+    <property name="visible">
+     <bool>false</bool>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgba(200, 20, 20, 180);
+         color: white;
+         border-radius: 6px;
+         padding: 4px;
+         font: bold 14pt &quot;Segoe UI&quot;;
+         qproperty-alignment: AlignCenter;
+</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="textFormat">
+     <enum>Qt::TextFormat::PlainText</enum>
+    </property>
+    <property name="textInteractionFlags">
+     <set>Qt::TextInteractionFlag::NoTextInteraction</set>
+    </property>
+   </widget>
+   <zorder>labelPinVaarin</zorder>
+   <zorder>labelSalasana</zorder>
+   <zorder>textUsername</zorder>
+   <zorder>textUserpassword</zorder>
+   <zorder>BtnLogin</zorder>
+   <zorder>labelTunnus</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -143,11 +215,10 @@ QLineEdit {
      <x>0</x>
      <y>0</y>
      <width>1055</width>
-     <height>17</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <resources/>
  <connections/>

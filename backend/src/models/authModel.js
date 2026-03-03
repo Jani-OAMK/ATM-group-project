@@ -116,6 +116,23 @@ const auth = {
         return callback(err);
     }
   },
+
+  getAsiakasByKorttiId: async function(kortti_id, callback) {
+  try {
+    const pool = getPool();
+    const [rows] = await pool.query(
+      `SELECT A.kuva
+       FROM Asiakas A
+       JOIN Kortti K ON A.asiakas_id = K.asiakas_id
+       WHERE K.kortti_id = ?`,
+      [kortti_id]
+    );
+    return callback(null, rows);
+  } catch (err) {
+    return callback(err);
+  }
+},
+
 };
 
 export default auth;

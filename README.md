@@ -2,7 +2,7 @@
 
 Tämä projekti on Oulun ammattikorkeakoulun Tieto- ja viestintätekniikan tutkinto-ohjelman ohjelmistokehityksen sovellusprojekti, jossa toteutetaan pankkiautomaattijärjestelmä.
 
-## 📋 Sisällysluettelo
+##  Sisällysluettelo
 - [Projektin kuvaus](#projektin-kuvaus)
 - [Ominaisuudet](#ominaisuudet)
 - [Palvelinympäristö](#palvelinympäristö)
@@ -10,6 +10,7 @@ Tämä projekti on Oulun ammattikorkeakoulun Tieto- ja viestintätekniikan tutki
 - [Backend](#backend)
 - [API-dokumentaatio](#api-dokumentaatio)
 - [Tietokantarakenne](#tietokantarakenne)
+- [Poster](#poster)
 - [Kehitystiimi](#kehitystiimi)
 
 ## Projektin kuvaus
@@ -42,11 +43,10 @@ Projekti koostuu kolmesta pääkomponentista:
 
 ### Pankkiautomaatin toiminnot:
 - ✅ **PIN-koodin vahvistus** korttinumerolla
-- ✅ **Kortin valinta** (debit, kaksoiskortti = debit + credit)
+- ✅ **Kortin valinta** (debit, credit tai kaksoiskortti)
 - ✅ **Tilin saldokysely** 
 - ✅ **Rahan nosto** 
-- ✅ **Rahan talletus**
-- ✅ **Tilitapahtumien selaus** (viimeisimmät 10 tapahtumaa)
+- ✅ **Tilitapahtumien selaus** 
 
 
 ### Turvallisuusominaisuudet:
@@ -69,22 +69,66 @@ Projekti koostuu kolmesta pääkomponentista:
 
 ## Frontend
 
+![Käyttöliittymä](images/Käyttöliittymä.png)
+
 ### Rakenne
 
-// tähän qt tiedosto rakenne
+```
+frontend/
+├── main.cpp                            # Sovelluksen pääohjelma
+├── mainwindow.cpp / .h / .ui           # Kirjautumisnäkymä
+├── kortinvalintawindow.cpp / .h / .ui  # Kortin valinta-ikkuna
+├── debitwindow.cpp / .h / .ui          # Debit-tilin pääikkuna
+├── creditwindow.cpp / .h / .ui         # Credit-tilin pääikkuna
+├── nostodebit.cpp / .h / .ui           # Rahan nosto -ikkuna
+├── tilitapahtumatwindow.cpp / .h / .ui # Tilitapahtumat -ikkuna
+├── idlemanager.cpp / .h                # Idle timeout -hallinta 10s ja 30s
+├── environment.cpp / .h                # API-osoitteet ja ympäristömuuttujat
+├── CMakeLists.txt                      # CMake build -konfiguraatio
+├── taustakuvalogin.qrc                 # Qt-resurssit (kuvat, ikonit)
+└── build/                              # Käännöstuotokset (Qt Creator)
+```
 
 ####  Teknologiat
 - **C++**
-- **Qt Framework** (Qt Creator)
-- **CMake** build-järjestelmä
-- //QT HOMMELEITA LISÄÄ
+- **Qt 6.x Framework** (Widgets, Network, Core)
+- **Qt Creator** IDE + Qt Designer
+- **CMake** build system
+- **Qt Signals & Slots** - Tapahtumankäsittely
+- **QNetworkAccessManager** - REST API -kommunikaatio
+- **Qt Resource System** (.qrc) - Staattisten resurssien hallinta
+- **Qt StyleSheets** - UI-tyylittely
 
 
 ## Backend
 
 ### Rakenne
 
-// tähän bäkkäri tiedosto rakenne
+```
+backend/
+├── bin/
+│   └── www                        # Express serverin käynnistysskripti
+├── src/
+│   ├── db.js                      # MySQL-tietokantayhteyden hallinta
+│   ├── server.js                  # Express-sovelluksen pääkonfiguraatio
+│   ├── middleware/
+│   │   └── authenticateToken.js   # JWT-tokenin validointimiddleware
+│   ├── models/
+│   │   ├── asiakasModel.js        # Asiakas-taulun tietokantakyselyt
+│   │   ├── authModel.js           # Autentikoinnin tietokantakyselyt
+│   │   ├── korttiModel.js         # Kortti-taulun tietokantakyselyt
+│   │   ├── tili_models.js         # Tili-taulun tietokantakyselyt
+│   │   └── transaktio_models.js   # Transaktio-taulun tietokantakyselyt
+│   └── routes/
+│       ├── asiakasRoutes.js       # /api/asiakas/* endpointit
+│       ├── authRoutes.js          # /api/auth/* endpointit (PIN-vahvistus)
+│       ├── korttiRoutes.js        # /api/kortti/* endpointit
+│       ├── tiliRoutes.js          # /api/tili/* endpointit
+│       └── transaktioRoutes.js    # /api/transaktio/* endpointit
+├── Dockerfile                     # Backend-kontin määritykset
+├── package.json                   # Node.js riippuvuudet ja skriptit
+└── .env                           # Ympäristömuuttujat (DB-yhteys, JWT-salaisuus)
+```
 
 #### Teknologiat
 
@@ -97,8 +141,6 @@ Projekti koostuu kolmesta pääkomponentista:
 
 
 ##  API-dokumentaatio
-
-Backend API on saatavilla osoitteessa: //TÄHÄN SWAGGER
 
 ### Autentikointi
 
@@ -119,29 +161,54 @@ Tarkistaa kortin PIN-koodin ja palauttaa JWT-tokenin.
   "success": true,
   "token": "jwt-token",
   "kortti_id": 1,
-  "cardType": "DEBIT"
+  "cardType": "COMBO",
+  "tilit": [
+    {
+      "tili_id": 1,
+      "rooli": "DEBIT"
+    },
+    {
+      "tili_id": 2,
+      "rooli": "CREDIT"
+    }
+  ]
 }
 ```
 
 ### Tilitoiminnot
 
-#### GET `/api/tili/:tili_id/debit`
-Hakee tilin saldon ja tilan.
+#### GET `/api/kortti/asiakas/:asiakas_id`
+Hakee asiakkaan kaikki kortit.
+
+
+#### GET `/api/kortti/korttiDetails/:kortti_id`
+Hakee kaikki kortin tiedot.
+
+
+#### GET `/api/kortti/:kortti_id/balance`
+Hakee kortin saldon ja credit limitin.
 
 **Response:**
 ```json
 {
-  "tili_id": 1,
-  "tilinumero": "FI1234567890",
-  "saldo_eur": 1500.00,
-  "tila": "ACTIVE"
+  "saldo_eur": "120.50",
+  "credit_limit": "3000",
+  "kortti_numero": "3700-0002-9999-9999"
 }
 ```
 
-#### GET `/api/tili/:tili_id/credit`
-Hakee tilin saldon ja credit limitin.
-
 ### Transaktiot
+
+#### POST `/api/transaktio/kayttosaldo`
+Hakee käyttösaldon.
+
+**Request Body:**
+```json
+{
+  "kortti_id": 1,
+  "tili_id": 1
+}
+```
 
 #### POST `/api/transaktio/nosta`
 Tekee nostotapahtuman.
@@ -151,17 +218,12 @@ Tekee nostotapahtuman.
 {
   "tili_id": 1,
   "kortti_id": 1,
-  "summa_eur": 100.00
+  "summa_eur": 20.00
 }
 ```
 
 #### GET `/api/transaktio/tapahtumat/:tili_id`
 Hakee 10 viimeisintä tapahtumaa.
-
-### Korttitoiminnot
-
-#### GET `/api/kortti/asiakas/:asiakas_id`
-Hakee asiakkaan kaikki kortit.
 
 ### Asiakastoiminnot
 
@@ -174,6 +236,11 @@ Hakee asiakkaan kaikki tilit.
 
    *Tietokannan ER-kaavio.*
 
+##  Poster
+
+![Projektin Poster](images/POSTER.png)
+
+    
 
 ##  Kehitystiimi
 

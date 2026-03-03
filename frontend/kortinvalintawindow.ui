@@ -6,14 +6,31 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>791</width>
+    <height>660</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
+  <property name="autoFillBackground">
+   <bool>false</bool>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">font: bold 16pt &quot;Segoe UI&quot;; 
+color: black;
+  </string>
+  </property>
   <widget class="QWidget" name="centralwidget">
+   <property name="styleSheet">
+    <string notr="true">QWidget#centralwidget {
+    border-image: url(:/images/kortinvalinta1.png) 0 0 0 0 stretch stretch;
+}
+
+QLineEdit {
+    background-color: white;
+}</string>
+   </property>
    <widget class="QPushButton" name="pushButton">
     <property name="geometry">
      <rect>
@@ -22,6 +39,12 @@
       <width>131</width>
       <height>61</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(211,211,211);
+font: 14pt &quot;Segoe UI&quot;; 
+color: black;
+border: 1px solid black;    </string>
     </property>
     <property name="text">
      <string/>
@@ -36,6 +59,12 @@
       <height>61</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(211,211,211);
+font: 16pt &quot;Segoe UI&quot;; 
+color: black;
+border: 1px solid black;    </string>
+    </property>
     <property name="text">
      <string/>
     </property>
@@ -48,6 +77,12 @@
       <width>131</width>
       <height>61</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(211,211,211);
+font: 16pt &quot;Segoe UI&quot;; 
+color: black;
+border: 1px solid black;    </string>
     </property>
     <property name="text">
      <string/>
@@ -62,6 +97,12 @@
       <height>61</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(211,211,211);
+font: bold 14pt &quot;Segoe UI&quot;; 
+color: black;
+border: 1px solid black;    </string>
+    </property>
     <property name="text">
      <string>Kirjaudu ulos</string>
     </property>
@@ -74,6 +115,12 @@
       <width>131</width>
       <height>61</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(211,211,211);
+font: 14pt &quot;Segoe UI&quot;; 
+color: black;
+border: 1px solid black;    </string>
     </property>
     <property name="text">
      <string>Debit</string>
@@ -88,6 +135,12 @@
       <height>61</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(211,211,211);
+font: 14pt &quot;Segoe UI&quot;; 
+color: black;
+border: 1px solid black;    </string>
+    </property>
     <property name="text">
      <string>Credit</string>
     </property>
@@ -101,6 +154,12 @@
       <height>61</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(211,211,211);
+font: 14pt &quot;Segoe UI&quot;; 
+color: black;
+border: 1px solid black;    </string>
+    </property>
     <property name="text">
      <string/>
     </property>
@@ -108,19 +167,29 @@
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>30</y>
-      <width>251</width>
+      <x>20</x>
+      <y>40</y>
+      <width>391</width>
       <height>61</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <pointsize>22</pointsize>
+      <family>Segoe UI</family>
+      <pointsize>30</pointsize>
+      <italic>false</italic>
+      <bold>true</bold>
      </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color:black;
+font: bold 30pt &quot;Segoe UI&quot;;</string>
     </property>
     <property name="text">
      <string>Yhdistelmäkortti</string>
+    </property>
+    <property name="scaledContents">
+     <bool>false</bool>
     </property>
    </widget>
    <widget class="QLabel" name="label_2">
@@ -134,11 +203,24 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>22</pointsize>
+      <family>Segoe UI</family>
+      <pointsize>30</pointsize>
+      <italic>false</italic>
+      <bold>false</bold>
      </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color:black;
+font: 30pt &quot;Segoe UI&quot;;</string>
     </property>
     <property name="text">
      <string>Valitse tili</string>
+    </property>
+    <property name="textFormat">
+     <enum>Qt::TextFormat::PlainText</enum>
+    </property>
+    <property name="scaledContents">
+     <bool>false</bool>
     </property>
    </widget>
   </widget>
@@ -147,12 +229,11 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
-     <height>21</height>
+     <width>791</width>
+     <height>27</height>
     </rect>
    </property>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <resources/>
  <connections/>

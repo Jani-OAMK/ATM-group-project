@@ -1,7 +1,6 @@
 #ifndef TILITAPAHTUMATWINDOW_H
 #define TILITAPAHTUMATWINDOW_H
 
-
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QNetworkRequest>
@@ -10,6 +9,7 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QDebug>
+#include <QString>
 #include "environment.h"
 
 namespace Ui {
@@ -26,6 +26,7 @@ public:
     void setToken(const QByteArray &t);
     void setTiliId(int id);
     void setKorttiId(int id);
+    void setRooli(const QString &r);
 protected:
     void showEvent(QShowEvent *event) override;
 
@@ -34,18 +35,26 @@ private:
     QByteArray token;
     int tili_id;
     int kortti_id;
+    int sivu = 0;
+    int rivitJaljella = 0;
     QNetworkAccessManager *manager = nullptr;
     QNetworkReply *replySaldo = nullptr;
     QNetworkReply *replyTapahtumat = nullptr;
+    void setRooli();
+    QString rooli;
 private slots:
+    void on_btnSeuraava_clicked();
+    void on_btnEdellinen_clicked();
     void on_btnKirjauduUlos_clicked();
     void on_btnPalaa_clicked();
     void haeSaldo();
+    void onIdleTimeout();
     void haeTilitapahtumat();
     void tapahtumatSlot();
     void saldoSlot();
 signals:
     void logoutValittu();
+    void takaisin();
 
 };
 
