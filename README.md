@@ -31,7 +31,7 @@ Projekti koostuu kolmesta pääkomponentista:
 ### Palvelinympäristö
 - Toteutettu **CSC:n Linux-palvelimessa** Docker-konttien avulla
 - **MySQL** -tietokanta tietojen tallentamiseen
-- **Nginx** reverse proxy ja load balancer
+- **Nginx** reverse proxy
 - Docker Compose orkestraatio
 
 
